@@ -1,0 +1,40 @@
+<template>
+  <div>
+    <home></home>
+    <page-footer></page-footer>
+  </div>
+</template>
+
+<script>
+import moment from "moment";
+import NProgress from "nprogress";
+import PageFooter from "../../../components/PageFooter"
+import {
+  Statics,
+} from "../../../statics"
+
+export default {
+  name: "home-index",
+
+  components: {
+    Home: Statics.Home,
+    PageFooter
+  },
+
+  data() {
+    return {
+      trans: JSON.parse(CurrentTenant.lang)
+    };
+  },
+
+  mounted() {
+    
+  },
+
+  methods: {
+    
+  }
+};
+</script>
+
+<style scoped></style>
