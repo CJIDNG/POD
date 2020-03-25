@@ -131,7 +131,7 @@
 
     <!-- Copyright -->
     <div class="footer-copyright text-center py-3">© 2020 Copyright:
-      <a target="_blank" href="https://ptcij.org/"> ptcij.org</a>
+      <a target="_blank" href="https://ptcij.org/"> {{ platform.name }}</a>
     </div>
     <!-- Copyright -->
 
