@@ -24,24 +24,24 @@ class SubappsSeeder extends Seeder
         ]);
       }
 
-      $platformName = session()->get('platform_name');
+      // $platformName = session()->get('platform_name');
 
-      switch ($platformName) {
-        case '':
+      // switch ($platformName) {
+      //   case '':
 
-          break;
+      //     break;
         
-        default:
-          $subapps = [];
-          break;
-      }
+      //   default:
+      //     $subapps = [];
+      //     break;
+      // }
 
-      if (count($subapps) === 0) {
-        return;
-      }
+      // if (count($subapps) === 0) {
+      //   return;
+      // }
 
-      // set up platform subapps
-      $platform = Platform::where('name', $platformName)->first();
-      $platform->subapps()->attach($subapps);
+      // // set up platform subapps
+      // $platform = Platform::where('name', $platformName)->first();
+      // $platform->subapps()->attach($subapps);
     }
 }
