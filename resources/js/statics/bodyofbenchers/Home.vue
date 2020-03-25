@@ -34,7 +34,16 @@
           <!-- Three columns of text below the carousel -->
           <div class="row" style="margin-top: 100px">
             <div class="col-lg-4">
-              <img :src="sorting_svg" alt="" class="img-fluid img-thumbnail">
+              <img :src="gravitas_svg" alt="" class="img-fluid img-thumbnail">
+              <h2>Regulations</h2>
+              <p class="text-muted">
+                Section 3 (5) of the Legal Practitioners Act provide that 
+                the Body Of Benchers shall have the power to make regulations 
+                for inter alia determining...
+              </p>
+            </div><!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+              <img :src="call_svg" alt="" class="img-fluid img-thumbnail">
               <h2>Call To Bar</h2>
               <p class="text-muted">
                 One of the vital functions of the body is the formal 
@@ -42,20 +51,11 @@
               </p>
             </div><!-- /.col-lg-4 -->
             <div class="col-lg-4">
-              <img :src="sorting_svg" alt="" class="img-fluid img-thumbnail">
+              <img :src="judge_svg" alt="" class="img-fluid img-thumbnail">
               <h2>Discipline Of Lawyers</h2>
               <p class="text-muted">
                 Another vital function of the Body of Benchers is 
                 the discipline of erring lawyers in Nigeria.
-              </p>
-            </div><!-- /.col-lg-4 -->
-            <div class="col-lg-4">
-              <img :src="sorting_svg" alt="" class="img-fluid img-thumbnail">
-              <h2>Regulations</h2>
-              <p class="text-muted">
-                Section 3 (5) of the Legal Practitioners Act provide that 
-                the Body Of Benchers shall have the power to make regulations 
-                for inter alia determining...
               </p>
             </div><!-- /.col-lg-4 -->
           </div><!-- /.row -->
@@ -71,9 +71,15 @@
             <div v-for="(post, index) in posts" :key="index" class="card">
               <img :src="post.featured_image" alt="" class="img-fluid">
               <div class="card-body">
-                <h5 class="card-title">{{ post.title }}</h5>
-                <p class="card-text">
-                  {{ post.summary }}
+                <h5 class="card-title">
+                  <router-link
+                    :to="`/blog/${post.slug}/show`"
+                  >
+                    {{ post.title }}
+                  </router-link>
+                </h5>
+                <p class="card-text text-muted">
+                  {{ trim(post.summary) }}
                 </p>
                 <p class="card-text">
                   <small class="text-muted">
@@ -96,6 +102,9 @@ import moment from "moment";
 import NProgress from "nprogress";
 import PageHeader from "../../components/PageHeader";
 import SortingSVG from "../../../../public/assets/svg/undraw_sorting_thoughts_6d48.svg"
+import JudgeSVG from "../../../../public/assets/svg/judge.svg"
+import CallSVG from "../../../../public/assets/svg/conference_call.svg"
+import GravitasSVG from "../../../../public/assets/svg/gravitas.svg"
 
 export default {
   name: "contact-index",
@@ -109,12 +118,19 @@ export default {
       trans: JSON.parse(CurrentTenant.lang),
       platform: CurrentTenant.platform,
       sorting_svg: SortingSVG,
+      judge_svg: JudgeSVG,
+      call_svg: CallSVG,
+      gravitas_svg: GravitasSVG,
       posts: []
     };
   },
 
   mounted() {
     NProgress.done()
+  },
+
+  created() {
+    this.fetchData()
   },
 
   methods: {
@@ -127,7 +143,7 @@ export default {
         })
         .then(response => {
           if (!_.isEmpty(response.data) && !_.isEmpty(response.data.data)) {
-            this.posts = response.data.data.slice(0, 2)
+            this.posts = response.data.data.slice(0, 3)
           }
 
           NProgress.done();
