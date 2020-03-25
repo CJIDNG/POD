@@ -8,7 +8,7 @@
 
     @stack('meta')
 
-    <title>{{ config('app.name') ? ' ― ' . config('app.name') : '' }}</title>
+    <title>{{ $currentTenant['platform']['display_name'] ?? $currentTenant['platform']['name'] }}</title>
 
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Karla|Merriweather:400,700,900">

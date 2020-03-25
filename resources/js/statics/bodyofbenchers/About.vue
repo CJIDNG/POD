@@ -8,7 +8,7 @@
 
         <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
           <h1 class="display-4">{{ trans.app.about }} <span class="text-capitalize">{{ platform.name }}</span></h1>
-          <p class="lead" v-html="platform.description"></p>
+          <p class="lead text-left" v-html="platform.description"></p>
         </div>
 
 
