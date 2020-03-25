@@ -29,7 +29,6 @@ class PostController extends Controller
     $approvedCount = Post::forCurrentUser()->approved()->count();
     $submittedCount = $isAdminOrEditor ? 
       Post::submitted()->count() : Post::forCurrentUser()->submitted()->count();
-    // dd(Post::submitted()->get());
     
     $results = [
       'posts' => [],
