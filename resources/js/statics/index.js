@@ -1,16 +1,11 @@
 import { DefaultStatics } from './default'
-import { UdemeStatics } from './udeme'
-import { HCTStatics } from './healthcaretracka'
+import { BOBStatics } from './bodyofbenchers'
 
 let Statics
 
-switch (CurrentTenant.platform.name) {
-  case "udeme":
-    Statics = UdemeStatics
-    break;
-
-  case "healthcaretracka":
-    Statics = HCTStatics
+switch (true) {
+  case /bodyofbenchers/.test(CurrentTenant.platform.name):
+    Statics = BOBStatics
     break;
 
   default:
