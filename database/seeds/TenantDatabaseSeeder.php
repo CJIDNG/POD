@@ -12,8 +12,6 @@ class TenantDatabaseSeeder extends Seeder
    */
   public function run()
   {
-    $platformName = session()->get('platform_name');
-
     $this->call(PermissionsTableSeeder::class);
     $this->call(LocationTableSeeder::class);
     $this->call(AgenciesTableSeeder::class);
@@ -22,14 +20,16 @@ class TenantDatabaseSeeder extends Seeder
     $this->call(DatavisualisationSeeder::class);
     $this->call(DataformatSeeder::class);
 
-    switch ($platformName) {
-      case '':
-        break;
+    // $platformName = session()->get('platform_name');
+
+    // switch ($platformName) {
+    //   case '':
+    //     break;
       
-      default:
-        # code...
-        break;
-    }
+    //   default:
+    //     # code...
+    //     break;
+    // }
       
   }
 }
