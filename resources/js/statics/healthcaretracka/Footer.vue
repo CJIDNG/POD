@@ -59,8 +59,8 @@
           <!-- Content -->
           <h6 class="text-uppercase font-weight-bold">{{ platform.name }}</h6>
           <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-          <p>
-            {{ trim(platform.description, 255) }}
+          <p v-if="platform.description">
+            {{ trim(platform.description.replace(/(<([^>]+)>)/ig,""), 255) }}
           </p>
 
         </div>
@@ -120,11 +120,13 @@
           <h6 class="text-uppercase font-weight-bold">{{ trans.app.contact }}</h6>
           <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
           <p>
-            {{ platform.physical_address }}</p>
+            <i class="fas fa-home mr-3"></i> {{ platform.physical_address }}
+          </p>
           <p>
-            {{ platform.email }}</p>
+            <i class="fas fa-envelope mr-3"></i> {{ platform.email }}
+          </p>
           <p>
-            {{ platform.phone_number }}
+            <i class="fas fa-phone mr-3"></i> {{ platform.phone_number }}
           </p>
 
         </div>
