@@ -19,23 +19,20 @@
 
             <!-- Facebook -->
             <a v-if="platform.facebook_url" class="fb-ic" target="_blank" :href="platform.facebook_url">
-              <i class="fab fa-facebook-f white-text mr-4"> </i>
+              <i class="fab fa-facebook mr-4"> </i>
               Facebook
             </a>
             <!-- Twitter -->
             <a v-if="platform.twitter_url" class="tw-ic" target="_blank" :href="platform.twitter_url">
               <i class="fab fa-twitter white-text mr-4"> </i>
-              Twitter
             </a>
             <!--Linkedin -->
             <a v-if="platform.linkedin_url" class="li-ic" target="_blank" :href="platform.linkedin_url">
               <i class="fab fa-linkedin-in white-text mr-4"> </i>
-              Linkedin
             </a>
             <!--Instagram-->
             <a v-if="platform.instagram_url" class="ins-ic" target="_blank" :href="platform.instagram_url">
               <i class="fab fa-instagram white-text"> </i>
-              Instagram
             </a>
 
           </div>
@@ -59,8 +56,8 @@
           <!-- Content -->
           <h6 class="text-uppercase font-weight-bold">{{ platform.name }}</h6>
           <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-          <p>
-            {{ trim(platform.description, 255) }}
+          <p v-if="platform.description">
+            {{ trim(platform.description.replace(/(<([^>]+)>)/ig,""), 255) }}
           </p>
 
         </div>
@@ -114,11 +111,13 @@
           <h6 class="text-uppercase font-weight-bold">{{ trans.app.contact }}</h6>
           <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
           <p>
-            {{ platform.physical_address }}</p>
+            <i class="fas fa-home mr-3"></i> {{ platform.physical_address }}
+          </p>
           <p>
-            {{ platform.email }}</p>
+            <i class="fas fa-envelope mr-3"></i> {{ platform.email }}
+          </p>
           <p>
-            {{ platform.phone_number }}
+            <i class="fas fa-phone mr-3"></i> {{ platform.phone_number }}
           </p>
 
         </div>
