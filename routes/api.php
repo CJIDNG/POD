@@ -70,9 +70,14 @@ Route::group(['prefix' => 'v1'], function () {
     ->middleware(['auth:api', 'tenancy.enforce']);
 
   // Role routes...
-  Route::get('/roles', function () {
-    return response()->json(\App\Role::all()->pluck('name'));
-  })->middleware(['auth:api', 'role:Admin']);
+  Route::get('/roles', 'RoleController@index')
+    ->middleware(['auth:api', 'permission:view_roles']);
+  Route::get('/roles/{id?}', 'RoleController@show')
+    ->middleware(['auth:api', 'permission:view_roles']);
+  Route::post('/roles/{id}', 'RoleController@store')
+    ->middleware(['auth:api', 'permission:create_roles']);
+  Route::delete('/roles/{id}', 'RoleController@destroy')
+    ->middleware(['auth:api', 'permission:delete_roles']);
 
   // Permission routes...
   Route::get('/permissions', function () {
