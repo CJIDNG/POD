@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 
 class AuthPermission extends Command
 {
@@ -42,7 +43,7 @@ class AuthPermission extends Command
     // check if its remove
     if( $is_remove = $this->option('remove') ) {
       // remove permission
-      if( Permission::where('name', 'LIKE', '%'. $this->getNameArgument())->delete() ) {
+      if( \App\Permission::where('name', 'LIKE', '%'. $this->getNameArgument())->delete() ) {
         $this->warn('Permissions ' . implode(', ', $permissions) . ' deleted.');
       }  else {
         $this->warn('No permissions for ' . $this->getNameArgument() .' found!');
@@ -50,7 +51,7 @@ class AuthPermission extends Command
     } else {
       // create permissions
       foreach ($permissions as $permission) {
-        Permission::firstOrCreate(['name' => $permission ]);
+        \App\Permission::firstOrCreate(['name' => $permission ]);
       }
 
       $this->info('Permissions ' . implode(', ', $permissions) . ' created.');
@@ -58,7 +59,7 @@ class AuthPermission extends Command
 
     // sync role for admin
     if( $role = Role::where('name', 'Admin')->first() ) {
-      $role->syncPermissions(Permission::all());
+      $role->syncPermissions(\App\Permission::all());
       $this->info('Admin permissions');
     }
   }
@@ -75,6 +76,6 @@ class AuthPermission extends Command
   
   private function getNameArgument()
   {
-    return strtolower(str_plural($this->argument('name')));
+    return strtolower(Str::plural($this->argument('name')));
   }
 }
