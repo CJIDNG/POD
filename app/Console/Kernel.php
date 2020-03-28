@@ -14,9 +14,9 @@ class Kernel extends ConsoleKernel
    */
   protected $commands = [
     Commands\TenantInstall::class,
-    Commands\SubappAdd::class,
-    Commands\SubappRemove::class,
-    Commands\SubappRegister::class
+    Commands\TenantSubapp::class,
+    Commands\SubappRegister::class,
+    Commands\AuthPermission::class,
   ];
 
   /**

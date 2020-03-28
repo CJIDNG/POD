@@ -7,8 +7,6 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Resources\StatusResource;
-use Auth;
-use DB;
 
 class StatusController extends Controller
 {
