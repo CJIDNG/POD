@@ -256,13 +256,13 @@ export default {
             this.isReadyToAcceptUploads = false
             
             this.selectedFilesForPond = [
-                {
-                  source: response.data.path,
-                  options: {
-                    type: 'local'
-                  }
+              {
+                source: response.data.path,
+                options: {
+                  type: 'local'
                 }
-              ]
+              }
+            ]
           } else {
             this.form = {
               id: '',
