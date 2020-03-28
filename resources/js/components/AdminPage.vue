@@ -136,10 +136,28 @@
             <span>{{ trans.app.types }}</span>
           </router-link>
         </li>
-        <li :class="{'active': /admin\/users/.test($route.path)}">
-          <router-link to="/admin/users">
+        <li class="dropdown" 
+          :class="{'active': /admin\/users/.test($route.path) || /admin\/roles/.test($route.path)}">
+          <a
+            href="#usersSubmenu"
+            data-toggle="collapse"
+            aria-expanded="false"
+            class="dropdown-toggle"
+          >
             <span>{{ trans.app.users }}</span>
-          </router-link>
+          </a>
+          <ul class="collapse list-unstyled" id="usersSubmenu">
+            <li>
+              <router-link to="/admin/roles">
+                <span>{{ trans.app.roles }}</span>
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/admin/users">
+                <span>{{ trans.app.users }}</span>
+              </router-link>
+            </li>
+          </ul>
         </li>
       </ul>
     </nav>

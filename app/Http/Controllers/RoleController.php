@@ -19,9 +19,10 @@ class RoleController extends Controller
     $all = request('all') ?? NULL;
     
     if ($all) {
-      $roles = Role::all();
+      $roles = Role::all()->pluck('name');
     } else {
       $roles = Role::orderBy('name')
+        ->withCount('permissions')
         ->paginate();
     }
     return response()->json(
@@ -47,14 +48,15 @@ class RoleController extends Controller
           'permissions' => \App\Permission::get(['id', 'name'])
         ], 200);
       } else {
-        $role = Role::find($id);
+        $role = Role::with('permissions:id,name')->find($id);
 
-        if ($role) {
-          return response()->json($role, 200);
-        } else {
-          return response()->json(null, 301);
-        }
+        return response()->json([
+          'role' => $role,
+          'permissions' => \App\Permission::get(['id', 'name'])
+        ], 200);
       }
+    } else {
+      return response()->json(null, 301);
     }
   }
 
@@ -69,7 +71,6 @@ class RoleController extends Controller
     $data = [
       'id' => request('id'),
       'name' => request('name'),
-      'permissions' => request('permissions', [])
     ];
 
     $messages = [
@@ -83,14 +84,15 @@ class RoleController extends Controller
 
     $role = $id !== 'create' ? Role::find($id) : new Role(['id' => request('id')]);
 
-    $role->fill($data);
-    $role->save();
+    // $role->fill($data);
+    // $role->save();
+    $role = Role::create(['name' => $data['name']]);
 
     // admin role has everything
     if($role->name === 'Admin') {
       $role->syncPermissions(\App\Permission::all());
     } else {
-      $role->syncPermissions($data['permissions']);
+      $role->syncPermissions(request('permissions', []));
     }
 
     return response()->json($role->refresh(), 201);
@@ -107,6 +109,7 @@ class RoleController extends Controller
     $role = Role::find($id);
 
     if ($role) {
+      $role->syncPermissions([]);
       $role->delete();
 
       return response()->json([], 204);

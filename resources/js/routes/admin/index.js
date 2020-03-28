@@ -7,6 +7,7 @@ import localGovernment from './localGovernment'
 import ministry from './ministry'
 import platforms from './platforms'
 import posts from './posts'
+import roles from './roles'
 import settings from './settings'
 import state from './state'
 import stats from './stats'
@@ -21,6 +22,7 @@ let adminRoutes = [
     name: 'dashboard',
     component: require('../../screens/admin/dashboard/Index').default,
   },
+  ...roles,
   ...users,
   ...settings,
 ]

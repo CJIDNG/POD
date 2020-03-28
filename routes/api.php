@@ -75,7 +75,7 @@ Route::group(['prefix' => 'v1'], function () {
   Route::get('/roles/{id?}', 'RoleController@show')
     ->middleware(['auth:api', 'permission:view_roles']);
   Route::post('/roles/{id}', 'RoleController@store')
-    ->middleware(['auth:api', 'permission:create_roles']);
+    ->middleware(['auth:api', 'permission:create_roles|update_roles', 'tenancy.enforce']);
   Route::delete('/roles/{id}', 'RoleController@destroy')
     ->middleware(['auth:api', 'permission:delete_roles']);
 

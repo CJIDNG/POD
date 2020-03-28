@@ -16,7 +16,7 @@
             href="#"
             class="btn btn-sm btn-outline-success font-weight-bold my-auto"
             :class="{ disabled: form.name === '' }"
-            @click="saveType"
+            @click="saveStatus"
             :aria-label="trans.app.save"
           >{{ trans.app.save }}</a>
         </template>
@@ -67,7 +67,7 @@
                 autocomplete="off"
                 v-model="form.name"
                 title="Name"
-                @keyup.enter="saveType"
+                @keyup.enter="saveStatus"
                 class="form-control-lg form-control border-0 px-0 bg-transparent"
                 :placeholder="trans.app.give_your_type_a_name"
               />
@@ -173,7 +173,7 @@ export default {
         })
     },
 
-    saveType() {
+    saveStatus() {
       this.form.errors = [];
       this.form.isSaving = true;
       this.form.hasSuccess = false;
