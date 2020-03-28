@@ -217,6 +217,7 @@ return [
   'on' => 'on',
   'other' => 'Other',
   'parastatals' => 'Parastatals',
+  'partners' => 'Partners',
   'paste_a_link_to_embed_content' => 'Paste a link to embed content from another site (ie. Twitter) and press enter',
   'paste_a_video_link' => 'Paste a video link (ie. YouTube, Vimeo) and press enter',
   'paste_embed_code_to_include' => 'Paste any embed code to include in the post',
