@@ -64,6 +64,7 @@ class PartnerController extends Controller
     $data = [
       'id' => request('id'),
       'name' => request('name'),
+      'url' => request('url'),
       'logo' => request('logo'),
     ];
 

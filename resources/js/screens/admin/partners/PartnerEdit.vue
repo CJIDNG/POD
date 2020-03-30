@@ -112,7 +112,7 @@
 
       <delete-modal
         ref="deleteModal"
-        @delete="deleteType"
+        @delete="deletePartner"
         :header="trans.app.delete"
         :message="trans.app.deleted_types_are_gone_forever"
       ></delete-modal>
@@ -120,6 +120,8 @@
       <image-upload-modal 
         v-if="isReady" ref="uploadImageModal"
         :defaultImageUrl="form.logo"
+        :imageUrl="form.logo"
+        @update:imageUrl="form.logo = $event"
       />
     </template>
   </admin-page>
@@ -134,7 +136,7 @@ import AdminPage from '../../../components/AdminPage';
 import ImageUploadModal from "../../../components/modals/ImageUploadModal";
 
 export default {
-  name: "partnerse-edit",
+  name: "partners-edit",
 
   components: {
     PageHeader,
@@ -163,21 +165,28 @@ export default {
   },
 
   created() {
-    if (!this.isAdmin) {
-      this.$router.push({ name: "stats" });
-    }
+    
   },
 
   mounted() {
     this.fetchData();
   },
 
-  watch: {},
+  watch: {
+    'form.logo': function(val) {
+      if (val) {
+        this.savePartner()
+      } else {
+        this.form.logo = ""
+        this.savePartner()
+      }
+    }
+  },
 
   methods: {
     fetchData() {
       this.request()
-        .get("/api/v1/partnerse/" + this.id)
+        .get("/api/v1/partners/" + this.id)
         .then(response => {
           this.status = response.data;
           this.form.id = response.data.id;
@@ -193,7 +202,7 @@ export default {
           NProgress.done();
         })
         .catch(error => {
-          // this.$router.push({ name: "partners" });
+          this.$router.push({ name: "partners" });
         });
     },
 
@@ -211,11 +220,11 @@ export default {
       }
 
       this.request()
-        .post("/api/v1/partnerse/" + this.id, this.form)
+        .post("/api/v1/partners/" + this.id, this.form)
         .then(response => {
           this.form.isSaving = false;
           this.form.hasSuccess = true;
-          this.id = response.data.id;
+          this.id = this.form.id = response.data.id;
           this.status = response.data;
         })
         .catch(error => {
@@ -229,13 +238,13 @@ export default {
       }, 3000);
     },
 
-    deleteType() {
+    deletePartner() {
       this.request()
-        .delete("/api/v1/partnerse/" + this.id)
+        .delete("/api/v1/partners/" + this.id)
         .then(response => {
           $(this.$refs.deleteModal.$el).modal("hide");
 
-          this.$router.push({ name: "partnerse" });
+          this.$router.push({ name: "partners" });
         })
         .catch(error => {
           // Add any error debugging...

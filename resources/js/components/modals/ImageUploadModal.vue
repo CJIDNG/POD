@@ -153,7 +153,13 @@ export default {
   },
 
   watch: {
-    
+    selectedImageUrl: function (val) {
+      if (val) {
+        this.$emit('update:imageUrl', val)
+      } else {
+        this.$emit('update:imageUrl', '')
+      }
+    }
   },
 
   methods: {
@@ -171,7 +177,11 @@ export default {
     },
 
     clickDone() {
-      this.$emit('done', this.selectedImageUrl)
+      if (this.selectedImageUrl) {
+        this.$emit('update:imageUrl', this.selectedImageUrl)
+      } else {
+        this.$emit('update:imageUrl', '')
+      }
     },
 
     clearAndResetComponent() {
