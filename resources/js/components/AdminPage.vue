@@ -17,10 +17,27 @@
             <span>{{ trans.app.analytics }}</span>
           </router-link>
         </li>
-        <li v-if="hasSubapp('platform')" :class="{'active': /admin\/platforms/.test($route.path)}">
-          <router-link :to="`/admin/platforms/${CurrentTenant.platform.id}/edit`">
+        <li class="dropdown" :class="{'active': /admin\/partners/.test($route.path) || /admin\/platforms/.test($route.path)}">
+          <a
+            href="#platformSubmenu"
+            data-toggle="collapse"
+            aria-expanded="false"
+            class="dropdown-toggle"
+          >
             <span>{{ trans.app.platforms }}</span>
-          </router-link>
+          </a>
+          <ul class="collapse list-unstyled" id="platformSubmenu">
+            <li v-if="hasSubapp('platform')" >
+              <router-link :to="`/admin/platforms/${CurrentTenant.platform.id}/edit`">
+                <span>{{ trans.app.platforms }}</span>
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/admin/partners">
+                <span>{{ trans.app.partners }}</span>
+              </router-link>
+            </li>
+          </ul>
         </li>
         <li class="dropdown" v-if="hasSubapp('blog')" :class="{'active': /admin\/posts/.test($route.path)}">
           <a

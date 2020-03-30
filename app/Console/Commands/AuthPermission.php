@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
+use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
+use Hyn\Tenancy\Environment;
 
 class AuthPermission extends Command
 {
@@ -36,32 +38,40 @@ class AuthPermission extends Command
    *
    * @return mixed
    */
-  public function handle()
+  public function handle(Environment $environment, WebsiteRepository $repository)
   {
+    $query = $repository->query();
+
     $permissions = $this->generatePermissions();
 
-    // check if its remove
-    if( $is_remove = $this->option('remove') ) {
-      // remove permission
-      if( \App\Permission::where('name', 'LIKE', '%'. $this->getNameArgument())->delete() ) {
-        $this->warn('Permissions ' . implode(', ', $permissions) . ' deleted.');
-      }  else {
-        $this->warn('No permissions for ' . $this->getNameArgument() .' found!');
-      }
-    } else {
-      // create permissions
-      foreach ($permissions as $permission) {
-        \App\Permission::firstOrCreate(['name' => $permission ]);
-      }
+    $query->chunk(50, function ($websites) use ($environment, $permissions) {
+      foreach ($websites as $website) {
+        $environment->tenant($website);
 
-      $this->info('Permissions ' . implode(', ', $permissions) . ' created.');
-    }
+        // check if its remove
+        if( $is_remove = $this->option('remove') ) {
+          // remove permission
+          if( \App\Permission::where('name', 'LIKE', '%'. $this->getNameArgument())->delete() ) {
+            $this->warn('Permissions ' . implode(', ', $permissions) . ' deleted.');
+          }  else {
+            $this->warn('No permissions for ' . $this->getNameArgument() .' found!');
+          }
+        } else {
+          // create permissions
+          foreach ($permissions as $permission) {
+            \App\Permission::firstOrCreate(['name' => $permission ]);
+          }
 
-    // sync role for admin
-    if( $role = Role::where('name', 'Admin')->first() ) {
-      $role->syncPermissions(\App\Permission::all());
-      $this->info('Admin permissions');
-    }
+          $this->info('Permissions ' . implode(', ', $permissions) . ' created.');
+        }
+
+        // sync role for admin
+        if( $role = \App\Role::where('name', 'Admin')->first() ) {
+          $role->syncPermissions(\App\Permission::all());
+          $this->info('Admin permissions');
+        }
+      }
+    });
   }
 
   private function generatePermissions()

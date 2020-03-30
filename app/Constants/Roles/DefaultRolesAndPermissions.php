@@ -148,6 +148,14 @@ class DefaultRolesAndPermissions
       'update_incidents',
       'view_incidents',
       'delete_incidents',
+
+      /**
+       * partners permissions
+       */
+      'create_partners',
+      'update_partners',
+      'view_partners',
+      'delete_partners',
     ];
   }
 

@@ -201,6 +201,14 @@ Route::group(['prefix' => 'v1'], function () {
   Route::delete('/datatopics/{id}', 'DatatopicController@destroy')
     ->middleware(['auth:api', 'permission:delete_datatopics']);
 
+  // Data resource routes...
+  Route::get('/partners', 'PartnerController@index');
+  Route::get('/partners/{id?}', 'PartnerController@show');
+  Route::post('/partners/{id}', 'PartnerController@store')
+    ->middleware(['auth:api', 'permission:create_partners']);
+  Route::delete('/partners/{id}', 'PartnerController@destroy')
+    ->middleware(['auth:api', 'permission:delete_partners']);
+
   // Media routes...
   Route::post('/resource/uploads', 'DataResourceUploadController@store')
     ->middleware(['auth:api', 'role:Admin|Data Curator|Data Researcher & Editor']);

@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'path' => env('BLOG_PATH_NAME', '/'),
+    'path' => env('PATH_NAME', '/'),
 
     /*
     |--------------------------------------------------------------------------
@@ -42,11 +42,11 @@ return [
     |
     */
 
-    'storage_disk' => env('BLOG_STORAGE_DISK', 'local'),
+    'storage_disk' => env('STORAGE_DISK', 'local'),
 
-    'storage_path' => env('BLOG_STORAGE_PATH', 'public/blog'),
+    'storage_path' => env('STORAGE_PATH', 'public'),
 
-    'upload_filesize' => env('BLOG_UPLOAD_FILESIZE', 3145728),
+    'upload_filesize' => env('UPLOAD_FILESIZE', 3145728),
 
     /*
     |--------------------------------------------------------------------------
@@ -60,7 +60,7 @@ return [
     */
 
     'unsplash' => [
-        'access_key' => env('BLOG_UNSPLASH_ACCESS_KEY'),
+        'access_key' => env('UNSPLASH_ACCESS_KEY'),
     ],
 
     /*
@@ -76,7 +76,7 @@ return [
     */
 
     'mail' => [
-        'enabled' => env('BLOG_MAIL_ENABLED', false),
+        'enabled' => env('MAIL_ENABLED', false),
     ],
 
 ];
