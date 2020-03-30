@@ -2,18 +2,18 @@
 
 namespace App;
 
-use App\Designation;
+use App\Member;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Member extends Model
+class Designation extends Model
 {
   use SoftDeletes, UsesTenantConnection;
 
-  public function designations(): BelongsToMany {
-    return $this->belongsToMany(Designation::class);
+  public function members(): BelongsToMany {
+    return $this->belongsToMany(Member::class);
   }
 
   /**
@@ -26,7 +26,7 @@ class Member extends Model
     parent::boot();
 
     static::deleting(function ($item) {
-      $item->designations()->detach();
+      $item->members()->detach();
     });
   }
 }

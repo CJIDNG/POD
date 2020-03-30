@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Member;
+use App\Designation;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class MemberController extends Controller
+class DesignationController extends Controller
 {
   /**
    * Display a listing of the resource.
@@ -19,18 +19,18 @@ class MemberController extends Controller
     $all = request('all') ?? NULL;
     
     if ($all) {
-      $members = Member::all();
+      $designations = Designation::all();
     } else {
-      $members = Member::orderBy('name')
+      $designations = Designation::orderBy('title')
         ->paginate();
     }
     return response()->json(
-      $members, 200
+      $designations, 200
     );
   }
 
   /**
-   * Get a single member or return an id to create one.
+   * Get a single designation or return an id to create one.
    *
    * @param null $id
    * @return JsonResponse
@@ -38,15 +38,15 @@ class MemberController extends Controller
    */
   public function show($id = null): JsonResponse
   {
-    if (Member::all()->pluck('id')->contains($id) || $this->isNewMember($id)) {
-      if ($this->isNewMember($id)) {
+    if (Designation::all()->pluck('id')->contains($id) || $this->isNewDesignation($id)) {
+      if ($this->isNewDesignation($id)) {
         return response()->json([
           'id' => NULL,
         ], 200);
       } else {
-        $member = Member::find($id);
+        $designation = Designation::find($id);
 
-        return response()->json($member, 200);
+        return response()->json($designation, 200);
       }
     } else {
       return response()->json(null, 301);
@@ -54,7 +54,7 @@ class MemberController extends Controller
   }
 
   /**
-   * Create or update a member.
+   * Create or update a designation.
    *
    * @param string $id
    * @return JsonResponse
@@ -63,12 +63,7 @@ class MemberController extends Controller
   {
     $data = [
       'id' => request('id'),
-      'name' => request('name'),
-      'bio' => request('bio'),
-      'email' => request('email'),
-      'phone_number' => request('phone_number'),
-      'socials_meta' => request('socials_meta'),
-      'avatar' => request('avatar')
+      'title' => request('title')
     ];
 
     $messages = [
@@ -77,15 +72,15 @@ class MemberController extends Controller
     ];
 
     validator($data, [
-      'name' => 'required',
+      'title' => 'required'
     ], $messages)->validate();
 
-    $member = $id !== 'create' ? Member::find($id) : new Member(['id' => request('id')]);
+    $designation = $id !== 'create' ? Designation::find($id) : new Designation(['id' => request('id')]);
 
-    $member->fill($data);
-    $member->save();
+    $designation->fill($data);
+    $designation->save();
 
-    return response()->json($member->refresh(), 201);
+    return response()->json($designation->refresh(), 201);
   }
 
   /**
@@ -96,22 +91,22 @@ class MemberController extends Controller
    */
   public function destroy($id)
   {
-    $member = Member::find($id);
+    $designation = Designation::find($id);
 
-    if ($member) {
-      $member->delete();
+    if ($designation) {
+      $designation->delete();
 
       return response()->json([], 204);
     }
   }
 
   /**
-   * Return true if we're creating a new member.
+   * Return true if we're creating a new designation.
    *
    * @param string $id
    * @return bool
    */
-  private function isNewMember(string $id): bool
+  private function isNewDesignation(string $id): bool
   {
     return $id === 'create';
   }
