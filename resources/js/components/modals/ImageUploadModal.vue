@@ -115,7 +115,8 @@ export default {
   name: "image-upload-modal",
 
   props: {
-    'defaultImageUrl': {
+    defaultImageUrl: {
+      type: String,
       required: false
     }
   },

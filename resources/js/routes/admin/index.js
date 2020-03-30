@@ -5,6 +5,7 @@ import healthFacility from './health-facility'
 import incident from './incident'
 import localGovernment from './localGovernment'
 import ministry from './ministry'
+import partner from './partner'
 import platforms from './platforms'
 import posts from './posts'
 import roles from './roles'
@@ -22,6 +23,8 @@ let adminRoutes = [
     name: 'dashboard',
     component: require('../../screens/admin/dashboard/Index').default,
   },
+  ...partner,
+  ...platforms,
   ...roles,
   ...users,
   ...settings,
@@ -61,10 +64,6 @@ if (hasSubapp('status')) {
 
 if (hasSubapp('type')) {
   adminRoutes.push(...type)
-}
-
-if (hasSubapp('platform')) {
-  adminRoutes.push(...platforms)
 }
 
 if (hasSubapp('analytics')) {

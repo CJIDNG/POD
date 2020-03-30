@@ -172,6 +172,9 @@ return [
   'give_your_license_a_name' => 'Give license\'s name',
   'give_your_license_a_link' => 'Give license\'s link',
 
+  'give_your_partner_a_name' => 'Give partner\'s name',
+  'give_your_partner_a_url' => 'Give partner\'s url',
+
   'health_facility' => 'Health Facility',
   'home' => 'Home',
   'incident' => 'Incident',
@@ -200,6 +203,7 @@ return [
   'new_topic' => 'New topic',
   'new_type' => 'New type',
   'new_status' => 'New status',
+  'new_partner' => 'New partner',
   'new_state' => 'New state',
   'new_ministry' => 'New ministry',
   'new_agency' => 'New agency',
@@ -293,6 +297,7 @@ return [
   'total_views' => 'Total Views',
   'type' => 'Type',
   'type_caption_for_image' => 'Type caption for image (optional)',
+  'upload_logo' => 'Upload logo',
   'unique_identifier' => 'Unique Identifier',
   'unique_visit' => 'unique visit',
   'unique_visits' => 'unique visits',

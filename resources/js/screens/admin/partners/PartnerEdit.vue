@@ -16,7 +16,7 @@
             href="#"
             class="btn btn-sm btn-outline-success font-weight-bold my-auto"
             :class="{ disabled: form.name === '' }"
-            @click="saveStatus"
+            @click="savePartner"
             :aria-label="trans.app.save"
           >{{ trans.app.save }}</a>
         </template>
@@ -48,6 +48,11 @@
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
               <a
                 href="#"
+                class="dropdown-item"
+                @click="showImageUploadModal"
+              >{{ trans.app.upload_logo }}</a>
+              <a
+                href="#"
                 class="dropdown-item text-danger"
                 @click="showDeleteModal"
               >{{ trans.app.delete }}</a>
@@ -67,13 +72,31 @@
                 autocomplete="off"
                 v-model="form.name"
                 title="Name"
-                @keyup.enter="saveStatus"
+                @keyup.enter="savePartner"
                 class="form-control-lg form-control border-0 px-0 bg-transparent"
-                :placeholder="trans.app.give_your_type_a_name"
+                :placeholder="trans.app.give_your_partner_a_name"
               />
 
               <div v-if="form.errors.name" class="invalid-feedback d-block">
                 <strong>{{ form.errors.name[0] }}</strong>
+              </div>
+            </div>
+
+            <div class="col-lg-12">
+              <input
+                type="text"
+                name="url"
+                autofocus
+                autocomplete="off"
+                v-model="form.url"
+                title="URL"
+                @keyup.enter="savePartner"
+                class="form-control-lg form-control border-0 px-0 bg-transparent"
+                :placeholder="trans.app.give_your_partner_a_url"
+              />
+
+              <div v-if="form.errors.url" class="invalid-feedback d-block">
+                <strong>{{ form.errors.url[0] }}</strong>
               </div>
             </div>
           </div>
@@ -93,6 +116,11 @@
         :header="trans.app.delete"
         :message="trans.app.deleted_types_are_gone_forever"
       ></delete-modal>
+
+      <image-upload-modal 
+        v-if="isReady" ref="uploadImageModal"
+        :defaultImageUrl="form.logo"
+      />
     </template>
   </admin-page>
 </template>
@@ -103,14 +131,16 @@ import NProgress from "nprogress";
 import PageHeader from "../../../components/PageHeader";
 import DeleteModal from "../../../components/modals/DeleteModal";
 import AdminPage from '../../../components/AdminPage';
+import ImageUploadModal from "../../../components/modals/ImageUploadModal";
 
 export default {
-  name: "statuses-edit",
+  name: "partnerse-edit",
 
   components: {
     PageHeader,
     DeleteModal,
     AdminPage,
+    ImageUploadModal,
   },
 
   data() {
@@ -120,6 +150,8 @@ export default {
       form: {
         id: "",
         name: "",
+        url: "",
+        logo: "",
         errors: [],
         isSaving: false,
         hasSuccess: false
@@ -145,13 +177,15 @@ export default {
   methods: {
     fetchData() {
       this.request()
-        .get("/api/v1/statuses/" + this.id)
+        .get("/api/v1/partnerse/" + this.id)
         .then(response => {
           this.status = response.data;
           this.form.id = response.data.id;
 
           if (this.id !== "create") {
             this.form.name = response.data.name;
+            this.form.url = response.data.url;
+            this.form.logo = response.data.logo;
           }
 
           this.isReady = true;
@@ -159,21 +193,11 @@ export default {
           NProgress.done();
         })
         .catch(error => {
-          this.$router.push({ name: "statuses" });
+          // this.$router.push({ name: "partners" });
         });
-
-      this.request()
-        .get("/api/v1/roles?all=1")
-        .then(response => {
-          this.roles = response.data;
-          NProgress.done();
-        })
-        .catch(() => {
-          NProgress.done();
-        })
     },
 
-    saveStatus() {
+    savePartner() {
       this.form.errors = [];
       this.form.isSaving = true;
       this.form.hasSuccess = false;
@@ -187,7 +211,7 @@ export default {
       }
 
       this.request()
-        .post("/api/v1/statuses/" + this.id, this.form)
+        .post("/api/v1/partnerse/" + this.id, this.form)
         .then(response => {
           this.form.isSaving = false;
           this.form.hasSuccess = true;
@@ -207,11 +231,11 @@ export default {
 
     deleteType() {
       this.request()
-        .delete("/api/v1/statuses/" + this.id)
+        .delete("/api/v1/partnerse/" + this.id)
         .then(response => {
           $(this.$refs.deleteModal.$el).modal("hide");
 
-          this.$router.push({ name: "statuses" });
+          this.$router.push({ name: "partnerse" });
         })
         .catch(error => {
           // Add any error debugging...
@@ -220,6 +244,10 @@ export default {
 
     showDeleteModal() {
       $(this.$refs.deleteModal.$el).modal("show");
+    },
+
+    showImageUploadModal() {
+      $(this.$refs.uploadImageModal.$el).modal("show");
     },
 
     validate(form) {
