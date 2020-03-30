@@ -12,6 +12,8 @@ class Member extends Model
 {
   use SoftDeletes, UsesTenantConnection;
 
+  protected $guarded = [];
+
   public function designations(): BelongsToMany {
     return $this->belongsToMany(Designation::class);
   }

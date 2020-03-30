@@ -58,7 +58,9 @@ return [
   'deleted_government_projects_are_gone_forever' => 'Deleted government projects are gone forever. Are you sure?',
   'deleted_datasets_are_gone_forever' => 'Deleted datasets are gone forever. Are you sure?',
   'deleted_roles_are_gone_forever' => 'Deleted roles are gone forever. Are you sure?',
+  'deleted_designations_are_gone_forever' => 'Deleted designations are gone forever. Are you sure?',
   'description' => 'Description',
+  'designations' => 'Designations',
   'approved_posts_can_be_published' => 'Approved posts can be published. Are you sure?',
   'approved_datasets_can_be_published' => 'Approved datasets can be published. Are you sure?',
   'submitted_posts_are_no_longer_editable' => 'Post will be submitted for approval. Are you sure?',
@@ -175,6 +177,8 @@ return [
   'give_your_partner_a_name' => 'Give partner\'s name',
   'give_your_partner_a_url' => 'Give partner\'s url',
 
+  'give_your_designation_a_title' => 'Give designation\'s title',
+
   'health_facility' => 'Health Facility',
   'home' => 'Home',
   'incident' => 'Incident',
@@ -215,6 +219,8 @@ return [
   'new_dataset' => 'New Dataset',
   'new_resource' => 'New Resource',
   'new_role' => 'New Role',
+  'new_designation' => 'New designation',
+  'new_member' => 'New member',
   'news_source_link' => 'News Source Link',
   'next' => 'Next',
   'no_images_found_for' => 'No images found for',

@@ -17,7 +17,9 @@
             <span>{{ trans.app.analytics }}</span>
           </router-link>
         </li>
-        <li class="dropdown" :class="{'active': /admin\/partners/.test($route.path) || /admin\/platforms/.test($route.path)}">
+        <li class="dropdown" :class="{'active': /admin\/partners/.test($route.path) || 
+          /admin\/platforms/.test($route.path) || 
+          /admin\/designations/.test($route.path)}">
           <a
             href="#platformSubmenu"
             data-toggle="collapse"
@@ -35,6 +37,11 @@
             <li>
               <router-link to="/admin/partners">
                 <span>{{ trans.app.partners }}</span>
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/admin/designations">
+                <span>{{ trans.app.designations }}</span>
               </router-link>
             </li>
           </ul>
