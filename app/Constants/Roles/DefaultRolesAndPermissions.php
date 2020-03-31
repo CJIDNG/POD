@@ -156,6 +156,22 @@ class DefaultRolesAndPermissions
       'update_partners',
       'view_partners',
       'delete_partners',
+
+      /**
+       * designations permissions
+       */
+      'create_designations',
+      'update_designations',
+      'view_designations',
+      'delete_designations',
+
+      /**
+       * members permissions
+       */
+      'create_members',
+      'update_members',
+      'view_members',
+      'delete_members',
     ];
   }
 
