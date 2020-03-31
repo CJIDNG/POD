@@ -66,6 +66,7 @@ return [
   'approved_datasets_can_be_published' => 'Approved datasets can be published. Are you sure?',
   'submitted_posts_are_no_longer_editable' => 'Post will be submitted for approval. Are you sure?',
   'submitted_datasets_are_no_longer_editable' => 'Dataset will be submitted for approval. Are you sure?',
+  'deleted_services_are_gone_forever' => 'Deleted services are gone forever. Are you sure?',
   'details' => 'Details',
   'done' => 'Done',
   'draft' => 'Draft',
@@ -190,6 +191,7 @@ return [
   'give_your_member_a_linkedin_url' => 'Give member\'s linkedin url',
   'give_your_member_designations' => 'Select member\'s designation(s)',
 
+  'give_your_service_a_name' => 'Give service\'s name',
 
   'health_facility' => 'Health Facility',
   'home' => 'Home',
@@ -234,6 +236,7 @@ return [
   'new_role' => 'New Role',
   'new_designation' => 'New designation',
   'new_member' => 'New member',
+  'new_service' => 'New service',
   'news_source_link' => 'News Source Link',
   'next' => 'Next',
   'no_images_found_for' => 'No images found for',
@@ -286,6 +289,7 @@ return [
   'select_some_tags' => 'Select some tags...',
   'select_some_platforms' => 'Select some platforms...',
   'seo_settings' => 'SEO settings',
+  'services' => 'Services',
   'settings' => 'Settings',
   'sign_out' => 'Sign out',
   'slug' => 'Slug',

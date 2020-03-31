@@ -225,6 +225,14 @@ Route::group(['prefix' => 'v1'], function () {
   Route::delete('/members/{id}', 'MemberController@destroy')
     ->middleware(['auth:api', 'permission:delete_designations']);
 
+  // services routes...
+  Route::get('/services', 'ServiceController@index');
+  Route::get('/services/{id?}', 'ServiceController@show');
+  Route::post('/services/{id}', 'ServiceController@store')
+    ->middleware(['auth:api', 'permission:create_services']);
+  Route::delete('/services/{id}', 'ServiceController@destroy')
+    ->middleware(['auth:api', 'permission:delete_services']);
+
   // Media routes...
   Route::post('/resource/uploads', 'DataResourceUploadController@store')
     ->middleware(['auth:api', 'role:Admin|Data Curator|Data Researcher & Editor']);

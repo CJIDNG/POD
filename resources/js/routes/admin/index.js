@@ -11,6 +11,7 @@ import partner from './partner'
 import platforms from './platforms'
 import posts from './posts'
 import roles from './roles'
+import service from './service'
 import settings from './settings'
 import state from './state'
 import stats from './stats'
@@ -30,6 +31,7 @@ let adminRoutes = [
   ...partner,
   ...platforms,
   ...roles,
+  ...service,
   ...users,
   ...settings,
   ...status,
