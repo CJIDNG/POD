@@ -19,8 +19,6 @@ class Subapp extends Model
       'location', 
       'ministry',
       'governmentProject',
-      'status',
-      'type',
       'platform',
       'analytics',
       'blog',
