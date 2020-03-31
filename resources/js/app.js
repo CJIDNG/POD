@@ -8,6 +8,9 @@ import HelperMixin from "./mixins/HelperMixin"
 import RequestMixin from "./mixins/RequestMixin"
 import VueHolder from 'vue-holderjs'
 
+// https://ckeditor.com/blog/best-wysiwyg-editor-for-vue/
+import CKEditor from '@ckeditor/ckeditor5-vue';
+
 require('bootstrap')
 
 window.Popper = require('popper.js').default
@@ -27,6 +30,7 @@ Vue.config.productionTip = false
 
 Vue.use(VueRouter)
 Vue.use(VueHolder);
+Vue.use( CKEditor );
 
 const router = new VueRouter({
   routes: Routes,

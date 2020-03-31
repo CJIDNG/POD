@@ -8,34 +8,67 @@
 
         <div class="container marketing">
           <div class="row featurette mb-5">
-            <div class="col-md-5 order-md-2">
-              <h2 class="featurette-heading">Oh yeah, it’s that good. <span class="text-muted">See for yourself.</span></h2>
-              <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-            </div>
-            <div class="col-md-7 order-md-1">
-              <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+            <div class="jumbotron">
+              <h1 class="display-4">Udeme</h1>
+              <p class="lead">
+                ...empowering citizens with skills and resources to 
+                hold the government accountable by ensuring that 
+                public funds allocated and released for developmental 
+                projects are well spent towards total elimination of corruption
+              </p>
+              <hr class="my-4">
+              <p>
+                By tracking and monitoring constituency, capital and ecological 
+                projects across Nigeria, UDEME strengthen citizens through 
+                capacity development for better service delivery.
+              </p>
+              <router-link class="btn btn-secondary" to="/about" role="button">
+                Learn more
+              </router-link>
             </div>
           </div>
 
           <!-- Three columns of text below the carousel -->
           <div class="row">
             <div class="col-lg-4">
-              <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
-              <h2>Heading</h2>
-              <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-              <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+              <img width="200" class="bd-placeholder-img rounded-circle" src="/images/udeme/search.png" alt="">
+              <h2>Find It</h2>
+              <p>
+                get the latest budget documents for your community and how much has been released for implementation.
+              </p>
+              <p>
+                <router-link class="btn btn-secondary" to="/about" role="button">
+                  View details &raquo;
+                </router-link>
+              </p>
             </div><!-- /.col-lg-4 -->
             <div class="col-lg-4">
-              <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
-              <h2>Heading</h2>
-              <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-              <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+              <img width="200" class="bd-placeholder-img rounded-circle" src="/images/udeme/opinions.png" alt="">
+              <h2>
+                Weigh In
+              </h2>
+              <p>
+                ensure the projects are properly executed to standard and beneficial to your community
+              </p>
+              <p>
+                <router-link class="btn btn-secondary" to="/about" role="button">
+                  View details &raquo;
+                </router-link>
+              </p>
             </div><!-- /.col-lg-4 -->
             <div class="col-lg-4">
-              <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
-              <h2>Heading</h2>
-              <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-              <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+              <img width="200" class="bd-placeholder-img rounded-circle" src="/images/udeme/surveillance.png" alt="">
+              <h2>
+                Watch It
+              </h2>
+              <p>
+                be a part of the process by monitoring projects from start to finish.
+              </p>
+              <p>
+                <router-link class="btn btn-secondary" to="/about" role="button">
+                  View details &raquo;
+                </router-link>
+              </p>
             </div><!-- /.col-lg-4 -->
           </div><!-- /.row -->
 
@@ -44,43 +77,88 @@
 
           <hr class="featurette-divider">
 
-          <div class="row featurette">
-            <div class="col-md-7">
-              <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It’ll blow your mind.</span></h2>
-              <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+          <div class="row featurette mb-5">
+            <div class="col-md-7 my-auto">
+              <h2 class="featurette-heading">
+                Access to Information
+              </h2>
+              <p class="lead">
+                Looking for projects nominated by lawmakers and government for your 
+                community? You are in the right place. Get all you need 
+                to know about the Freedom of Information (FOI) Act, its applicability 
+                across states and states that comply with the FOIA.
+              </p>
             </div>
             <div class="col-md-5">
-              <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+              <img class="img-fluid" src="/images/udeme/girl_in_uniform.jpeg" alt="">
             </div>
           </div>
 
           <hr class="featurette-divider">
 
-          <div class="row featurette">
-            <div class="col-md-7 order-md-2">
-              <h2 class="featurette-heading">Oh yeah, it’s that good. <span class="text-muted">See for yourself.</span></h2>
-              <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+          <div class="row featurette mb-5">
+            <div class="col-md-7 order-md-2 my-auto">
+              <h2 class="featurette-heading">
+                Participatory budget process
+              </h2>
+              <p class="lead">
+                Become an active citizen today by advocating for inclusive 
+                governance and participatory budgeting process. 
+                Participatory budgeting empowers citizens to make decisions 
+                about how funds allocated for their communities should 
+                be used and in a transparent way.
+              </p>
             </div>
             <div class="col-md-5 order-md-1">
-              <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+              <img class="img-fluid" src="/images/udeme/kid_dancing.jpeg" alt="">
             </div>
           </div>
 
           <hr class="featurette-divider">
 
-          <div class="row featurette">
-            <div class="col-md-7">
-              <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-              <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+          <div class="row featurette mb-5">
+            <div class="col-md-7  my-auto">
+              <h2 class="featurette-heading">
+                Citizen Engagement
+              </h2>
+              <p class="lead">
+                Udeme is a citizen-oriented project. Explore and learn different means through which YOU can #GetInvolved
+              </p>
             </div>
             <div class="col-md-5">
-              <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+              <img class="img-fluid" src="/images/udeme/children_group_1.jpeg" alt="">
             </div>
           </div>
 
           <hr class="featurette-divider">
 
           <!-- /END THE FEATURETTES -->
+
+
+          <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
+          <div class="row">
+            <div class="col-md-6 px-0 my-auto">
+              <h1 class="display-5 font-italic">U-Monitor</h1>
+              <p class="lead my-3">
+                With the right skills, experience, resources and motivation, you 
+                could be the next person we are looking for to join our TEAM. 
+                Join the largest social accountability network of young people 
+                with a passion to transform their community. Become a U-Monitor 
+                (UDEME Monitor) today.
+              </p>
+
+              <p class="lead my-3">
+                Send your cv and cover letter to ijeoma@ptcij.org
+              </p>
+            </div>
+            <div class="col-md-6 px-0">
+              <img 
+                src="/images/udeme/portfolio.png" 
+                class="card-img-right flex-auto d-none d-lg-block img-fluid" 
+                alt="Card image cap">
+            </div>
+          </div>
+        </div>
 
         </div><!-- /.container -->
 

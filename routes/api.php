@@ -70,9 +70,14 @@ Route::group(['prefix' => 'v1'], function () {
     ->middleware(['auth:api', 'tenancy.enforce']);
 
   // Role routes...
-  Route::get('/roles', function () {
-    return response()->json(\App\Role::all()->pluck('name'));
-  })->middleware(['auth:api', 'role:Admin']);
+  Route::get('/roles', 'RoleController@index')
+    ->middleware(['auth:api', 'permission:view_roles']);
+  Route::get('/roles/{id?}', 'RoleController@show')
+    ->middleware(['auth:api', 'permission:view_roles']);
+  Route::post('/roles/{id}', 'RoleController@store')
+    ->middleware(['auth:api', 'permission:create_roles|update_roles', 'tenancy.enforce']);
+  Route::delete('/roles/{id}', 'RoleController@destroy')
+    ->middleware(['auth:api', 'permission:delete_roles']);
 
   // Permission routes...
   Route::get('/permissions', function () {
@@ -188,13 +193,45 @@ Route::group(['prefix' => 'v1'], function () {
   Route::delete('/datalicenses/{id}', 'DatalicenseController@destroy')
     ->middleware(['auth:api', 'permission:delete_datalicenses']);
 
-  // Data resource routes...
+  // Data topics routes...
   Route::get('/datatopics', 'DatatopicController@index');
   Route::get('/datatopics/{id?}', 'DatatopicController@show');
   Route::post('/datatopics/{id}', 'DatatopicController@store')
     ->middleware(['auth:api', 'permission:create_datatopics|update_datatopics']);
   Route::delete('/datatopics/{id}', 'DatatopicController@destroy')
     ->middleware(['auth:api', 'permission:delete_datatopics']);
+
+  // Partners routes...
+  Route::get('/partners', 'PartnerController@index');
+  Route::get('/partners/{id?}', 'PartnerController@show');
+  Route::post('/partners/{id}', 'PartnerController@store')
+    ->middleware(['auth:api', 'permission:create_partners']);
+  Route::delete('/partners/{id}', 'PartnerController@destroy')
+    ->middleware(['auth:api', 'permission:delete_partners']);
+
+  // designations routes...
+  Route::get('/designations', 'DesignationController@index');
+  Route::get('/designations/{id?}', 'DesignationController@show');
+  Route::post('/designations/{id}', 'DesignationController@store')
+    ->middleware(['auth:api', 'permission:create_designations']);
+  Route::delete('/designations/{id}', 'DesignationController@destroy')
+    ->middleware(['auth:api', 'permission:delete_designations']);
+
+  // members routes...
+  Route::get('/members', 'MemberController@index');
+  Route::get('/members/{id?}', 'MemberController@show');
+  Route::post('/members/{id}', 'MemberController@store')
+    ->middleware(['auth:api', 'permission:create_designations']);
+  Route::delete('/members/{id}', 'MemberController@destroy')
+    ->middleware(['auth:api', 'permission:delete_designations']);
+
+  // services routes...
+  Route::get('/services', 'ServiceController@index');
+  Route::get('/services/{id?}', 'ServiceController@show');
+  Route::post('/services/{id}', 'ServiceController@store')
+    ->middleware(['auth:api', 'permission:create_services']);
+  Route::delete('/services/{id}', 'ServiceController@destroy')
+    ->middleware(['auth:api', 'permission:delete_services']);
 
   // Media routes...
   Route::post('/resource/uploads', 'DataResourceUploadController@store')

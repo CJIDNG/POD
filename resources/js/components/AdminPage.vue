@@ -12,6 +12,52 @@
             <span>{{ trans.app.home }}</span>
           </router-link>
         </li>
+        <li v-if="hasSubapp('analytics')" :class="{'active': $route.path === '/admin/stats'}">
+          <router-link to="/admin/stats">
+            <span>{{ trans.app.analytics }}</span>
+          </router-link>
+        </li>
+        <li class="dropdown" :class="{'active': /admin\/partners/.test($route.path) || 
+          /admin\/platforms/.test($route.path) || 
+          /admin\/designations/.test($route.path) || 
+          /admin\/members/.test($route.path) ||
+          /admin\/services/.test($route.path)}">
+          <a
+            href="#platformSubmenu"
+            data-toggle="collapse"
+            aria-expanded="false"
+            class="dropdown-toggle"
+          >
+            <span>{{ trans.app.platforms }}</span>
+          </a>
+          <ul class="collapse list-unstyled" id="platformSubmenu">
+            <li v-if="hasSubapp('platform')" >
+              <router-link :to="`/admin/platforms/${CurrentTenant.platform.id}/edit`">
+                <span>{{ trans.app.platforms }}</span>
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/admin/partners">
+                <span>{{ trans.app.partners }}</span>
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/admin/designations">
+                <span>{{ trans.app.designations }}</span>
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/admin/members">
+                <span>{{ trans.app.members }}</span>
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/admin/services">
+                <span>{{ trans.app.services }}</span>
+              </router-link>
+            </li>
+          </ul>
+        </li>
         <li class="dropdown" v-if="hasSubapp('blog')" :class="{'active': /admin\/posts/.test($route.path)}">
           <a
             href="#postSubmenu"
@@ -43,11 +89,6 @@
               </router-link>
             </li>
           </ul>
-        </li>
-        <li v-if="hasSubapp('platform')" :class="{'active': /admin\/platforms/.test($route.path)}">
-          <router-link :to="`/admin/platforms/${CurrentTenant.platform.id}/edit`">
-            <span>{{ trans.app.platforms }}</span>
-          </router-link>
         </li>
         <li class="dropdown" v-if="hasSubapp('data')" :class="{'active': /admin\/data/.test($route.path)}">
           <a
@@ -86,60 +127,108 @@
             </li>
           </ul>
         </li>
-        <li v-if="hasSubapp('agency')" :class="{'active': /admin\/agencies/.test($route.path)}">
-          <router-link to="/admin/agencies">
-            <span>{{ trans.app.agencies }}</span>
-          </router-link>
+        <li class="dropdown"
+          :class="{'active': /admin\/governmentProjects/.test($route.path) || /admin\/incidents/.test($route.path)}">
+          <a
+            href="#collectiblesSubmenu"
+            data-toggle="collapse"
+            aria-expanded="false"
+            class="dropdown-toggle"
+          >
+            <span>{{ trans.app.collectibles }}</span>
+          </a>
+          <ul class="collapse list-unstyled" id="collectiblesSubmenu">
+            <li v-if="hasSubapp('governmentProject')">
+              <router-link to="/admin/governmentProjects">
+                <span>{{ trans.app.governmentProjects }}</span>
+              </router-link>
+            </li>
+            <li v-if="hasSubapp('incident')">
+              <router-link to="/admin/incidents">
+                <span>{{ trans.app.incidents }}</span>
+              </router-link>
+            </li>
+          </ul>
         </li>
-        <li v-if="hasSubapp('governmentProject')" :class="{'active': /admin\/governmentProjects/.test($route.path)}">
-          <router-link to="/admin/governmentProjects">
-            <span>{{ trans.app.governmentProjects }}</span>
-          </router-link>
+        <li class="dropdown" 
+          :class="{
+            'active': /admin\/agencies/.test($route.path) ||
+            /admin\/ministries/.test($route.path) ||
+            /admin\/states/.test($route.path) || 
+            /admin\/localGovernments/.test($route.path) || 
+            /admin\/health-facilities/.test($route.path) || 
+            /admin\/statuses/.test($route.path) || 
+            /admin\/types/.test($route.path)
+          }"
+        >
+          <a
+            href="#lookupSubmenu"
+            data-toggle="collapse"
+            aria-expanded="false"
+            class="dropdown-toggle"
+          >
+            <span>{{ trans.app.lookup }}</span>
+          </a>
+          <ul class="collapse list-unstyled" id="lookupSubmenu">
+            <li v-if="hasSubapp('agency')">
+              <router-link to="/admin/agencies">
+                <span>{{ trans.app.agencies }}</span>
+              </router-link>
+            </li>
+            <li v-if="hasSubapp('ministry')">
+              <router-link to="/admin/ministries">
+                <span>{{ trans.app.ministries }}</span>
+              </router-link>
+            </li>
+            <li v-if="hasSubapp('location')">
+              <router-link to="/admin/states">
+                <span>{{ trans.app.states }}</span>
+              </router-link>
+            </li>
+            <li v-if="hasSubapp('location')">
+              <router-link to="/admin/localGovernments">
+                <span>{{ trans.app.localGovernments }}</span>
+              </router-link>
+            </li>
+            <li v-if="hasSubapp('health-facility')">
+              <router-link to="/admin/health-facilities">
+                <span>{{ trans.app.health_facilities }}</span>
+              </router-link>
+            </li>
+            <li v-if="hasSubapp('status')">
+              <router-link to="/admin/statuses">
+                <span>{{ trans.app.statuses }}</span>
+              </router-link>
+            </li>
+            <li v-if="hasSubapp('type')">
+              <router-link to="/admin/types">
+                <span>{{ trans.app.types }}</span>
+              </router-link>
+            </li>
+          </ul>
         </li>
-        <li v-if="hasSubapp('health-facility')" :class="{'active': /admin\/health-facilities/.test($route.path)}">
-          <router-link to="/admin/health-facilities">
-            <span>{{ trans.app.health_facilities }}</span>
-          </router-link>
-        </li>
-        <li v-if="hasSubapp('incident')" :class="{'active': /admin\/incidents/.test($route.path)}">
-          <router-link to="/admin/incidents">
-            <span>{{ trans.app.incidents }}</span>
-          </router-link>
-        </li>
-        <li v-if="hasSubapp('location')" :class="{'active': /admin\/localGovernments/.test($route.path)}">
-          <router-link to="/admin/localGovernments">
-            <span>{{ trans.app.localGovernments }}</span>
-          </router-link>
-        </li>
-        <li v-if="hasSubapp('ministry')" :class="{'active': /admin\/ministries/.test($route.path)}">
-          <router-link to="/admin/ministries">
-            <span>{{ trans.app.ministries }}</span>
-          </router-link>
-        </li>
-        <li v-if="hasSubapp('location')" :class="{'active': /admin\/states/.test($route.path)}">
-          <router-link to="/admin/states">
-            <span>{{ trans.app.states }}</span>
-          </router-link>
-        </li>
-        <li v-if="hasSubapp('status')" :class="{'active': /admin\/statuses/.test($route.path)}">
-          <router-link to="/admin/statuses">
-            <span>{{ trans.app.statuses }}</span>
-          </router-link>
-        </li>
-        <li v-if="hasSubapp('analytics')" :class="{'active': $route.path === '/admin/stats'}">
-          <router-link to="/admin/stats">
-            <span>{{ trans.app.analytics }}</span>
-          </router-link>
-        </li>
-        <li v-if="hasSubapp('type')" :class="{'active': /admin\/types/.test($route.path)}">
-          <router-link to="/admin/types">
-            <span>{{ trans.app.types }}</span>
-          </router-link>
-        </li>
-        <li :class="{'active': /admin\/users/.test($route.path)}">
-          <router-link to="/admin/users">
+        <li class="dropdown" 
+          :class="{'active': /admin\/users/.test($route.path) || /admin\/roles/.test($route.path)}">
+          <a
+            href="#usersSubmenu"
+            data-toggle="collapse"
+            aria-expanded="false"
+            class="dropdown-toggle"
+          >
             <span>{{ trans.app.users }}</span>
-          </router-link>
+          </a>
+          <ul class="collapse list-unstyled" id="usersSubmenu">
+            <li>
+              <router-link to="/admin/roles">
+                <span>{{ trans.app.roles }}</span>
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/admin/users">
+                <span>{{ trans.app.users }}</span>
+              </router-link>
+            </li>
+          </ul>
         </li>
       </ul>
     </nav>

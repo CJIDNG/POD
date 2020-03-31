@@ -163,7 +163,7 @@ export default {
         });
 
       this.request()
-        .get("/api/v1/roles")
+        .get("/api/v1/roles?all=1")
         .then(response => {
           this.roles = response.data;
           NProgress.done();

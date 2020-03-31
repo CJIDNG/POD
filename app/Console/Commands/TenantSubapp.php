@@ -4,21 +4,21 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class SubappRemove extends Command
+class TenantSubapp extends Command
 {
   /**
    * The name and signature of the console command.
    *
    * @var string
    */
-  protected $signature = 'subapp:remove {fqdn} {subapp}';
+  protected $signature = 'tenant:subapp {fqdn} {subapp} {--R|remove}';
 
   /**
    * The console command description.
    *
    * @var string
    */
-  protected $description = 'remove subapp to tenant with the provided fqdn e.g. php artisan subapp:remove example.com blog';
+  protected $description = 'add subapp to tenant with the provided fqdn e.g. php artisan tenant:subapp example.com blog';
 
   /**
    * Create a new command instance.
@@ -55,8 +55,13 @@ class SubappRemove extends Command
       return false;
     }
 
-    $platform->subapps()->detach($subappId);
-
-    $this->line('subapp successfully removed');
+    // check if its remove
+    if( $is_remove = $this->option('remove') ) {
+      $platform->subapps()->detach($subappId);
+      $this->info('subapp successfully removed');
+    } else {
+      $platform->subapps()->attach($subappId);
+      $this->info('subapp successfully added');
+    }
   }
 }

@@ -101,18 +101,8 @@
 
           <div class="form-group mb-5">
             <div class="col-lg-12">
-              <textarea
-                type="text"
-                name="description"
-                autofocus
-                autocomplete="off"
-                v-model="form.description"
-                title="Name"
-                @keyup.enter="savePlatform"
-                class="form-control-lg form-control border-0 px-0 bg-transparent"
-                :placeholder="trans.app.give_your_platform_a_description"
-              ></textarea>
-
+              <label class="text-muted">{{ trans.app.give_your_platform_a_description }}</label>
+              <ckeditor :editor="editor" v-model="form.description" :config="editorConfig"></ckeditor>
               <div v-if="form.errors.description" class="invalid-feedback d-block">
                 <strong>{{ form.errors.description[0] }}</strong>
               </div>
@@ -305,6 +295,7 @@ import NProgress from "nprogress"
 import AdminPage from '../../../components/AdminPage'
 import PageHeader from "../../../components/PageHeader"
 import DeleteModal from "../../../components/modals/DeleteModal"
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
 export default {
   name: "platforms-edit",
@@ -317,6 +308,8 @@ export default {
 
   data() {
     return {
+      editor: ClassicEditor,
+      editorConfig: {},
       platform: null,
       id: this.$route.params.id || "create",
       form: {

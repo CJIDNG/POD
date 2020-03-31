@@ -307,9 +307,9 @@
             <div class="col-md-4">
               <img src="/images/bob/boblogo.png" alt="" class="img-fluid">
             </div>
-            <div class="col-md-4">
+            <!-- <div class="col-md-4">
               <img src="/images/dataphyte_logo.jpg" alt="" class="img-fluid">
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
