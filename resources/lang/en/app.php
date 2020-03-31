@@ -19,6 +19,7 @@ return [
   'assets_are_not_up_to_date' => 'The assets for Current Tenant are not up-to-date with the installed version.',
   'author' => 'Author',
   'average_reading_time' => 'Average Reading Time',
+  'bio' => 'Bio',
   'blog' => 'Blog',
   'cancel' => 'Cancel',
   'cancel_scheduling' => 'Cancel scheduling',
@@ -179,6 +180,17 @@ return [
 
   'give_your_designation_a_title' => 'Give designation\'s title',
 
+  'give_your_member_a_name' => 'Give member\'s name',
+  'give_your_member_a_bio' => 'Give member\'s bio',
+  'give_your_member_an_email' => 'Give member\'s email',
+  'give_your_member_a_phone_number' => 'Give member\'s phone number',
+  'give_your_member_a_twitter_url' => 'Give member\'s twitter url',
+  'give_your_member_a_instagram_url' => 'Give member\'s instagram url',
+  'give_your_member_a_facebook_url' => 'Give member\'s facebook url',
+  'give_your_member_a_linkedin_url' => 'Give member\'s linkedin url',
+  'give_your_member_designations' => 'Select member\'s designation(s)',
+
+
   'health_facility' => 'Health Facility',
   'home' => 'Home',
   'incident' => 'Incident',
@@ -192,6 +204,7 @@ return [
   'licenses' => 'Licenses',
   'lifetime_summary' => 'Lifetime Summary',
   'lookup' => 'Lookup',
+  'members' => 'Members',
   'meta_description' => 'Meta Description',
   'meta_description_placeholder' => 'Meta description for your post',
   'meta_title' => 'Meta Title',
@@ -304,6 +317,7 @@ return [
   'type' => 'Type',
   'type_caption_for_image' => 'Type caption for image (optional)',
   'upload_logo' => 'Upload logo',
+  'upload_thumbnail' => 'Upload thumbnail',
   'unique_identifier' => 'Unique Identifier',
   'unique_visit' => 'unique visit',
   'unique_visits' => 'unique visits',

@@ -41,12 +41,18 @@ class MemberController extends Controller
     if (Member::all()->pluck('id')->contains($id) || $this->isNewMember($id)) {
       if ($this->isNewMember($id)) {
         return response()->json([
-          'id' => NULL,
+          'member' => Member::make([
+            'id' => NULL,
+          ]),
+          'designations' => \App\Designation::get(['id','title'])
         ], 200);
       } else {
-        $member = Member::find($id);
+        $member = Member::with('designations')->find($id);
 
-        return response()->json($member, 200);
+        return response()->json([
+          'member' => $member,
+          'designations' => \App\Designation::get(['id','title'])
+        ], 200);
       }
     } else {
       return response()->json(null, 301);
@@ -84,6 +90,8 @@ class MemberController extends Controller
 
     $member->fill($data);
     $member->save();
+
+    $member->designations()->sync(request('designations'));
 
     return response()->json($member->refresh(), 201);
   }
