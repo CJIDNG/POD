@@ -172,6 +172,14 @@ class DefaultRolesAndPermissions
       'update_members',
       'view_members',
       'delete_members',
+
+      /**
+       * services permissions
+       */
+      'create_services',
+      'update_services',
+      'view_services',
+      'delete_services',
     ];
   }
 
