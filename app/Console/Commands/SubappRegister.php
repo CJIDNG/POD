@@ -39,7 +39,7 @@ class SubappRegister extends Command
     {
       $subapp = $this->argument('subapp');
 
-      $subappId = \App\Subapp::where('name', $subapp)->first()->pluck('id');
+      $subappId = \App\Subapp::where('name', $subapp)->first();
 
       if ($subappId) {
         $this->error('subapp exists already');
