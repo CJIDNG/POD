@@ -25,6 +25,7 @@ class Subapp extends Model
       'health-facility',
       'incident',
       'data',
+      'members',
     ];
   }
 

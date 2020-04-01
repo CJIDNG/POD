@@ -59,6 +59,13 @@
             </router-link>
             <router-link
               class="nav-item nav-link" 
+              to="/members"
+              v-if="hasSubapp('members')"
+            >
+              {{ trans.app.members }}
+            </router-link>
+            <router-link
+              class="nav-item nav-link" 
               to="/about"
             >
               {{ trans.app.about }}
