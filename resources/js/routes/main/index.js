@@ -2,6 +2,7 @@ import blog from './blog'
 import data from './data'
 import governmentProjects from './government-projects'
 import incident from './incident'
+import member from './member'
 import { hasSubapp } from './../../util/has-subapp'
 
 let mainRoutes = [
@@ -61,6 +62,10 @@ if (hasSubapp('governmentProject')) {
 
 if (hasSubapp('incident')) {
   mainRoutes.push(...incident)
+}
+
+if (hasSubapp('members')) {
+  mainRoutes.push(...member)
 }
 
 export default mainRoutes

@@ -22,6 +22,7 @@ class MemberController extends Controller
       $members = Member::all();
     } else {
       $members = Member::orderBy('name')
+        ->with('designations:title')
         ->paginate();
     }
     return response()->json(
