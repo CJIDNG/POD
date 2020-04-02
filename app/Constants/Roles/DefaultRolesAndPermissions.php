@@ -180,6 +180,14 @@ class DefaultRolesAndPermissions
       'update_services',
       'view_services',
       'delete_services',
+
+      /**
+       * trackers permissions
+       */
+      'create_trackers',
+      'update_trackers',
+      'view_trackers',
+      'delete_trackers',
     ];
   }
 

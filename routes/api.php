@@ -233,6 +233,14 @@ Route::group(['prefix' => 'v1'], function () {
   Route::delete('/services/{id}', 'ServiceController@destroy')
     ->middleware(['auth:api', 'permission:delete_services']);
 
+  // trackers routes...
+  Route::get('/trackers', 'TrackerController@index');
+  Route::get('/trackers/{id?}', 'TrackerController@show');
+  Route::post('/trackers/{id}', 'TrackerController@store')
+    ->middleware(['auth:api', 'permission:create_trackers']);
+  Route::delete('/trackers/{id}', 'TrackerController@destroy')
+    ->middleware(['auth:api', 'permission:delete_trackers']);
+
   // Media routes...
   Route::post('/resource/uploads', 'DataResourceUploadController@store')
     ->middleware(['auth:api', 'role:Admin|Data Curator|Data Researcher & Editor']);
