@@ -188,6 +188,14 @@ class DefaultRolesAndPermissions
       'update_trackers',
       'view_trackers',
       'delete_trackers',
+
+      /**
+       * trackers permissions
+       */
+      'create_tracker_items',
+      'update_tracker_items',
+      'view_tracker_items',
+      'delete_tracker_items',
     ];
   }
 

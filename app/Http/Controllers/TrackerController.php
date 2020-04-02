@@ -44,7 +44,7 @@ class TrackerController extends Controller
           'id' => NULL,
         ]), 200);
       } else {
-        $tracker = Tracker::with('designations')->find($id);
+        $tracker = Tracker::find($id);
 
         return response()->json($tracker, 200);
       }

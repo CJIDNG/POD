@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 
-class Tracker extends Model
+class TrackerItem extends Model
 {
   use UsesTenantConnection;
 
@@ -22,6 +22,6 @@ class Tracker extends Model
    * @var array
    */
   protected $casts = [
-    'fields' => 'array',
+    'meta' => 'array',
   ];
 }
