@@ -26,12 +26,9 @@ let adminRoutes = [
     name: 'dashboard',
     component: require('../../screens/admin/dashboard/Index').default,
   },
-  ...designation,
-  ...member,
   ...partner,
   ...platforms,
   ...roles,
-  ...service,
   ...users,
   ...settings,
   ...status,
@@ -72,6 +69,14 @@ if (hasSubapp('analytics')) {
 
 if (hasSubapp('blog')) {
   adminRoutes.push(...posts)
+}
+
+if (hasSubapp('members')) {
+  adminRoutes.push(...designation, ...member)
+}
+
+if (hasSubapp('services')) {
+  adminRoutes.push(...service)
 }
 
 export default adminRoutes

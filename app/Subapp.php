@@ -28,6 +28,9 @@ class Subapp extends Model
       'incident',
       'data',
       'members',
+      'partners',
+      'services',
+      // 'products'
     ];
   }
 
