@@ -9,6 +9,7 @@ use App\Dataformat;
 use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use DB;
 
 class DatasetController extends Controller
 {
@@ -152,9 +153,10 @@ class DatasetController extends Controller
       $formats = Dataformat::get(['id', 'name', 'extension']);
 
       if ($this->isNewDataset($id)) {
+        $statement = DB::connection('tenant')->select("SHOW TABLE STATUS LIKE 'datasets'");
         return response()->json([
           'dataset' => Dataset::make([
-            'id' => NULL,
+            'id' => $statement[0]->Auto_increment,
             'title' => 'Title',
             'description' => 'Enter some description for your dataset...',
             'user_id' => request()->user()->id,
