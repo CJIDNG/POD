@@ -90,7 +90,7 @@
             <div class="dropdown-menu dropdown-menu-right">
               <router-link
                 v-if="isPublished"
-                :to="{ name: 'datasets-stats-show', params: { id: id } }"
+                :to="{ name: 'data-show', params: { id: id } }"
                 class="dropdown-item"
               >{{ trans.app.view_stats }}</router-link>
               <div v-if="isPublished" class="dropdown-divider"></div>
@@ -205,7 +205,7 @@
               <small></small>
             </a>
 
-            <a class="list-group-item list-group-item-action">
+            <a v-if="response.license" class="list-group-item list-group-item-action">
               <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{ trans.app.license }}</h5>
               </div>
@@ -219,7 +219,7 @@
               <small></small>
             </a>
 
-            <a class="list-group-item list-group-item-action">
+            <a v-if="response.user" class="list-group-item list-group-item-action">
               <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{ trans.app.author }}</h5>
               </div>

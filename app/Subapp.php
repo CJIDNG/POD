@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Subapp extends Model
 {
   use SoftDeletes, UsesSystemConnection;
+
+  protected $guarded = [];
   
   public static function getAllProvided() {
     return [
@@ -25,6 +27,10 @@ class Subapp extends Model
       'health-facility',
       'incident',
       'data',
+      'members',
+      'partners',
+      'services',
+      // 'products'
     ];
   }
 

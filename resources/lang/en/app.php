@@ -61,6 +61,7 @@ return [
   'deleted_roles_are_gone_forever' => 'Deleted roles are gone forever. Are you sure?',
   'deleted_designations_are_gone_forever' => 'Deleted designations are gone forever. Are you sure?',
   'description' => 'Description',
+  'designation' => 'Designation',
   'designations' => 'Designations',
   'approved_posts_can_be_published' => 'Approved posts can be published. Are you sure?',
   'approved_datasets_can_be_published' => 'Approved datasets can be published. Are you sure?',

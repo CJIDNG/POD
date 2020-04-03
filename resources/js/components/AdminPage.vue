@@ -41,17 +41,17 @@
                 <span>{{ trans.app.partners }}</span>
               </router-link>
             </li>
-            <li>
+            <li v-if="hasSubapp('members')">
               <router-link to="/admin/designations">
                 <span>{{ trans.app.designations }}</span>
               </router-link>
             </li>
-            <li>
+            <li v-if="hasSubapp('members')">
               <router-link to="/admin/members">
                 <span>{{ trans.app.members }}</span>
               </router-link>
             </li>
-            <li>
+            <li v-if="hasSubapp('services')">
               <router-link to="/admin/services">
                 <span>{{ trans.app.services }}</span>
               </router-link>
