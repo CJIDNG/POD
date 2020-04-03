@@ -16,6 +16,8 @@ import settings from './settings'
 import state from './state'
 import stats from './stats'
 import status from  './status'
+import tracker from './tracker'
+import trackerItem from './trackerItem'
 import type from './type'
 import users from './users'
 import { hasSubapp } from './../../util/has-subapp'
@@ -77,6 +79,10 @@ if (hasSubapp('members')) {
 
 if (hasSubapp('services')) {
   adminRoutes.push(...service)
+}
+
+if (hasSubapp('tracker')) {
+  adminRoutes.push(...tracker, ...trackerItem)
 }
 
 export default adminRoutes

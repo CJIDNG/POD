@@ -52,6 +52,7 @@
         "bootstrap-icons": "^1.0.0-alpha2",
         "imports-loader": "^0.8.0",
         "jquery-mousewheel": "^3.1.13",
-        "malihu-custom-scrollbar-plugin": "^3.1.5"
+        "malihu-custom-scrollbar-plugin": "^3.1.5",
+        "vue-form-generator": "^2.3.4"
     }
 }

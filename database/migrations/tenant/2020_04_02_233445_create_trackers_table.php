@@ -19,6 +19,8 @@ class CreateTrackersTable extends Migration
       $table->json('fields');
       $table->boolean('has_location');
       $table->boolean('has_user_reporting');
+      $table->boolean('has_bot');
+      $table->string('bot_name')->nullable();
       $table->unsignedBigInteger('user_id');
       $table->timestamps();
     });

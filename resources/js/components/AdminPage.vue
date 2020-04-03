@@ -208,6 +208,29 @@
           </ul>
         </li>
         <li class="dropdown" 
+          :class="{'active': /admin\/trackers/.test($route.path) || /admin\/trackerItems/.test($route.path)}">
+          <a
+            href="#trackersSubmenu"
+            data-toggle="collapse"
+            aria-expanded="false"
+            class="dropdown-toggle"
+          >
+            <span>{{ trans.app.trackers }}</span>
+          </a>
+          <ul class="collapse list-unstyled" id="trackersSubmenu">
+            <li>
+              <router-link to="/admin/trackers">
+                <span>{{ trans.app.trackers }}</span>
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/admin/trackerItems">
+                <span>{{ trans.app.tracker_items }}</span>
+              </router-link>
+            </li>
+          </ul>
+        </li>
+        <li class="dropdown" 
           :class="{'active': /admin\/users/.test($route.path) || /admin\/roles/.test($route.path)}">
           <a
             href="#usersSubmenu"

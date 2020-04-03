@@ -67,6 +67,8 @@ class TrackerController extends Controller
       'fields' => request('fields'),
       'has_location' => request('has_location'),
       'has_user_reporting' => request('has_user_reporting'),
+      'has_bot' => request('has_bot'),
+      'bot_name' => request('bot_name'),
       'user_id' => $this->isNewTracker(request('id')) ? request()->user()->id : request('user_id')
     ];
 
@@ -80,7 +82,8 @@ class TrackerController extends Controller
       'fields' => 'required',
       'has_location' => 'required',
       'has_user_reporting' => 'required',
-      'user_id' => 'required',
+      'has_bot' => 'required',
+      'user_id' => 'required'
     ], $messages)->validate();
 
     $tracker = $id !== 'create' ? Tracker::find($id) : new Tracker(['id' => request('id')]);
