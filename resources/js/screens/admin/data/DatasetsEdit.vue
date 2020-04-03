@@ -219,7 +219,7 @@
               <small></small>
             </a>
 
-            <a class="list-group-item list-group-item-action">
+            <a v-if="response.user" class="list-group-item list-group-item-action">
               <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{ trans.app.author }}</h5>
               </div>
