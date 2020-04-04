@@ -14,16 +14,15 @@ class TrackerItemController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function index(): JsonResponse
+  public function index($trackerId): JsonResponse
   {
-    $all = request('all') ?? NULL;
-    
-    if ($all) {
-      $trackerItems = TrackerItem::all();
-    } else {
-      $trackerItems = TrackerItem::orderBy('created_at', 'DESC')
-        ->paginate();
-    }
+    $tracker = \App\Tracker::find($trackerId);
+
+    $trackerItems = $tracker
+      ->trackedItems()
+      ->orderBy('created_at', 'DESC')
+      ->paginate();
+
     return response()->json(
       $trackerItems, 200
     );
@@ -36,7 +35,7 @@ class TrackerItemController extends Controller
    * @return JsonResponse
    * @throws Exception
    */
-  public function show($id = null): JsonResponse
+  public function show($trackerId, $id = null): JsonResponse
   {
     if (TrackerItem::all()->pluck('id')->contains($id) || $this->isNewTrackerItem($id)) {
       if ($this->isNewTrackerItem($id)) {

@@ -79,9 +79,9 @@
 
             <div class="col-lg-12">
               <select
-                name="role"
+                name="has_location"
                 v-model="form.has_location"
-                title="Role"
+                title="Has Location"
                 @keyup.enter="saveTracker"
                 class="form-control-lg form-control border-0 px-0 bg-transparent"
                 :placeholder="trans.app.give_your_tracker_has_location"
@@ -102,9 +102,9 @@
 
             <div class="col-lg-12">
               <select
-                name="role"
+                name="has_user_reporting"
                 v-model="form.has_user_reporting"
-                title="Role"
+                title="Has User Reporting"
                 @keyup.enter="saveTracker"
                 class="form-control-lg form-control border-0 px-0 bg-transparent"
                 :placeholder="trans.app.give_your_tracker_has_user_reporting"
@@ -123,6 +123,47 @@
               </div>
             </div>
 
+            <div class="col-lg-12">
+              <select
+                name="has_bot"
+                v-model="form.has_bot"
+                title="Has Bot"
+                @keyup.enter="saveTracker"
+                class="form-control-lg form-control border-0 px-0 bg-transparent"
+                :placeholder="trans.app.give_your_tracker_has_bot"
+              >
+                <option value disabled>{{trans.app.give_your_tracker_has_bot}}</option>
+                <option 
+                  value="1"
+                >{{ trans.app.true }}</option>
+                <option 
+                  value="0"
+                >{{ trans.app.false }}</option>
+              </select>
+
+              <div v-if="form.errors.has_bot" class="invalid-feedback d-block">
+                <strong>{{ form.errors.has_bot[0] }}</strong>
+              </div>
+            </div>
+
+            <div class="col-lg-12">
+              <input
+                type="text"
+                name="bot_name"
+                autofocus
+                autocomplete="off"
+                v-model="form.bot_name"
+                title="Bot name"
+                @keyup.enter="saveTracker"
+                class="form-control-lg form-control border-0 px-0 bg-transparent"
+                :placeholder="trans.app.give_your_tracker_bot_a_name"
+              />
+
+              <div v-if="form.errors.bot_name" class="invalid-feedback d-block">
+                <strong>{{ form.errors.bot_name[0] }}</strong>
+              </div>
+            </div>
+
           </div>
 
           <div class="form-group">
@@ -134,24 +175,56 @@
               >
                 {{ trans.app.add_field }}
               </button>
-              <small class="text-muted">{{ trans.app.create_custom_fields_to_be_collected }}</small>
               <hr>
             </h1>
             <div class="row">
-              <div class="col-1 border">
-
-              </div>
-              <div class="col-1 border">
-                
+              <div class="col">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Label</th>
+                      <th scope="col">Model</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(field, index) in form.fields" :key="index">
+                      <th scope="row">{{ index + 1 }}</th>
+                      <td>{{ field.type }}</td>
+                      <td>{{ field.label }}</td>
+                      <td>{{ field.model }}</td>
+                      <td>
+                        <button
+                          class="btn btn-danger btn-sm"
+                          @click="removeField(index)"
+                        >
+                          {{ trans.app.delete }}
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
 
           <div class="form-group">
             <div class="col-lg-12">
+              <div v-if="form.errors.fields" class="invalid-feedback d-block">
+                <strong>{{ form.errors.fields[0] }}</strong>
+              </div>
               <div v-if="form.errors.server" class="invalid-feedback d-block">
                 <strong>{{ form.errors.server[0] }}</strong>
               </div>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">Fields Schema</div>
+            <div class="panel-body">
+              <pre v-if="form" v-html="prettyJSON(form.fields)"></pre>
             </div>
           </div>
         </div>
@@ -161,14 +234,12 @@
         ref="deleteModal"
         @delete="deleteTracker"
         :header="trans.app.delete"
-        :message="trans.app.deleted_types_are_gone_forever"
+        :message="trans.app.deleted_tracker_are_gone_forever"
       ></delete-modal>
 
       <new-field-modal 
         v-if="isReady" ref="newFieldModal"
-        :defaultImageUrl="form.user_id"
-        :imageUrl="form.user_id"
-        @update:imageUrl="form.user_id = $event"
+        @new-field="addField"
       />
     </template>
   </admin-page>
@@ -306,6 +377,14 @@ export default {
       $(this.$refs.newFieldModal.$el).modal("show");
     },
 
+    addField(val) {
+      this.form.fields.push(val)
+    },
+
+    removeField(index) {
+      this.form.fields.splice(index, 1)
+    },
+
     validate(form) {
       let errors = {}
 
@@ -317,15 +396,19 @@ export default {
         errors.fields = ["fields can not be empty"]
       }
 
-      if (!form.has_location) {
+      if (form.fields.length <= 0) {
+        errors.fields = ["add some fields please"]
+      }
+
+      if (form.has_location === "") {
         errors.has_location = ["please indicate if tracker has location"]
       }
 
-      if (!form.has_user_reporting) {
+      if (form.has_user_reporting === "") {
         errors.has_user_reporting = ["please indicate if tracker has user reporting"]
       }
 
-      if (!form.has_bot) {
+      if (form.has_bot === "") {
         errors.has_bot = ["please indicate if tracker has bot"]
       }
 

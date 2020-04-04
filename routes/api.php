@@ -242,9 +242,9 @@ Route::group(['prefix' => 'v1'], function () {
     ->middleware(['auth:api', 'permission:delete_trackers']);
 
   // trackerItems routes...
-  Route::get('/trackerItems', 'TrackerItemController@index');
-  Route::get('/trackerItems/{id?}', 'TrackerItemController@show');
-  Route::post('/trackerItems/{id}', 'TrackerItemController@store')
+  Route::get('/trackerItems/{trackerId}', 'TrackerItemController@index');
+  Route::get('/trackerItems/{trackerId}/{id?}', 'TrackerItemController@show');
+  Route::post('/trackerItems/{trackerId}/{id}', 'TrackerItemController@store')
     ->middleware(['auth:api', 'permission:create_tracker_items']);
   Route::delete('/trackerItems/{id}', 'TrackerItemController@destroy')
     ->middleware(['auth:api', 'permission:delete_tracker_items']);

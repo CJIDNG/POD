@@ -51,6 +51,15 @@ export default {
         .replace(/--+/g, "-");
     },
 
+    makeVariable(text) {
+      return text
+        .toString()
+        .toLowerCase()
+        .replace(/\s+/g, "_")
+        .replace(/[^\w\-]+/g, "")
+        .replace(/--+/g, "_");
+    },
+
     suffixedNumber(number) {
       if (number < 900) {
         return number;

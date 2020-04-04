@@ -78,7 +78,7 @@ class TrackerController extends Controller
     ];
 
     validator($data, [
-      'name' => 'required|unique',
+      'name' => 'required',
       'fields' => 'required',
       'has_location' => 'required',
       'has_user_reporting' => 'required',
@@ -117,8 +117,8 @@ class TrackerController extends Controller
    * @param string $id
    * @return bool
    */
-  private function isNewTracker(string $id): bool
+  private function isNewTracker($id): bool
   {
-    return $id === 'create';
+    return $id === 'create' || $id === NULL;
   }
 }

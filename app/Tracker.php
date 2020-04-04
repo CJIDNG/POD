@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Tracker extends Model
 {
@@ -24,4 +25,18 @@ class Tracker extends Model
   protected $casts = [
     'fields' => 'array',
   ];
+
+  public function trackedItems(): HasMany {
+    return $this->hasMany(\App\TrackerItem::class);
+  }
+
+  // this is a recommended way to declare event handlers
+  public static function boot() {
+    parent::boot();
+    self::deleting(function($tracker) { // before delete() method call this
+      $tracker->trackedItems()->each(function($trackedItem) {
+        $trackedItem->delete(); // <-- direct deletion
+      });
+    });
+  } 
 }

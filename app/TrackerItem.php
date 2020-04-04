@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TrackerItem extends Model
 {
@@ -24,4 +25,8 @@ class TrackerItem extends Model
   protected $casts = [
     'meta' => 'array',
   ];
+
+  public function tracker(): BelongsTo {
+    return $this->belongsTo(\App\Tracker::class);
+  }
 }

@@ -176,6 +176,7 @@
           <button
             class="btn btn-link btn-block text-muted font-weight-bold text-decoration-none"
             @click="submit"
+            data-dismiss="modal"
           >{{ trans.app.submit }}</button>
         </div>
       </div>
@@ -204,13 +205,15 @@ export default {
           type: "checkbox",
           label: "",
           model: "",
+          required: 1,
           default: 1
         },
         checklist: {
           type: "checklist",
           label: "",
           model: "",
-          listBox: 1,
+          required: 1,
+          listBox: 0,
           values: [] 
         },
         input: {
@@ -226,18 +229,21 @@ export default {
           type: "radios",
           label: "",
           model: "",
+          required: 1,
           values: []
         },
         select: {
           type: "select",
           label: "",
           model: "",
+          required: 1,
           values: []
         },
         textArea: {
           type: "textArea",
           label: "",
           model: "",
+          required: 1,
           placeholder: "",
           validator: VueFormGenerator.validators.string
         }
@@ -264,6 +270,8 @@ export default {
 
   watch: {
     fieldType: function (val) {
+      this.form = {}
+      this.errors = []
       this.form = this.coreFields[val] || {}
     }
   },
@@ -277,18 +285,25 @@ export default {
         return false;
       }
 
-      console.log(this.form)
+      if (this.form.values != undefined) {
+        this.form.values = this.form.values.replace(/\s/g, '').split(',')
+      }
 
-      this.$refs.modal.hide
+      this.form.model = this.makeVariable(this.form.model)
+
+      this.$emit('new-field', this.form)
+
+      this.closeModal()
     },
 
     clearAndResetComponent() {
-      
+      this.form = {}
+      this.fieldType = ""
     },
 
     closeModal() {
       this.clearAndResetComponent();
-      this.$refs.modal.hide;
+      this.$refs.modal.hide
     },
 
     validate(form) {
@@ -306,27 +321,27 @@ export default {
         errors.model = ["model can not be empty"]
       }
 
-      if (form.default && !form.default) {
+      if (form.default != undefined && !form.default) {
         errors.default = ["default can not be empty"]
       }
 
-      if (form.listBox && !form.listBox) {
+      if (form.listBox != undefined && !form.listBox) {
         errors.listBox = ["listbox can not be empty"]
       }
 
-      if (form.values && !form.values) {
+      if (form.values != undefined && !form.values) {
         errors.values = ["values can not be empty"]
       }
 
-      if (form.inputType && !form.inputType) {
+      if (form.inputType != undefined && !form.inputType) {
         errors.inputType = ["input type can not be empty"]
       }
 
-      if (form.required && !form.required) {
+      if (form.required != undefined && !form.required) {
         errors.required = ["required can not be empty"]
       }
 
-      if (form.placeholder && !form.placeholder) {
+      if (form.placeholder != undefined && !form.placeholder) {
         errors.placeholder = ["placeholder can not be empty"]
       }
 

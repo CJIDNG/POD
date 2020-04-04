@@ -15,8 +15,7 @@
           <a
             href="#"
             class="btn btn-sm btn-outline-success font-weight-bold my-auto"
-            :class="{ disabled: form.name === '' }"
-            @click="saveMember"
+            @click="saveTrackedItem"
             :aria-label="trans.app.save"
           >{{ trans.app.save }}</a>
         </template>
@@ -63,165 +62,7 @@
 
       <main v-if="isReady" class="py-4" v-cloak>
         <div class="col-xl-8 offset-xl-2 px-xl-5 col-md-12 mt-5">
-          <div class="form-group mb-5">
-            <div class="col-lg-12">
-              <input
-                type="text"
-                name="name"
-                autofocus
-                autocomplete="off"
-                v-model="form.name"
-                title="Name"
-                @keyup.enter="saveMember"
-                class="form-control-lg form-control border-0 px-0 bg-transparent"
-                :placeholder="trans.app.give_your_member_a_name"
-              />
-
-              <div v-if="form.errors.name" class="invalid-feedback d-block">
-                <strong>{{ form.errors.name[0] }}</strong>
-              </div>
-            </div>
-
-            <div class="col-lg-12">
-              <label for="">{{ trans.app.bio }}</label>
-              <ckeditor :editor="editor" v-model="form.bio" :config="editorConfig"></ckeditor>
-              <div v-if="form.errors.bio" class="invalid-feedback d-block">
-                <strong>{{ form.errors.bio[0] }}</strong>
-              </div>
-            </div>
-
-            <div class="col-lg-12">
-              <select
-                name="role"
-                v-model="form.designations"
-                title="Role"
-                @keyup.enter="saveMember"
-                multiple
-                class="form-control-lg form-control border-0 px-0 bg-transparent"
-                :placeholder="trans.app.give_your_member_designations"
-              >
-                <option value disabled>{{trans.app.give_your_member_designations}}</option>
-                <option 
-                  v-for="(designation, index) in designations" 
-                  :value="designation.id"
-                  :key="index"
-                >{{designation.title}}</option>
-              </select>
-
-              <div v-if="form.errors.designation" class="invalid-feedback d-block">
-                <strong>{{ form.errors.designation[0] }}</strong>
-              </div>
-            </div>
-
-            <div class="col-lg-12">
-              <input
-                type="email"
-                name="email"
-                autofocus
-                autocomplete="off"
-                v-model="form.email"
-                title="Email"
-                @keyup.enter="saveMember"
-                class="form-control-lg form-control border-0 px-0 bg-transparent"
-                :placeholder="trans.app.give_your_member_an_email"
-              />
-
-              <div v-if="form.errors.email" class="invalid-feedback d-block">
-                <strong>{{ form.errors.email[0] }}</strong>
-              </div>
-            </div>
-
-            <div class="col-lg-12">
-              <input
-                type="phone_number"
-                name="phone_number"
-                autofocus
-                autocomplete="off"
-                v-model="form.phone_number"
-                title="Email"
-                @keyup.enter="saveMember"
-                class="form-control-lg form-control border-0 px-0 bg-transparent"
-                :placeholder="trans.app.give_your_member_a_phone_number"
-              />
-
-              <div v-if="form.errors.phone_number" class="invalid-feedback d-block">
-                <strong>{{ form.errors.phone_number[0] }}</strong>
-              </div>
-            </div>
-
-            <div class="col-lg-12">
-              <input
-                type="twitter_url"
-                name="twitter_url"
-                autofocus
-                autocomplete="off"
-                v-model="form.socials_meta.twitter_url"
-                title="Email"
-                @keyup.enter="saveMember"
-                class="form-control-lg form-control border-0 px-0 bg-transparent"
-                :placeholder="trans.app.give_your_member_a_twitter_url"
-              />
-
-              <div v-if="form.errors.twitter_url" class="invalid-feedback d-block">
-                <strong>{{ form.errors.twitter_url[0] }}</strong>
-              </div>
-            </div>
-
-            <div class="col-lg-12">
-              <input
-                type="instagram_url"
-                name="instagram_url"
-                autofocus
-                autocomplete="off"
-                v-model="form.socials_meta.instagram_url"
-                title="Email"
-                @keyup.enter="saveMember"
-                class="form-control-lg form-control border-0 px-0 bg-transparent"
-                :placeholder="trans.app.give_your_member_a_instagram_url"
-              />
-
-              <div v-if="form.errors.instagram_url" class="invalid-feedback d-block">
-                <strong>{{ form.errors.instagram_url[0] }}</strong>
-              </div>
-            </div>
-
-            <div class="col-lg-12">
-              <input
-                type="facebook_url"
-                name="facebook_url"
-                autofocus
-                autocomplete="off"
-                v-model="form.socials_meta.facebook_url"
-                title="Email"
-                @keyup.enter="saveMember"
-                class="form-control-lg form-control border-0 px-0 bg-transparent"
-                :placeholder="trans.app.give_your_member_a_facebook_url"
-              />
-
-              <div v-if="form.errors.facebook_url" class="invalid-feedback d-block">
-                <strong>{{ form.errors.facebook_url[0] }}</strong>
-              </div>
-            </div>
-
-            <div class="col-lg-12">
-              <input
-                type="linkedin_url"
-                name="linkedin_url"
-                autofocus
-                autocomplete="off"
-                v-model="form.socials_meta.linkedin_url"
-                title="Email"
-                @keyup.enter="saveMember"
-                class="form-control-lg form-control border-0 px-0 bg-transparent"
-                :placeholder="trans.app.give_your_member_a_linkedin_url"
-              />
-
-              <div v-if="form.errors.linkedin_url" class="invalid-feedback d-block">
-                <strong>{{ form.errors.linkedin_url[0] }}</strong>
-              </div>
-            </div>
-
-          </div>
+          <vue-form-generator :schema="schema" :model="form" :options="formOptions"></vue-form-generator>
           <div class="form-group">
             <div class="col-lg-12">
               <div v-if="form.errors.server" class="invalid-feedback d-block">
@@ -234,17 +75,10 @@
 
       <delete-modal
         ref="deleteModal"
-        @delete="deleteMember"
+        @delete="deleteTrackerItem"
         :header="trans.app.delete"
-        :message="trans.app.deleted_types_are_gone_forever"
+        :message="trans.app.deleted_tracked_items_are_gone_forever"
       ></delete-modal>
-
-      <image-upload-modal 
-        v-if="isReady" ref="uploadImageModal"
-        :defaultImageUrl="form.avatar"
-        :imageUrl="form.avatar"
-        @update:imageUrl="form.avatar = $event"
-      />
     </template>
   </admin-page>
 </template>
@@ -255,48 +89,59 @@ import NProgress from "nprogress";
 import PageHeader from "../../../components/PageHeader";
 import DeleteModal from "../../../components/modals/DeleteModal";
 import AdminPage from '../../../components/AdminPage';
-import ImageUploadModal from "../../../components/modals/ImageUploadModal";
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import VueFormGenerator from 'vue-form-generator/dist/vfg-core.js'
+import 'vue-form-generator/dist/vfg-core.css'
 
 export default {
-  name: "members-edit",
+  name: "trackerItems-edit",
 
   components: {
     PageHeader,
     DeleteModal,
     AdminPage,
-    ImageUploadModal,
+    VueFormGenerator: VueFormGenerator.component
   },
 
   data() {
     return {
-      editor: ClassicEditor,
-      editorConfig: {},
       status: null,
       id: this.$route.params.id || "create",
       form: {
-        id: "",
-        name: "",
-        bio: "",
-        email: "",
-        phone_number: "",
-        socials_meta: {
-          twitter_url: "",
-          instagram_url: "",
-          facebook_url: "",
-          linkedin_url: "",
-        },
-        avatar: "",
-        designations: [],
+        id: '',
         errors: [],
         isSaving: false,
         hasSuccess: false
       },
-      designations: [],
+      tracker: {},
       isReady: false,
       trans: JSON.parse(CurrentTenant.lang),
-      roles: []
+      formOptions: {
+        validateAfterLoad: true,
+        validateAfterChanged: true
+      }
     };
+  },
+
+  computed: {
+    schema() {
+      return {
+        fields: this.tracker.fields
+      }
+    }
+  },
+
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.request()
+        .get("/api/v1/trackers/" + vm.$route.params.trackerId)
+        .then(response => {
+          vm.tracker = response.data
+
+          vm.tracker.fields.forEach((field) => {
+            vm.form[field.model] = field.default || ''
+          });
+        })
+    })
   },
 
   created() {
@@ -308,52 +153,32 @@ export default {
   },
 
   watch: {
-    'form.avatar': function(val) {
-      if (val) {
-        this.saveMember()
-      } else {
-        this.form.avatar = ""
-        this.saveMember()
-      }
-    }
+    
   },
 
   methods: {
     fetchData() {
       this.request()
-        .get("/api/v1/members/" + this.id)
+        .get("/api/v1/trackerItems/" + this.$route.params.trackerId + "/" + this.id)
         .then(response => {
           this.status = response.data
-          this.form.id = response.data.member.id
+          this.form.id = response.data.id
 
           if (this.id !== "create") {
-            this.form.name = response.data.member.name
-            this.form.bio = response.data.member.bio
-            this.form.email = response.data.member.email
-            this.form.phone_number = response.data.member.phone_number
-
-            this.form.socials_meta.twitter_url = response.data.member.socials_meta.twitter_url || ''
-            this.form.socials_meta.instagram_url = response.data.member.socials_meta.instagram_url || ''
-            this.form.socials_meta.linkedin_url = response.data.member.socials_meta.linkedin_url || ''
-            this.form.socials_meta.facebook_url = response.data.member.socials_meta.facebook_url || ''
-            this.form.avatar = response.data.member.avatar
-            this.form.designations = response.data.member.designations.map((designation) => {
-              return designation.id
-            })
+            
           }
-
-          this.designations = response.data.designations
 
           this.isReady = true;
 
           NProgress.done();
         })
         .catch(error => {
+          console.log(error)
           // this.$router.push({ name: "designations" });
         });
     },
 
-    saveMember() {
+    saveTrackedItem() {
       this.form.errors = [];
       this.form.isSaving = true;
       this.form.hasSuccess = false;
@@ -367,7 +192,7 @@ export default {
       }
 
       this.request()
-        .post("/api/v1/members/" + this.id, this.form)
+        .post("/api/v1/trackerItems/" + this.id, this.form)
         .then(response => {
           this.form.isSaving = false;
           this.form.hasSuccess = true;
@@ -385,13 +210,13 @@ export default {
       }, 3000);
     },
 
-    deleteMember() {
+    deleteTrackerItem() {
       this.request()
-        .delete("/api/v1/members/" + this.id)
+        .delete("/api/v1/trackerItems/" + this.id)
         .then(response => {
           $(this.$refs.deleteModal.$el).modal("hide");
 
-          this.$router.push({ name: "members" });
+          this.$router.push({ name: "trackerItems", params: { trackerItem: this.$route.params.trackerId } });
         })
         .catch(error => {
           // Add any error debugging...
@@ -400,10 +225,6 @@ export default {
 
     showDeleteModal() {
       $(this.$refs.deleteModal.$el).modal("show");
-    },
-
-    showImageUploadModal() {
-      $(this.$refs.uploadImageModal.$el).modal("show");
     },
 
     validate(form) {

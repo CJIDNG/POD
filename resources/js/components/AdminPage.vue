@@ -224,7 +224,7 @@
               </router-link>
             </li>
             <li>
-              <router-link to="/admin/trackerItems">
+              <router-link :to="{ name: 'trackerItems-select' }">
                 <span>{{ trans.app.tracker_items }}</span>
               </router-link>
             </li>
