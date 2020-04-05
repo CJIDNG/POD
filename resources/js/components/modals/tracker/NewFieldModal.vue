@@ -185,8 +185,8 @@
 </template>
 
 <script>
-import _ from "lodash";
-import VueFormGenerator from "vue-form-generator";
+import _ from "lodash"
+import VueFormGenerator from "vue-form-generator"
 
 export default {
   name: "new-field-modal",
@@ -272,7 +272,7 @@ export default {
     fieldType: function (val) {
       this.form = {}
       this.errors = []
-      this.form = this.coreFields[val] || {}
+      this.form = Object.assign({}, this.coreFields[val] || {})
     }
   },
 
@@ -321,11 +321,11 @@ export default {
         errors.model = ["model can not be empty"]
       }
 
-      if (form.default != undefined && !form.default) {
+      if (form.default != undefined && form.default === "") {
         errors.default = ["default can not be empty"]
       }
 
-      if (form.listBox != undefined && !form.listBox) {
+      if (form.listBox != undefined && form.listBox === "") {
         errors.listBox = ["listbox can not be empty"]
       }
 
@@ -337,7 +337,7 @@ export default {
         errors.inputType = ["input type can not be empty"]
       }
 
-      if (form.required != undefined && !form.required) {
+      if (form.required != undefined && form.required === "") {
         errors.required = ["required can not be empty"]
       }
 

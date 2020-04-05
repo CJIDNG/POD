@@ -58,14 +58,11 @@ class TrackerItemController extends Controller
    * @param string $id
    * @return JsonResponse
    */
-  public function store($id): JsonResponse
+  public function store($trackerId, $id): JsonResponse
   {
     $data = [
       'id' => request('id'),
       'tracker_id' => request('tracker_id'),
-      'title' => request('title'),
-      'location_id' => request('location_id'),
-      'location_type' => request('location_type'),
       'meta' => request('meta'),
       'confirmed' => request('confirmed'),
       'user_id' => $this->isNewTrackerItem(request('id')) ? request()->user()->id : request('user_id')
@@ -78,7 +75,6 @@ class TrackerItemController extends Controller
 
     validator($data, [
       'tracker_id' => 'required',
-      'title' => 'required',
       'meta' => 'required',
       'confirmed' => 'required',
       'user_id' => 'required',
@@ -115,8 +111,10 @@ class TrackerItemController extends Controller
    * @param string $id
    * @return bool
    */
-  private function isNewTrackerItem(string $id): bool
+  private function isNewTrackerItem($id): bool
   {
-    return $id === 'create';
+    if ($id === NULL) $id = 'create';
+
+    return $id === 'create' ;
   }
 }

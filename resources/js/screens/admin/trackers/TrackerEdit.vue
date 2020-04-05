@@ -246,12 +246,12 @@
 </template>
 
 <script>
-import $ from "jquery";
-import NProgress from "nprogress";
-import PageHeader from "../../../components/PageHeader";
-import DeleteModal from "../../../components/modals/DeleteModal";
-import AdminPage from '../../../components/AdminPage';
-import NewFieldModal from "../../../components/modals/tracker/NewFieldModal";
+import $ from "jquery"
+import NProgress from "nprogress"
+import PageHeader from "../../../components/PageHeader"
+import DeleteModal from "../../../components/modals/DeleteModal"
+import AdminPage from '../../../components/AdminPage'
+import NewFieldModal from "../../../components/modals/tracker/NewFieldModal"
 
 export default {
   name: "trackers-edit",

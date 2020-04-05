@@ -62,14 +62,14 @@
 
       <main v-if="isReady" class="py-4" v-cloak>
         <div class="col-xl-8 offset-xl-2 px-xl-5 col-md-12 mt-5">
-          <vue-form-generator :schema="schema" :model="form" :options="formOptions"></vue-form-generator>
           <div class="form-group">
             <div class="col-lg-12">
-              <div v-if="form.errors.server" class="invalid-feedback d-block">
-                <strong>{{ form.errors.server[0] }}</strong>
+              <div v-for="(error, index) in form.errors" :key="index" class="invalid-feedback d-block">
+                <strong>{{ error[0] }}</strong>
               </div>
             </div>
           </div>
+          <vue-form-generator :schema="schema" :model="form" :options="formOptions"></vue-form-generator>
         </div>
       </main>
 
@@ -90,7 +90,7 @@ import PageHeader from "../../../components/PageHeader";
 import DeleteModal from "../../../components/modals/DeleteModal";
 import AdminPage from '../../../components/AdminPage';
 import VueFormGenerator from 'vue-form-generator/dist/vfg-core.js'
-import 'vue-form-generator/dist/vfg-core.css'
+// import 'vue-form-generator/dist/vfg-core.css'
 
 export default {
   name: "trackerItems-edit",
@@ -191,8 +191,22 @@ export default {
         return false;
       }
 
+      let meta = {}
+
+      this.tracker.fields.forEach((field) => {
+        meta[field.model] = this.form[field.model]
+      });
+
+      let formData = {
+        id: this.form.id,
+        tracker_id: this.$route.params.trackerId,
+        confirmed: '1',
+        meta,
+        user_id: '',
+      }
+
       this.request()
-        .post("/api/v1/trackerItems/" + this.id, this.form)
+        .post(`/api/v1/trackerItems/${this.$route.params.trackerId}/${this.id}`, formData)
         .then(response => {
           this.form.isSaving = false;
           this.form.hasSuccess = true;
@@ -230,9 +244,17 @@ export default {
     validate(form) {
       let errors = {};
 
-      if (!form.name) {
-        errors.name = ["name can not be empty"];
-      }
+      let formKeyArr = Object.keys(form)
+
+      formKeyArr.forEach(formKey => {
+        if(!form[formKey] && 
+          formKey !== 'isSaving' && 
+          formKey !== 'hasSuccess' && 
+          formKey !== 'id' && 
+          formKey !== 'user_id') {
+          errors[formKey] = [`${formKey} can not be empty`]
+        }
+      });
 
       return errors;
     }

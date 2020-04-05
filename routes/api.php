@@ -246,7 +246,7 @@ Route::group(['prefix' => 'v1'], function () {
   Route::get('/trackerItems/{trackerId}/{id?}', 'TrackerItemController@show');
   Route::post('/trackerItems/{trackerId}/{id}', 'TrackerItemController@store')
     ->middleware(['auth:api', 'permission:create_tracker_items']);
-  Route::delete('/trackerItems/{id}', 'TrackerItemController@destroy')
+  Route::delete('/trackerItems/{trackerId}/{id}', 'TrackerItemController@destroy')
     ->middleware(['auth:api', 'permission:delete_tracker_items']);
 
   // Media routes...

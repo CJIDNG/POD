@@ -16,9 +16,6 @@ class CreateTrackerItemsTable extends Migration
     Schema::create('tracker_items', function (Blueprint $table) {
       $table->bigIncrements('id');
       $table->unsignedBigInteger('tracker_id');
-      $table->string('title');
-      $table->unsignedBigInteger('location_id')->nullable();
-      $table->string('location_type')->nullable();
       $table->json('meta');
       $table->boolean('confirmed');
       $table->unsignedBigInteger('user_id');
