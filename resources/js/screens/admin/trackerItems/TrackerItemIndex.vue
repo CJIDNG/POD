@@ -46,23 +46,24 @@
 
           <div class="mt-2">
             <div
-              v-for="(member, $index) in trackerItems"
+              v-for="(trackerItem, $index) in trackerItems"
               :key="$index"
               class="d-flex border-top py-3 align-items-center"
             >
               <div class="mr-auto">
                 <p class="mb-0 py-1">
                   <router-link
-                    :to="{name: 'trackerItems-edit', params: { id: member.id }}"
+                    :to="{name: 'trackerItems-edit', params: { id: trackerItem.id }}"
                     class="font-weight-bold text-lg lead text-decoration-none"
-                  >{{ member.name }}</router-link>
+                  >{{ trackerItem.meta.title || trackerItem.meta.title || trackerItem.meta[Object.keys(trackerItem.meta)[0]] }}</router-link>
                 </p>
               </div>
               <div class="ml-auto">
+                <span class="text-muted mr-3">{{  }}</span>
                 <span
                   class="d-none d-md-inline-block"
                 >
-                  {{ trans.app.created }} {{ moment(member.created_at).locale(CurrentTenant.locale).fromNow() }}
+                  {{ trans.app.created }} {{ moment(trackerItem.created_at).locale(CurrentTenant.locale).fromNow() }}
                 </span>
               </div>
             </div>

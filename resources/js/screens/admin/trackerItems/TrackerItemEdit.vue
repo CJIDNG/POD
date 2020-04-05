@@ -47,11 +47,6 @@
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
               <a
                 href="#"
-                class="dropdown-item"
-                @click="showImageUploadModal"
-              >{{ trans.app.upload_thumbnail }}</a>
-              <a
-                href="#"
                 class="dropdown-item text-danger"
                 @click="showDeleteModal"
               >{{ trans.app.delete }}</a>
@@ -108,6 +103,7 @@ export default {
       id: this.$route.params.id || "create",
       form: {
         id: '',
+        user_id: '',
         errors: [],
         isSaving: false,
         hasSuccess: false
@@ -140,6 +136,8 @@ export default {
           vm.tracker.fields.forEach((field) => {
             vm.form[field.model] = field.default || ''
           });
+
+          vm.fetchData()
         })
     })
   },
@@ -149,7 +147,7 @@ export default {
   },
 
   mounted() {
-    this.fetchData();
+    
   },
 
   watch: {
@@ -165,7 +163,8 @@ export default {
           this.form.id = response.data.id
 
           if (this.id !== "create") {
-            
+            Object.assign(this.form, response.data.meta)
+            this.form.user_id = response.data.user_id
           }
 
           this.isReady = true;
@@ -202,7 +201,7 @@ export default {
         tracker_id: this.$route.params.trackerId,
         confirmed: '1',
         meta,
-        user_id: '',
+        user_id: this.form.user_id,
       }
 
       this.request()

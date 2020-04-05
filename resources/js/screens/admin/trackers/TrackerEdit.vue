@@ -78,6 +78,14 @@
             </div>
 
             <div class="col-lg-12">
+              <label class="display-6">{{ trans.app.give_your_tracker_a_description }}</label>
+              <ckeditor :editor="editor" v-model="form.description" :config="editorConfig"></ckeditor>
+              <div v-if="form.errors.description" class="invalid-feedback d-block">
+                <strong>{{ form.errors.description[0] }}</strong>
+              </div>
+            </div>
+
+            <div class="col-lg-12">
               <select
                 name="has_location"
                 v-model="form.has_location"
@@ -252,6 +260,7 @@ import PageHeader from "../../../components/PageHeader"
 import DeleteModal from "../../../components/modals/DeleteModal"
 import AdminPage from '../../../components/AdminPage'
 import NewFieldModal from "../../../components/modals/tracker/NewFieldModal"
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
 export default {
   name: "trackers-edit",
@@ -265,11 +274,14 @@ export default {
 
   data() {
     return {
+      editor: ClassicEditor,
+      editorConfig: {},
       status: null,
       id: this.$route.params.id || "create",
       form: {
         id: "",
         name: "",
+        description: "",
         fields: [],
         has_location: "0",
         has_user_reporting: "0",
@@ -307,6 +319,7 @@ export default {
 
           if (this.id !== "create") {
             this.form.name = response.data.name
+            this.form.description = response.data.description
             this.form.fields = response.data.fields
             this.form.has_location = response.data.has_location
             this.form.has_user_reporting = response.data.has_user_reporting

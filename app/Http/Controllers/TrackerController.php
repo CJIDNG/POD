@@ -64,6 +64,7 @@ class TrackerController extends Controller
     $data = [
       'id' => request('id'),
       'name' => request('name'),
+      'description' => request('description'),
       'fields' => request('fields'),
       'has_location' => request('has_location'),
       'has_user_reporting' => request('has_user_reporting'),

@@ -20,6 +20,7 @@ class TrackerItemController extends Controller
 
     $trackerItems = $tracker
       ->trackedItems()
+      ->with('tracker')
       ->orderBy('created_at', 'DESC')
       ->paginate();
 

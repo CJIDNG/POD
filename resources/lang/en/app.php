@@ -205,6 +205,7 @@ return [
   'give_your_tracker_a_name' => 'Give tracker\'s name',
   'give_your_tracker_has_bot' => 'Indicate if tracker has bot',
   'give_your_tracker_bot_a_name' => 'Give tracker\'s bot name',
+  'give_your_tracker_a_description' => 'Give tracker\'s description',
 
   'health_facility' => 'Health Facility',
   'home' => 'Home',
