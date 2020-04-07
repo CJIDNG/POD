@@ -1,7 +1,5 @@
 import blog from './blog'
 import data from './data'
-import governmentProjects from './government-projects'
-import incident from './incident'
 import member from './member'
 import trackerItem from './trackerItem'
 import { hasSubapp } from './../../util/has-subapp'
@@ -55,14 +53,6 @@ if (hasSubapp('blog')) {
 
 if (hasSubapp('data')) {
   mainRoutes.push(...data)
-}
-
-if (hasSubapp('governmentProject')) {
-  mainRoutes.push(...governmentProjects)
-}
-
-if (hasSubapp('incident')) {
-  mainRoutes.push(...incident)
 }
 
 if (hasSubapp('members')) {
