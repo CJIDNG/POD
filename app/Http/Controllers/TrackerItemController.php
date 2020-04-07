@@ -18,14 +18,25 @@ class TrackerItemController extends Controller
   {
     $tracker = \App\Tracker::find($trackerId);
 
-    $trackerItems = $tracker
-      ->trackedItems()
-      ->with('tracker')
-      ->orderBy('created_at', 'DESC')
-      ->paginate();
+    $trackerItems = $tracker->trackedItems();
+
+    if (request()->user() === NULL || request()->user()->hasRole('User') || request()->query('confirmed') == '1') {
+      $trackerItems = $trackerItems->confirmed();
+    } else if (request()->query('confirmed') == '0') {
+      $trackerItems = $trackerItems->unconfirmed();
+    }
+
+    if (request()->has('query')) {
+      $query = request('query');
+      $trackerItems = $trackerItems->whereRaw("MATCH(meta_virtual)
+        AGAINST('$query' IN NATURAL LANGUAGE MODE)");
+    }
 
     return response()->json(
-      $trackerItems, 200
+      $trackerItems
+      ->with('tracker')
+      ->latest()
+      ->paginate(), 200
     );
   }
 
@@ -95,7 +106,7 @@ class TrackerItemController extends Controller
    * @param  $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy($id)
+  public function destroy($trackerId, $id)
   {
     $trackerItem = TrackerItem::find($id);
 

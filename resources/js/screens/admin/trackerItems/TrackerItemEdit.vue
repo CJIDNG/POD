@@ -199,7 +199,7 @@ export default {
       let formData = {
         id: this.form.id,
         tracker_id: this.$route.params.trackerId,
-        confirmed: '1',
+        confirmed: 0,
         meta,
         user_id: this.form.user_id,
       }
@@ -225,7 +225,7 @@ export default {
 
     deleteTrackerItem() {
       this.request()
-        .delete("/api/v1/trackerItems/" + this.id)
+        .delete(`/api/v1/trackerItems/${this.$route.params.trackerId}/${this.id}`)
         .then(response => {
           $(this.$refs.deleteModal.$el).modal("hide");
 
@@ -241,21 +241,17 @@ export default {
     },
 
     validate(form) {
-      let errors = {};
+      let errors = {}
 
       let formKeyArr = Object.keys(form)
 
-      formKeyArr.forEach(formKey => {
-        if(!form[formKey] && 
-          formKey !== 'isSaving' && 
-          formKey !== 'hasSuccess' && 
-          formKey !== 'id' && 
-          formKey !== 'user_id') {
-          errors[formKey] = [`${formKey} can not be empty`]
+      this.tracker.fields.forEach((field) => {
+        if (!form[field.model] && field.required == 1) {
+          errors[field.model] = [`${field.model} can not be empty`]
         }
-      });
+      })
 
-      return errors;
+      return errors
     }
   }
 };

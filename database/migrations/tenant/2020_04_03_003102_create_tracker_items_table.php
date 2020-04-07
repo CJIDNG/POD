@@ -20,6 +20,8 @@ class CreateTrackerItemsTable extends Migration
       $table->boolean('confirmed');
       $table->unsignedBigInteger('user_id');
       $table->timestamps();
+
+      $table->engine = 'InnoDB';
     });
   }
 
