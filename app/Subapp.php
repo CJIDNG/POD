@@ -30,7 +30,8 @@ class Subapp extends Model
       'members',
       'partners',
       'services',
-      // 'products'
+      // 'products',
+      'tracker'
     ];
   }
 

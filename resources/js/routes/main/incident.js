@@ -10,7 +10,7 @@ export default [
     component: require('../../screens/main/incident/IncidentShow').default
   },
   {
-    path: '/incidents/create',
+    path: '/incidents/submit',
     name: 'incidents-submit',
     component: require('../../screens/main/incident/IncidentSubmit').default
   },

@@ -233,6 +233,27 @@ Route::group(['prefix' => 'v1'], function () {
   Route::delete('/services/{id}', 'ServiceController@destroy')
     ->middleware(['auth:api', 'permission:delete_services']);
 
+  // trackers routes...
+  Route::get('/trackers', 'TrackerController@index');
+  Route::get('/trackers/{id?}', 'TrackerController@show');
+  Route::post('/trackers/{id}', 'TrackerController@store')
+    ->middleware(['auth:api', 'permission:create_trackers']);
+  Route::delete('/trackers/{id}', 'TrackerController@destroy')
+    ->middleware(['auth:api', 'permission:delete_trackers']);
+
+  // trackerItems routes...
+  Route::get('/trackerItems/{trackerId}', 'TrackerItemController@index');
+  Route::get('/trackerItems/{trackerId}/{id?}', 'TrackerItemController@show');
+  Route::post('/trackerItems/{trackerId}/{id}', 'TrackerItemController@store')
+    ->middleware(['auth:api', 'permission:create_tracker_items|update_tracker_items']);
+  Route::delete('/trackerItems/{trackerId}/{id}', 'TrackerItemController@destroy')
+    ->middleware(['auth:api', 'permission:delete_tracker_items']);
+
+  // comments routes...
+  Route::get('/comments', 'CommentController@index');
+  Route::delete('/comments/{commentableType}/{id}', 'CommentController@destroy')
+    ->middleware(['auth:api', 'permission:delete_comments']);
+
   // Media routes...
   Route::post('/resource/uploads', 'DataResourceUploadController@store')
     ->middleware(['auth:api', 'role:Admin|Data Curator|Data Researcher & Editor']);

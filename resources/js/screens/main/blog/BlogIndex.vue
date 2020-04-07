@@ -51,7 +51,7 @@
                   </router-link>
                 </h3>
                 <div class="mb-1 text-muted">{{ moment(post.approved_at).locale(CurrentTenant.locale).fromNow() }}</div>
-                <p class="card-text mb-auto">
+                <p v-if="post.summary" class="card-text mb-auto">
                   {{ `${post.summary.substring(0, 100)}...` }}
                 </p>
                 <router-link

@@ -11,6 +11,11 @@ import VueHolder from 'vue-holderjs'
 // https://ckeditor.com/blog/best-wysiwyg-editor-for-vue/
 import CKEditor from '@ckeditor/ckeditor5-vue';
 
+// import VueFormGenerator from 'vue-form-generator'
+// import 'vue-form-generator/dist/vfg.css'
+
+// Vue.use(VueFormGenerator)
+
 require('bootstrap')
 
 window.Popper = require('popper.js').default

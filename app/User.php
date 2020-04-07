@@ -91,4 +91,8 @@ class User extends Authenticatable
   public function downloads(): HasMany {
       return $this->hasMany(Datadownload::class);
   }
+
+  public function trackerItems(): HasMany {
+    return $this->hasMany(\App\TrackerItem::class);
+  }
 }
