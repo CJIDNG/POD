@@ -68,7 +68,7 @@
               </div>
             </div>
 
-            <infinite-loading @infinite="fetchData" spinner="spiral">
+            <infinite-loading :identifier="infiniteId" @infinite="fetchData" spinner="spiral">
               <span slot="no-more"></span>
               <div slot="no-results" class="text-left">
                 <div class="mt-5">
@@ -103,6 +103,7 @@ export default {
       trackerId: this.$route.params.trackerId || "select",
       trackers: [],
       page: 1,
+      infiniteId: +new Date(),
       trackerItems: [],
       trans: JSON.parse(CurrentTenant.lang),
       isReady: false,
@@ -123,6 +124,9 @@ export default {
       }
 
       this.trackerId = this.$route.params.trackerId || "select"
+      this.page = 1;
+      this.trackerItems = [];
+      this.infiniteId += 1;
     }
   },
 

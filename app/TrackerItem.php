@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Builder;
+use App\Traits\HasComments;
 
 class TrackerItem extends Model
 {
-  use UsesTenantConnection;
+  use UsesTenantConnection, HasComments;
 
   /**
    * The attributes that aren't mass assignable.
