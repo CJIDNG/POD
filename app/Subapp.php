@@ -17,20 +17,14 @@ class Subapp extends Model
   
   public static function getAllProvided() {
     return [
-      'agency', 
-      'location', 
-      'ministry',
-      'governmentProject',
-      'platform',
       'analytics',
       'blog',
-      'health-facility',
-      'incident',
       'data',
       'members',
       'partners',
       'services',
-      // 'products'
+      // 'products',
+      'tracker'
     ];
   }
 

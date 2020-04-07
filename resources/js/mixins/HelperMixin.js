@@ -51,6 +51,15 @@ export default {
         .replace(/--+/g, "-");
     },
 
+    makeVariable(text) {
+      return text
+        .toString()
+        .toLowerCase()
+        .replace(/\s+/g, "_")
+        .replace(/[^\w\-]+/g, "")
+        .replace(/--+/g, "_");
+    },
+
     suffixedNumber(number) {
       if (number < 900) {
         return number;
@@ -124,6 +133,28 @@ export default {
       // Useful if you want a reference to the element
       // in order to attach it to the DOM or use it in some other way
       return a;
+    },
+
+    prettyJSON: function (json) {
+      if (json) {
+        json = JSON.stringify(json, undefined, 4);
+        json = json.replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>');
+        return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+          var cls = 'number';
+          if (/^"/.test(match)) {
+            if (/:$/.test(match)) {
+              cls = 'key';
+            } else {
+              cls = 'string';
+            }
+          } else if (/true|false/.test(match)) {
+            cls = 'boolean';
+          } else if (/null/.test(match)) {
+            cls = 'null';
+          }
+          return '<span class="' + cls + '">' + match + '</span>';
+        });
+      }
     }
   },
 };

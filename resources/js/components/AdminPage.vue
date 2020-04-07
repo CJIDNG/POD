@@ -127,82 +127,25 @@
             </li>
           </ul>
         </li>
-        <li class="dropdown"
-          :class="{'active': /admin\/governmentProjects/.test($route.path) || /admin\/incidents/.test($route.path)}">
-          <a
-            href="#collectiblesSubmenu"
-            data-toggle="collapse"
-            aria-expanded="false"
-            class="dropdown-toggle"
-          >
-            <span>{{ trans.app.collectibles }}</span>
-          </a>
-          <ul class="collapse list-unstyled" id="collectiblesSubmenu">
-            <li v-if="hasSubapp('governmentProject')">
-              <router-link to="/admin/governmentProjects">
-                <span>{{ trans.app.governmentProjects }}</span>
-              </router-link>
-            </li>
-            <li v-if="hasSubapp('incident')">
-              <router-link to="/admin/incidents">
-                <span>{{ trans.app.incidents }}</span>
-              </router-link>
-            </li>
-          </ul>
-        </li>
         <li class="dropdown" 
-          :class="{
-            'active': /admin\/agencies/.test($route.path) ||
-            /admin\/ministries/.test($route.path) ||
-            /admin\/states/.test($route.path) || 
-            /admin\/localGovernments/.test($route.path) || 
-            /admin\/health-facilities/.test($route.path) || 
-            /admin\/statuses/.test($route.path) || 
-            /admin\/types/.test($route.path)
-          }"
-        >
+          :class="{'active': /admin\/trackers/.test($route.path) || /admin\/trackerItems/.test($route.path)}">
           <a
-            href="#lookupSubmenu"
+            href="#trackersSubmenu"
             data-toggle="collapse"
             aria-expanded="false"
             class="dropdown-toggle"
           >
-            <span>{{ trans.app.lookup }}</span>
+            <span>{{ trans.app.trackers }}</span>
           </a>
-          <ul class="collapse list-unstyled" id="lookupSubmenu">
-            <li v-if="hasSubapp('agency')">
-              <router-link to="/admin/agencies">
-                <span>{{ trans.app.agencies }}</span>
+          <ul class="collapse list-unstyled" id="trackersSubmenu">
+            <li>
+              <router-link to="/admin/trackers">
+                <span>{{ trans.app.trackers }}</span>
               </router-link>
             </li>
-            <li v-if="hasSubapp('ministry')">
-              <router-link to="/admin/ministries">
-                <span>{{ trans.app.ministries }}</span>
-              </router-link>
-            </li>
-            <li v-if="hasSubapp('location')">
-              <router-link to="/admin/states">
-                <span>{{ trans.app.states }}</span>
-              </router-link>
-            </li>
-            <li v-if="hasSubapp('location')">
-              <router-link to="/admin/localGovernments">
-                <span>{{ trans.app.localGovernments }}</span>
-              </router-link>
-            </li>
-            <li v-if="hasSubapp('health-facility')">
-              <router-link to="/admin/health-facilities">
-                <span>{{ trans.app.health_facilities }}</span>
-              </router-link>
-            </li>
-            <li v-if="hasSubapp('status')">
-              <router-link to="/admin/statuses">
-                <span>{{ trans.app.statuses }}</span>
-              </router-link>
-            </li>
-            <li v-if="hasSubapp('type')">
-              <router-link to="/admin/types">
-                <span>{{ trans.app.types }}</span>
+            <li>
+              <router-link :to="{ name: 'trackerItems-select' }">
+                <span>{{ trans.app.tracker_items }}</span>
               </router-link>
             </li>
           </ul>

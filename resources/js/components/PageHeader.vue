@@ -36,20 +36,30 @@
             >
               {{ trans.app.blog }}
             </router-link>
-            <router-link
-              class="nav-item nav-link" 
-              to="/projects"
-              v-if="hasSubapp('governmentProject')"
-            >
-              {{ trans.app.projects }}
-            </router-link>
-            <router-link
-              class="nav-item nav-link" 
-              to="/incidents"
-              v-if="hasSubapp('incident')"
-            >
-              {{ trans.app.incidents }}
-            </router-link>
+            <li class="nav-item dropdown">
+              <a 
+                class="nav-link dropdown-toggle" 
+                href="#" id="trackerDropdown" 
+                role="button" 
+                data-toggle="dropdown" 
+                aria-haspopup="true" 
+                aria-expanded="false"
+              >
+                {{ trans.app.trackers }}
+              </a>
+              <div 
+                class="dropdown-menu" 
+                aria-labelledby="trackerDropdown"
+              >
+                <router-link 
+                  v-for="(tracker, index) in trackers"
+                  :key="index"
+                  class="dropdown-item" 
+                  :to="{name: 'trackerItems-main', params: { trackerId: tracker.id }}">
+                  {{ tracker.name }}
+                </router-link>
+              </div>
+            </li>
             <router-link
               class="nav-item nav-link" 
               to="/data"
@@ -91,7 +101,7 @@
         <div v-if="CurrentTenant.user" class="dropdown ml-3" v-cloak>
           <a
             href="#"
-            id="navbarDropdown"
+            id="trackerDropdown"
             class="nav-link px-0 text-secondary"
             role="button"
             data-toggle="dropdown"
@@ -139,8 +149,13 @@ export default {
       user: CurrentTenant.user,
       avatar: this.$root.avatar,
       token: this.getToken(),
-      trans: JSON.parse(CurrentTenant.lang)
+      trans: JSON.parse(CurrentTenant.lang),
+      trackers: []
     };
+  },
+
+  created() {
+    this.fetchData()
   },
 
   mounted() {
@@ -158,6 +173,17 @@ export default {
   methods: {
     sessionLogout() {
       this.logout();
+    },
+
+    fetchData() {
+      this.request()
+        .get("/api/v1/trackers?all=1")
+        .then(response => {
+          this.trackers = response.data
+        })
+        .catch(error => {
+          console.log(error)
+        });
     }
   }
 };
