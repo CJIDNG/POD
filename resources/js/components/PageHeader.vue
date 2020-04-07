@@ -36,20 +36,6 @@
             >
               {{ trans.app.blog }}
             </router-link>
-            <router-link
-              class="nav-item nav-link" 
-              to="/projects"
-              v-if="hasSubapp('governmentProject')"
-            >
-              {{ trans.app.projects }}
-            </router-link>
-            <router-link
-              class="nav-item nav-link" 
-              to="/incidents"
-              v-if="hasSubapp('incident')"
-            >
-              {{ trans.app.incidents }}
-            </router-link>
             <li class="nav-item dropdown">
               <a 
                 class="nav-link dropdown-toggle" 
