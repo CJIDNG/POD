@@ -31,12 +31,12 @@
             <span>{{ trans.app.platforms }}</span>
           </a>
           <ul class="collapse list-unstyled" id="platformSubmenu">
-            <li v-if="hasSubapp('platform')" >
+            <li>
               <router-link :to="`/admin/platforms/${CurrentTenant.platform.id}/edit`">
                 <span>{{ trans.app.platforms }}</span>
               </router-link>
             </li>
-            <li>
+            <li v-if="hasSubapp('partners')">
               <router-link to="/admin/partners">
                 <span>{{ trans.app.partners }}</span>
               </router-link>
@@ -54,6 +54,11 @@
             <li v-if="hasSubapp('services')">
               <router-link to="/admin/services">
                 <span>{{ trans.app.services }}</span>
+              </router-link>
+            </li>
+            <li v-if="hasSubapp('products')">
+              <router-link to="/admin/products">
+                <span>{{ trans.app.products }}</span>
               </router-link>
             </li>
           </ul>
