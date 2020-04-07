@@ -14,10 +14,18 @@
         <template slot="action">
           <a
             href="#"
-            class="btn btn-sm btn-outline-success font-weight-bold my-auto"
+            class="btn btn-sm btn-outline-success font-weight-bold my-auto mr-3"
             @click="saveTrackedItem"
             :aria-label="trans.app.save"
           >{{ trans.app.save }}</a>
+
+          <a
+            v-if="!form.confirmed"
+            href="#"
+            class="btn btn-sm btn-outline-success font-weight-bold my-auto"
+            @click="() => {form.confirmed = true; saveTrackedItem()}"
+            :aria-label="trans.app.verify"
+          >{{ trans.app.verify }}</a>
         </template>
 
         <template slot="menu">
@@ -103,6 +111,7 @@ export default {
       id: this.$route.params.id || "create",
       form: {
         id: '',
+        confirmed: true,
         user_id: '',
         errors: [],
         isSaving: false,
@@ -165,6 +174,7 @@ export default {
           if (this.id !== "create") {
             Object.assign(this.form, response.data.meta)
             this.form.user_id = response.data.user_id
+            this.form.confirmed = response.data.confirmed
           }
 
           this.isReady = true;
@@ -199,7 +209,7 @@ export default {
       let formData = {
         id: this.form.id,
         tracker_id: this.$route.params.trackerId,
-        confirmed: 0,
+        confirmed: this.form.confirmed,
         meta,
         user_id: this.form.user_id,
       }
@@ -210,6 +220,7 @@ export default {
           this.form.isSaving = false;
           this.form.hasSuccess = true;
           this.id = this.form.id = response.data.id;
+          this.form.confirmed = response.data.confirmed
           this.status = response.data;
         })
         .catch(error => {

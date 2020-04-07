@@ -18,12 +18,15 @@ class TrackerItemController extends Controller
   {
     $tracker = \App\Tracker::find($trackerId);
 
+    $confirmedCount = $tracker->trackedItems()->confirmed()->count();
+    $notConfirmedCount = $tracker->trackedItems()->notConfirmed()->count();
+
     $trackerItems = $tracker->trackedItems();
 
-    if (request()->user() === NULL || request()->user()->hasRole('User') || request()->query('confirmed') == '1') {
+    if (!auth()->guard('api')->check() || request()->query('confirmationStatus') == 'confirmed') {
       $trackerItems = $trackerItems->confirmed();
-    } else if (request()->query('confirmed') == '0') {
-      $trackerItems = $trackerItems->unconfirmed();
+    } else if (request()->query('confirmationStatus') == 'notConfirmed') {
+      $trackerItems = $trackerItems->notConfirmed();
     }
 
     if (request()->has('query')) {
@@ -32,12 +35,15 @@ class TrackerItemController extends Controller
         AGAINST('$query' IN NATURAL LANGUAGE MODE)");
     }
 
-    return response()->json(
-      $trackerItems
-      ->with('tracker')
-      ->latest()
-      ->paginate(), 200
-    );
+    return response()->json([
+      'trackerItems' => $trackerItems
+        ->with('tracker')
+        ->with('user')
+        ->latest()
+        ->paginate(),
+      'confirmedCount' => $confirmedCount,
+      'notConfirmedCount' => $notConfirmedCount
+    ], 200);
   }
 
   /**
@@ -55,7 +61,7 @@ class TrackerItemController extends Controller
           'id' => NULL,
         ]), 200);
       } else {
-        $trackerItem = TrackerItem::find($id);
+        $trackerItem = TrackerItem::where('id', $id)->with('comments.commentator')->first();
 
         return response()->json($trackerItem, 200);
       }
@@ -72,6 +78,12 @@ class TrackerItemController extends Controller
    */
   public function store($trackerId, $id): JsonResponse
   {
+    if (request()->has('comment')) {
+      $trackerItem = TrackerItem::find($id);
+      $comment = $trackerItem->comment(request('comment'));
+      return response()->json($comment, 201);
+    }
+
     $data = [
       'id' => request('id'),
       'tracker_id' => request('tracker_id'),
@@ -96,6 +108,8 @@ class TrackerItemController extends Controller
 
     $trackerItem->fill($data);
     $trackerItem->save();
+
+    $trackerItem = $trackerItem->refresh();
 
     return response()->json($trackerItem->refresh(), 201);
   }

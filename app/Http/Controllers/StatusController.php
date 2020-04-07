@@ -6,7 +6,6 @@ use App\Status;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Http\Resources\StatusResource;
 
 class StatusController extends Controller
 {

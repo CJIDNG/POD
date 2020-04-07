@@ -64,7 +64,7 @@
                         :to="{name: 'trackerItems-show', params: { trackerId: $route.params.trackerId, id: trackerItem.id }}"
                         class="text-dark"
                       >
-                        {{ trackerItem.meta.title || trackerItem.meta.title || trackerItem.meta[Object.keys(trackerItem.meta)[0]] }}
+                        {{ trackerItem.meta.title || trackerItem.meta.name || trackerItem.meta[Object.keys(trackerItem.meta)[0]] }}
                       </router-link>
                     </h3>
                     <div class="mb-1 text-muted">{{moment(trackerItem.created_at).locale(CurrentTenant.locale).fromNow()}}</div>
@@ -175,16 +175,17 @@ export default {
       this.request()
         .get(this.url, {
           params: {
-            page: this.page
+            page: this.page,
+            confirmationStatus: 'confirmed'
           }
         })
         .then(response => {
-          if (!_.isEmpty(response.data) && !_.isEmpty(response.data.data)) {
+          if (!_.isEmpty(response.data) && !_.isEmpty(response.data.trackerItems.data)) {
             this.page += 1;
-            this.trackerItems.push(...response.data.data);
-            this.from = response.data.from
-            this.to = response.data.to
-            this.total = response.data.total
+            this.trackerItems.push(...response.data.trackerItems.data);
+            this.from = response.data.trackerItems.from
+            this.to = response.data.trackerItems.data.to
+            this.total = response.data.trackerItems.total
 
             $state.loaded();
           } else {

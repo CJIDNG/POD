@@ -245,9 +245,14 @@ Route::group(['prefix' => 'v1'], function () {
   Route::get('/trackerItems/{trackerId}', 'TrackerItemController@index');
   Route::get('/trackerItems/{trackerId}/{id?}', 'TrackerItemController@show');
   Route::post('/trackerItems/{trackerId}/{id}', 'TrackerItemController@store')
-    ->middleware(['auth:api', 'permission:create_tracker_items']);
+    ->middleware(['auth:api', 'permission:create_tracker_items|update_tracker_items']);
   Route::delete('/trackerItems/{trackerId}/{id}', 'TrackerItemController@destroy')
     ->middleware(['auth:api', 'permission:delete_tracker_items']);
+
+  // comments routes...
+  Route::get('/comments', 'CommentController@index');
+  Route::delete('/comments/{commentableType}/{id}', 'CommentController@destroy')
+    ->middleware(['auth:api', 'permission:delete_comments']);
 
   // Media routes...
   Route::post('/resource/uploads', 'DataResourceUploadController@store')

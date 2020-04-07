@@ -196,6 +196,15 @@ class DefaultRolesAndPermissions
       'update_tracker_items',
       'view_tracker_items',
       'delete_tracker_items',
+
+      /**
+       * comments permissions
+       */
+      'create_comments',
+      'update_comments',
+      'view_comments',
+      'delete_comments',
+      'approve_comments',
     ];
   }
 

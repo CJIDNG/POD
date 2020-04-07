@@ -5,10 +5,11 @@ namespace App;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasComments;
+use Hyn\Tenancy\Traits\UsesTenantConnection;
 
 class Comment extends Model
 {
-  use HasComments;
+  use HasComments, UsesTenantConnection;
 
   protected $fillable = [
     'comment',
@@ -23,6 +24,10 @@ class Comment extends Model
   public function scopeApproved($query)
   {
     return $query->where('is_approved', true);
+  }
+
+  public function scopeNotApproved($query) {
+    return $query->where('is_approved', false);
   }
 
   public function commentable()

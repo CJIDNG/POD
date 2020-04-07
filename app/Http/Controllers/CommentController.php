@@ -3,83 +3,50 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+  /**
+   * Display a listing of the resource.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function index($commentableType): JsonResponse
+  {
+    $approvedCount = Comment::approved()->count();
+    $notApprovedCount = Comment::notApproved()->count();
+    $comments = [];
+
+    if (request()->query('commentStatus') == 'approved') {
+      $comments = Comment::approved()->latest()->with('user')->paginate();
+    } else if (request()->query('commentStatus') == 'notApproved') {
+      $comments = Comment::notApproved()->latest()->with('user')->paginate();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    return response()->json([
+      'comments' => $comments,
+      'approvedCount' => $approvedCount,
+      'notApprovedCount' => $notApprovedCount,
+    ], 200);
+  }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+  /**
+   * Remove the specified resource from storage.
+   *
+   * @param  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function destroy($commentableType, $id)
+  {
+    $comment = Comment::find($id);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Comment $comment)
-    {
-        //
-    }
+    if ($comment) {
+      $comment->delete();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Comment $comment)
-    {
-        //
+      return response()->json([], 204);
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Comment $comment)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Comment $comment)
-    {
-        //
-    }
+  }
 }

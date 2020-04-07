@@ -42,6 +42,17 @@
             <h1>
               {{ trans.app.tracker_items }}
             </h1>
+
+            <select
+              name
+              id
+              v-model="confirmationStatus"
+              @change="refreshInfiniteLoader"
+              class="my-auto bg-transparent appearance-none border-0 text-muted"
+            >
+              <option value="confirmed">{{ trans.app.confirmed }} ({{ confirmedCount }})</option>
+              <option value="notConfirmed">{{ trans.app.not_confirmed }} ({{ notConfirmedCount }})</option>
+            </select>
           </div>
 
           <div class="mt-2">
@@ -55,7 +66,7 @@
                   <router-link
                     :to="{name: 'trackerItems-edit', params: { id: trackerItem.id }}"
                     class="font-weight-bold text-lg lead text-decoration-none"
-                  >{{ trackerItem.meta.title || trackerItem.meta.title || trackerItem.meta[Object.keys(trackerItem.meta)[0]] }}</router-link>
+                  >{{ trackerItem.meta.title || trackerItem.meta.name || trackerItem.meta[Object.keys(trackerItem.meta)[0]] }}</router-link>
                 </p>
               </div>
               <div class="ml-auto">
@@ -107,6 +118,9 @@ export default {
       trackerItems: [],
       trans: JSON.parse(CurrentTenant.lang),
       isReady: false,
+      confirmationStatus: 'confirmed',
+      confirmedCount: 0,
+      notConfirmedCount: 0,
     };
   },
 
@@ -124,9 +138,7 @@ export default {
       }
 
       this.trackerId = this.$route.params.trackerId || "select"
-      this.page = 1;
-      this.trackerItems = [];
-      this.infiniteId += 1;
+      this.refreshInfiniteLoader()
     }
   },
 
@@ -153,13 +165,17 @@ export default {
       this.request()
         .get("/api/v1/trackerItems/" + this.trackerId, {
           params: {
-            page: this.page
+            page: this.page,
+            confirmationStatus: this.confirmationStatus
           }
         })
         .then(response => {
-          if (!_.isEmpty(response.data) && !_.isEmpty(response.data.data)) {
+          this.confirmedCount = response.data.confirmedCount
+          this.notConfirmedCount = response.data.notConfirmedCount
+
+          if (!_.isEmpty(response.data) && !_.isEmpty(response.data.trackerItems.data)) {
             this.page += 1;
-            this.trackerItems.push(...response.data.data);
+            this.trackerItems.push(...response.data.trackerItems.data);
 
             $state.loaded();
           } else {
@@ -173,6 +189,12 @@ export default {
 
           NProgress.done();
         });
+    },
+
+    refreshInfiniteLoader() {
+      this.page = 1;
+      this.trackerItems = [];
+      this.infiniteId += 1;
     }
   }
 };

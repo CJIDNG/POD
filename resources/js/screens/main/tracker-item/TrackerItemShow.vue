@@ -2,16 +2,22 @@
   <div>
     <page-header>
       <template slot="action">
-        <button class="btn btn-sm btn-outline-success font-weight-bold my-auto">
-          {{ trans.app.new_update }}
-        </button>
+        <a
+          v-if="canComment"
+          href="#"
+          class="btn btn-sm btn-outline-success font-weight-bold my-auto"
+          @click="showNewCommentModal"
+        >
+          <span class="d-block d-lg-none">{{ trans.app.new_update }}</span>
+          <span class="d-none d-lg-block">{{ trans.app.new_update }}</span>
+        </a>
       </template>
     </page-header>
 
-    <main class="py-4">
+    <main v-if="isReady" class="py-4">
       <div class="col-xl-10 offset-xl-1 px-xl-5 col-md-12">
         <div class="row">
-          <div class="col-6">
+          <div class="col-md-6">
             <!-- <pre v-html="prettyJSON(trackerItem)"></pre> -->
             <div class="list-group">
 
@@ -22,29 +28,36 @@
                 <div class="d-flex w-100 justify-content-between">
                   <h5 class="mb-1">{{ field.label }}</h5>
                 </div>
-                <p class="mb-1">{{ trackerItem.meta[field.model] }}</p>
+                <p class="mb-1">
+                  {{
+                    (field.type == 'input' && field.inputType == 'date') ? 
+                      moment(trackerItem.meta[field.model]).format('DD-MM-YYYY') : trackerItem.meta[field.model] 
+                  }}
+                </p>
                 <small></small>
               </a>
 
             </div>
           </div>
-          <div class="col-6" style="max-height: 650px; overflow: scroll; position: relative">
+          <div class="col-md-6" style="max-height: 650px; overflow: scroll; position: relative">
             <h1 class="bg-white" style="position: sticky; top: 0; width: 100%">
               {{trans.app.feed}}
               <hr>
             </h1>
-            <div class="mt-5" v-for="(i, index) in 10" :key="index">
+            <div class="mt-5" v-for="(comment, index) in trackerItem.comments" :key="index">
               <div class="media">
                 <div class="media-body">
-                  <h5 class="mt-0 text-bold">Faruk Nasir</h5>
-                  <p>
-                    Cras sit amet nibh libero, in gravida nulla. 
-                    Nulla vel metus scelerisque ante sollicitudin. 
-                    Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. 
-                    Fusce condimentum nunc ac nisi vulputate fringilla. 
-                    Donec lacinia congue felis in faucibus.
-                  </p>
-                  <p class="text-muted">{{moment(trackerItem.created_at).locale(CurrentTenant.locale).fromNow()}}</p>
+                  <h5 class="mt-0 text-bold">
+                    {{ comment.commentator.name }}
+                    <small v-if="comment.is_approved == 1" class="badge badge-info">
+                      {{ trans.app.verified }}
+                    </small>
+                    <small v-else class="badge badge-danger">
+                      {{ trans.app.not_verified }}
+                    </small>
+                  </h5>
+                  <p v-html="comment.comment"></p>
+                  <p class="text-muted">{{moment(comment.created_at).locale(CurrentTenant.locale).fromNow()}}</p>
                 </div>
               </div>
               <hr>
@@ -54,31 +67,48 @@
       </div>
     </main>
 
+    <new-comment-modal 
+      v-if="isReady" 
+      ref="newCommentModal" 
+      :trackerId="tracker.id" 
+      :trackerItemId="trackerItem.id"
+    />
+
     <page-footer></page-footer>
   </div>
 </template>
 
 <script>
+import $ from "jquery";
 import moment from "moment";
 import NProgress from "nprogress";
 import PageHeader from "../../../components/PageHeader";
 import PageFooter from "../../../components/PageFooter"
+import NewCommentModal from "../../../components/modals/tracker/NewCommentModal"
 
 export default {
   name: "trackerItems-show",
 
   components: {
     PageHeader,
-    PageFooter
+    PageFooter,
+    NewCommentModal
   },
 
   data() {
     return {
+      isReady: false,
       trackerItem: {},
       tracker: {},
       trans: JSON.parse(CurrentTenant.lang),
       id: this.$route.params.id
     };
+  },
+
+  computed: {
+    canComment() {
+      return this.hasPermission('create_tracker_items') || this.hasPermission('update_tracker_items')
+    }
   },
 
   mounted() {
@@ -87,28 +117,24 @@ export default {
 
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      vm.request()
-        .get(`/api/v1/trackerItems/${to.params.trackerId}/${vm.id}`)
-        .then(response => {
-          vm.trackerItem = response.data
-
-          NProgress.done();
-        })
-        .catch(error => {
-          console.log(error);
-          vm.$router.push({ name: "trackerItems-main" });
-        });
-
-      vm.request()
-        .get("/api/v1/trackers/" + to.params.trackerId)
-        .then(response => {
-          vm.tracker = response.data
-        })
+      Promise.all([
+        vm.request()
+          .get(`/api/v1/trackerItems/${to.params.trackerId}/${vm.id}`),
+        vm.request()
+          .get("/api/v1/trackers/" + to.params.trackerId)
+      ]).then(([trackerItemResponse, trackerResponse]) => {
+        vm.trackerItem = trackerItemResponse.data
+        vm.tracker = trackerResponse.data
+        NProgress.done()
+        vm.isReady = true
+      })
     });
   },
 
   methods: {
-    
+    showNewCommentModal() {
+      $(this.$refs.newCommentModal.$el).modal("show")
+    },
   }
 };
 </script>

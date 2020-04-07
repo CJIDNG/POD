@@ -25,6 +25,7 @@ class TrackerItem extends Model
    * @var array
    */
   protected $casts = [
+    'confirmed' => 'boolean',
     'meta' => 'array',
   ];
 
@@ -36,7 +37,7 @@ class TrackerItem extends Model
    */
   public function scopeConfirmed($query): Builder
   {
-    return $query->where('confirmed', '1');
+    return $query->where('confirmed', true);
   }
 
   /**
@@ -45,12 +46,16 @@ class TrackerItem extends Model
    * @param Builder $query
    * @return Builder
    */
-  public function scopeUnconfirmed($query): Builder
+  public function scopeNotConfirmed($query): Builder
   {
-    return $query->where('confirmed', '0');
+    return $query->where('confirmed', false);
   }
 
   public function tracker(): BelongsTo {
     return $this->belongsTo(\App\Tracker::class);
+  }
+
+  public function user(): BelongsTo {
+    return $this->belongsTo(\App\User::class);
   }
 }
