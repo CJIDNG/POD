@@ -107,7 +107,8 @@ export default {
 
   computed: {
     canComment() {
-      return this.hasPermission('create_tracker_items') || this.hasPermission('update_tracker_items')
+      return this.isLoggedIn && (this.hasPermission('create_tracker_items') || 
+        this.hasPermission('update_tracker_items'))
     }
   },
 
