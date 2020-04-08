@@ -34,7 +34,7 @@
                 <span
                   class="d-none d-md-inline-block"
                 >
-                  {{ trans.app.created }} {{ moment(member.created_at).locale(CurrentTenant.locale).fromNow() }}
+                  {{ trans.app.updated }} {{ moment(member.updated_at).locale(CurrentTenant.locale).fromNow() }}
                 </span>
               </div>
             </div>

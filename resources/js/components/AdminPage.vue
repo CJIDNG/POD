@@ -132,7 +132,9 @@
             </li>
           </ul>
         </li>
-        <li class="dropdown" 
+        <li
+          v-if="hasSubapp('tracker')"
+          class="dropdown" 
           :class="{'active': /admin\/trackers/.test($route.path) || /admin\/trackerItems/.test($route.path)}">
           <a
             href="#trackersSubmenu"

@@ -38,7 +38,7 @@
             >
               {{ trans.app.blog }}
             </router-link>
-            <li class="nav-item dropdown">
+            <li v-if="hasSubapp('tracker')" class="nav-item dropdown">
               <a 
                 class="nav-link dropdown-toggle" 
                 href="#" id="trackerDropdown" 

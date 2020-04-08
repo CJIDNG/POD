@@ -332,10 +332,20 @@ export default {
             this.form.email = response.data.member.email
             this.form.phone_number = response.data.member.phone_number
 
-            this.form.socials_meta.twitter_url = response.data.member.socials_meta.twitter_url || ''
-            this.form.socials_meta.instagram_url = response.data.member.socials_meta.instagram_url || ''
-            this.form.socials_meta.linkedin_url = response.data.member.socials_meta.linkedin_url || ''
-            this.form.socials_meta.facebook_url = response.data.member.socials_meta.facebook_url || ''
+            if (response.data.member.socials_meta) {
+              this.form.socials_meta.twitter_url = response.data.member.socials_meta.twitter_url || ''
+              this.form.socials_meta.instagram_url = response.data.member.socials_meta.instagram_url || ''
+              this.form.socials_meta.linkedin_url = response.data.member.socials_meta.linkedin_url || ''
+              this.form.socials_meta.facebook_url = response.data.member.socials_meta.facebook_url || ''
+            } else {
+              this.form.socials_meta = {
+                twitter_url: "",
+                instagram_url: "",
+                facebook_url: "",
+                linkedin_url: "",
+              }
+            }
+
             this.form.avatar = response.data.member.avatar
             this.form.designations = response.data.member.designations.map((designation) => {
               return designation.id
