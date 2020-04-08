@@ -19,7 +19,9 @@ class MemberController extends Controller
     $all = request('all') ?? NULL;
     
     if ($all) {
-      $members = Member::all();
+      $members = Member::orderBy('name')
+        ->with('designations:title')
+        ->get();
     } else {
       $members = Member::orderBy('name')
         ->with('designations:title')

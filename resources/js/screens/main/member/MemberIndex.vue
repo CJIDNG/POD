@@ -137,7 +137,7 @@ export default {
       // filter: "",
       // filterId: "",
       // query: "",
-      url: "/api/v1/members",
+      url: "/api/v1/members?all=1",
       // from: "",
       // to: "",
       // total: "",
@@ -203,17 +203,18 @@ export default {
           }
         })
         .then(response => {
-          if (!_.isEmpty(response.data) && !_.isEmpty(response.data.data)) {
-            this.page += 1;
-            this.members.push(...response.data.data);
-            // this.from = response.data.from
-            // this.to = response.data.to
-            // this.total = response.data.total
+          this.members = response.data
+          // if (!_.isEmpty(response.data) && !_.isEmpty(response.data.data)) {
+          //   this.page += 1;
+          //   this.members.push(...response.data.data);
+          //   // this.from = response.data.from
+          //   // this.to = response.data.to
+          //   // this.total = response.data.total
 
-            // $state.loaded();
-          } else {
-            // $state.complete();
-          }
+          //   // $state.loaded();
+          // } else {
+          //   // $state.complete();
+          // }
 
           NProgress.done();
         })
