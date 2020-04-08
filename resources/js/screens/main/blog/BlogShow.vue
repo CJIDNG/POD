@@ -1,13 +1,6 @@
 <template>
   <div>
-    <page-header>
-      <template slot="action">
-        <router-link
-          :to="{ name: 'blog' }"
-          class="btn btn-sm btn-outline-success font-weight-bold my-auto"
-        >{{ trans.app.blog }}</router-link>
-      </template>
-    </page-header>
+    <page-header></page-header>
 
     <main class="py-4">
       <div class="col-xl-10 offset-xl-1 px-xl-5 col-md-12">

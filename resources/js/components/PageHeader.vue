@@ -2,14 +2,16 @@
   <div class="shadow">
     <div class="col-xl-10 offset-xl-1 px-xl-5 col-md-12">
       <nav 
-        class="navbar navbar-expand-lg justify-content-between flex-nowrap flex-row py-2 px-0">
+        class="navbar navbar-expand-lg ">
         <button v-if="isAdminPage" type="button" id="sidebarCollapse" class="btn btn-icon">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px">
             <path fill="#607D8B" d="M6 22H42V26H6zM6 10H42V14H6zM6 34H42V38H6z" />
           </svg>
         </button>
         <button v-else class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px">
+            <path fill="#607D8B" d="M6 22H42V26H6zM6 10H42V14H6zM6 34H42V38H6z" />
+          </svg>
         </button>
 
         <router-link to="/" class="navbar-brand">
