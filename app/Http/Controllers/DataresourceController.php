@@ -6,6 +6,7 @@ use App\Dataresource;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class DataresourceController extends Controller
 {
@@ -43,7 +44,37 @@ class DataresourceController extends Controller
           'id' => NULL,
         ], 200);
       } else {
-        $dataresource = Dataresource::find($id);
+        $dataresource = Dataresource::where('id', $id)->with('format.previews')->first();
+
+        if (request('previewData')) {
+          /**
+           * usage of str_replace here is a hack to make 
+           * the is_file function in PhpSpreadsheet work as expected
+           */
+          $inputFileName = Storage::disk('public')->path(\str_replace('storage/', '', $dataresource->path));
+          $inputFileType = \PhpOffice\PhpSpreadsheet\IOFactory::identify($inputFileName);
+          $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
+          $reader->setReadDataOnly(true);
+          $spreadsheet = $reader->load($inputFileName);
+
+          $worksheet = $spreadsheet->getActiveSheet();
+
+          // echo '<table>' . PHP_EOL;
+          // foreach ($worksheet->getRowIterator() as $row) {
+          //     echo '<tr>' . PHP_EOL;
+          //     $cellIterator = $row->getCellIterator();
+          //     $cellIterator->setIterateOnlyExistingCells(FALSE); 
+          //     foreach ($cellIterator as $cell) {
+          //         echo '<td>' .
+          //             $cell->getValue() .
+          //             '</td>' . PHP_EOL;
+          //     }
+          //     echo '</tr>' . PHP_EOL;
+          // }
+          // echo '</table>' . PHP_EOL;
+
+          // dd($spreadsheet->getSheet(1));
+        }
 
         if ($dataresource) {
           return response()->json($dataresource, 200);
