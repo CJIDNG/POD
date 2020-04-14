@@ -19,7 +19,7 @@ class MemberController extends Controller
     $all = request('all') ?? NULL;
     
     if ($all) {
-      $members = Member::orderBy('name')
+      $members = Member::orderBy('created_at', 'ASC')
         ->with('designations:title')
         ->get();
     } else {

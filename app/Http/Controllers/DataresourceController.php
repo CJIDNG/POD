@@ -6,10 +6,19 @@ use App\Dataresource;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\{Spreadsheet, IOFactory};
 
 class DataresourceController extends Controller
 {
+  public function __construct() {
+    $client = new \Redis();
+    $client->connect('127.0.0.1', 6379);
+    $pool = new \Cache\Adapter\Redis\RedisCachePool($client);
+    $simpleCache = new \Cache\Bridge\SimpleCache\SimpleCacheBridge($pool);
+
+    \PhpOffice\PhpSpreadsheet\Settings::setCache($simpleCache);
+  }
+
   /**
    * Display a listing of the resource.
    *
@@ -47,33 +56,7 @@ class DataresourceController extends Controller
         $dataresource = Dataresource::where('id', $id)->with('format.previews')->first();
 
         if (request('previewData')) {
-          /**
-           * usage of str_replace here is a hack to make 
-           * the is_file function in PhpSpreadsheet work as expected
-           */
-          $inputFileName = Storage::disk('public')->path(\str_replace('storage/', '', $dataresource->path));
-          $inputFileType = \PhpOffice\PhpSpreadsheet\IOFactory::identify($inputFileName);
-          $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
-          $reader->setReadDataOnly(true);
-          $spreadsheet = $reader->load($inputFileName);
-
-          $worksheet = $spreadsheet->getActiveSheet();
-
-          // echo '<table>' . PHP_EOL;
-          // foreach ($worksheet->getRowIterator() as $row) {
-          //     echo '<tr>' . PHP_EOL;
-          //     $cellIterator = $row->getCellIterator();
-          //     $cellIterator->setIterateOnlyExistingCells(FALSE); 
-          //     foreach ($cellIterator as $cell) {
-          //         echo '<td>' .
-          //             $cell->getValue() .
-          //             '</td>' . PHP_EOL;
-          //     }
-          //     echo '</tr>' . PHP_EOL;
-          // }
-          // echo '</table>' . PHP_EOL;
-
-          // dd($spreadsheet->getSheet(1));
+          $this->getFileData($dataresource->path);
         }
 
         if ($dataresource) {
@@ -83,6 +66,66 @@ class DataresourceController extends Controller
         }
       }
     }
+  }
+
+  private function getFileName($path) {
+    /**
+     * usage of str_replace here is a hack to make 
+     * the is_file function in PhpSpreadsheet work as expected
+     */
+    return Storage::disk('public')->path(\str_replace('storage/', '', $path));
+  }
+
+  private function getFileType($inputFileName) {
+    return IOFactory::identify($inputFileName);
+  }
+
+  private function createReader($inputFileType) {
+    $reader = IOFactory::createReader($inputFileType);
+    $reader->setReadDataOnly(true);
+    return $reader;
+  }
+
+  private function getFileData($path) {
+    /**
+     * probably terrible hacks for time 
+     * and memory limit
+     */
+    // set_time_limit(300);
+    // ini_set('memory_limit', '-1');
+    $fileData = [];
+    $inputFileName = $this->getFileName($path);
+    $inputFileType = $this->getFileType($inputFileName);
+    $reader = $this->createReader($inputFileType);
+    
+    /**  Define how many rows we want to read for each "chunk"  **/
+    $chunkSize = 2048;
+    /**  Create a new Instance of our Read Filter  **/
+    $chunkFilter = new \App\Http\Controllers\Helpers\ChunkReadFilter();
+    /**  Tell the Reader that we want to use the Read Filter  **/
+    $reader->setReadFilter($chunkFilter);
+    $spreadsheet = $reader->load($inputFileName);
+    $sheetNames = $spreadsheet->getSheetNames();
+
+    $fileData = array();
+    /**  Loop to read our worksheet in "chunk size" blocks  **/
+    for ($startRow = 2; $startRow <= 65536; $startRow += $chunkSize) {
+      /**  Tell the Read Filter which rows we want this iteration  **/
+      $chunkFilter->setRows($startRow,$chunkSize);
+      /**  Load only the rows that match our filter  **/
+      $worksheet = $reader->load($inputFileName)->getActiveSheet();
+      // ->getSheetByName($sheetName)
+
+      // dd($spreadsheet->getActiveSheet());
+      foreach ($worksheet->getRowIterator() as $row) {
+        $cellIterator = $row->getCellIterator();
+        $cellIterator->setIterateOnlyExistingCells(FALSE); 
+        foreach ($cellIterator as $cell) {
+          array_push($fileData, $cell->getValue());
+        }
+      }
+    }
+
   }
 
   /**
