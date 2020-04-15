@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\{Spreadsheet, IOFactory};
+use \PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 
 class DataresourceController extends Controller
 {
@@ -56,7 +57,14 @@ class DataresourceController extends Controller
         $dataresource = Dataresource::where('id', $id)->with('format.previews')->first();
 
         if (request('previewData')) {
-          $this->getFileData($dataresource->path);
+          $sn = request('sheetName') ?? NULL;
+          $result = $this->getFileData($dataresource->path, $sn);
+          
+          return response()->json([
+            'dataresource' => $dataresource,
+            'worksheet' => $result['worksheet'],
+            'sheetNames' => $result['sheetNames'],
+          ], 200);
         }
 
         if ($dataresource) {
@@ -82,50 +90,52 @@ class DataresourceController extends Controller
 
   private function createReader($inputFileType) {
     $reader = IOFactory::createReader($inputFileType);
-    $reader->setReadDataOnly(true);
+    $reader->setReadDataOnly(TRUE);
     return $reader;
   }
 
-  private function getFileData($path) {
+  private function getFileData($path, $sn = NULL) {
     /**
      * probably terrible hacks for time 
      * and memory limit
      */
-    // set_time_limit(300);
-    // ini_set('memory_limit', '-1');
-    $fileData = [];
+    set_time_limit(300);
+    ini_set('memory_limit', '-1');
     $inputFileName = $this->getFileName($path);
     $inputFileType = $this->getFileType($inputFileName);
     $reader = $this->createReader($inputFileType);
     
-    /**  Define how many rows we want to read for each "chunk"  **/
-    $chunkSize = 2048;
-    /**  Create a new Instance of our Read Filter  **/
-    $chunkFilter = new \App\Http\Controllers\Helpers\ChunkReadFilter();
-    /**  Tell the Reader that we want to use the Read Filter  **/
-    $reader->setReadFilter($chunkFilter);
     $spreadsheet = $reader->load($inputFileName);
     $sheetNames = $spreadsheet->getSheetNames();
 
-    $fileData = array();
-    /**  Loop to read our worksheet in "chunk size" blocks  **/
-    for ($startRow = 2; $startRow <= 65536; $startRow += $chunkSize) {
-      /**  Tell the Read Filter which rows we want this iteration  **/
-      $chunkFilter->setRows($startRow,$chunkSize);
-      /**  Load only the rows that match our filter  **/
-      $worksheet = $reader->load($inputFileName)->getActiveSheet();
-      // ->getSheetByName($sheetName)
-
-      // dd($spreadsheet->getActiveSheet());
-      foreach ($worksheet->getRowIterator() as $row) {
-        $cellIterator = $row->getCellIterator();
-        $cellIterator->setIterateOnlyExistingCells(FALSE); 
-        foreach ($cellIterator as $cell) {
-          array_push($fileData, $cell->getValue());
-        }
-      }
+    if ($sn) {
+      $activeSheetName = $sn;
+      $worksheet = $spreadsheet->getBySheetName($sn);
+    } else {
+      $activeSheetName = $sheetNames[0];
+      $worksheet = $spreadsheet->getActiveSheet();
     }
 
+    $worksheetData = array($activeSheetName => []);
+    
+    // Get the highest row and column numbers referenced in the worksheet
+    $highestRow = $worksheet->getHighestRow(); // e.g. 10
+    $highestColumn = $worksheet->getHighestColumn(); // e.g 'F'
+    $highestColumnIndex = Coordinate::columnIndexFromString($highestColumn); // e.g. 5
+
+    for ($row = 1; $row <= $highestRow; ++$row) {
+      $rowData = array();
+      for ($col = 1; $col <= $highestColumnIndex; ++$col) {
+        $value = $worksheet->getCellByColumnAndRow($col, $row)->getCalculatedValue();
+        array_push($rowData, $value);
+      }
+      array_push($worksheetData[$activeSheetName], $rowData);
+    }
+
+    return array(
+      'worksheet' => $worksheetData, 
+      'sheetNames' => $sheetNames
+    );
   }
 
   /**
