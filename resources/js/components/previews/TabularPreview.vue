@@ -1,5 +1,22 @@
 <template>
-  <fancy-grid-vue :config="gridConfig"></fancy-grid-vue>
+  <fancy-grid-vue 
+	  :title="activeSheetName"
+    :theme="'bootstrap'"
+    width="100%"
+    height="600"
+    :data="data"
+    :resizable="true"
+    :defaults="defaults"
+    :sel-model="'rows'"
+    :trackOver="true"
+    :columns="columns"
+    :tbar="[{
+      type: 'search',
+      width: 350,
+      emptyText: 'Search',
+      paramsMenu: true,
+      paramsText: 'Parameters'
+    }]"></fancy-grid-vue>
 </template>
 
 <script>
@@ -12,6 +29,14 @@ export default {
     data: {
       type: Array,
       required: true
+    },
+    resource: {
+      type: Object,
+      required: true,
+    },
+    activeSheetName: {
+      type: String,
+      required: true
     }
   },
 
@@ -21,45 +46,30 @@ export default {
 
   data() {
     return {
-      gridConfig: {
-        title: 'Vue with FancyGrid',
-        theme: 'gray',
-        width: '100%',
-        height: 400,
-        data: this.data,
-        resizable: true,
-        defaults: {
-          type: 'string',
-          width: 100,
-          sortable: true,
-          editable: true,
-          resizable: true
-        },
-        selModel: 'rows',
-        trackOver: true,
-        // columns: [{
-        //   type: 'select'
-        // },{
-        //   index: 'company',
-        //   title: 'Company'
-        // },{
-        //   index: 'name',
-        //   title: 'Name'
-        // },{
-        //   index: 'surname',
-        //   title: 'Sur Name'
-        // },{
-        //   index: 'age',
-        //   title: 'Age',
-        //   type: 'number',
-        //   width: 80
-        // },{
-        //   index: 'email',
-        //   title: 'Email',
-        //   width: 160
-        // }]
+      defaults: {
+        type: 'string',
+        width: 100,
+        sortable: true,
+        editable: false,
+        resizable: true
       }
     }
+  },
+
+  computed: {
+    columns() {
+      let header = [...this.data[0]]
+      return header.map((value, index) => {
+        return {
+          index: index,
+          title: value
+        }
+      })
+    }
+  },
+
+  watch: {
+    
   }
 
 }

@@ -110,7 +110,7 @@ class DataresourceController extends Controller
 
     if ($sn) {
       $activeSheetName = $sn;
-      $worksheet = $spreadsheet->getBySheetName($sn);
+      $worksheet = $spreadsheet->getSheetByName($sn);
     } else {
       $activeSheetName = $sheetNames[0];
       $worksheet = $spreadsheet->getActiveSheet();
