@@ -53,9 +53,12 @@
         "bootstrap-icons": "^1.0.0-alpha2",
         "fancy-grid-vue": "^1.0.5",
         "fancygrid": "^1.7.93",
+        "highcharts": "^8.0.4",
+        "highcharts-vue": "^1.3.5",
         "imports-loader": "^0.8.0",
         "jquery-mousewheel": "^3.1.13",
         "malihu-custom-scrollbar-plugin": "^3.1.5",
+        "vue-element-loading": "^1.1.5",
         "vue-form-generator": "^2.3.4"
     }
 }

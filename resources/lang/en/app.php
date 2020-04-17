@@ -225,6 +225,7 @@ return [
   'licenses' => 'Licenses',
   'lifetime_summary' => 'Lifetime Summary',
   'lookup' => 'Lookup',
+  'map' => 'Map',
   'members' => 'Members',
   'meta_description' => 'Meta Description',
   'meta_description_placeholder' => 'Meta description for your post',

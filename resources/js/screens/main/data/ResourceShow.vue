@@ -3,9 +3,13 @@
     <page-header></page-header>
 
     <main class="py-4">
-      <div v-if="isReady" class="col-xl-8 offset-xl-2 px-xl-5 col-md-12">
+      <vue-element-loading :active="!isReady" :is-full-screen="true"/>
+      <div class="col-xl-8 offset-xl-2 px-xl-5 col-md-12">
         <h1 class="my-3">{{ dataresource.title }}</h1>
-        <div class="content-body mt-4 pb-3" v-html="dataresource.description"></div>
+        <div class="content-body mt-4 mb-3" v-html="dataresource.description"></div>
+        <p v-if="dataresource.format" class="text-muted">
+          <span class="text-success">{{ `.${dataresource.format.extension}` }}</span>
+        </p>
         <div class="row">
           <div class="col-md-12">
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -24,11 +28,20 @@
                   {{ trans.app.preview }}
                 </a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" id="v-pills-map-tab" data-toggle="pill" href="#v-pills-map" role="tab" aria-controls="v-pills-map" aria-selected="false">
+                  {{ trans.app.map }}
+                </a>
+              </li>
               <li class="ml-3">
                 <form class="form-inline">
                   <div class="form-group mb-2">
                     <label for="sheets" class="sr-only mr-3">Worksheets</label>
-                    <select v-model="activeSheetName" id="sheets" class="form-control">
+                    <select 
+                      @change="load($event.target.value)" 
+                      v-model="activeSheetName" 
+                      id="sheets" 
+                      class="form-control">
                       <option v-for="(sheetName, index) in sheetNames" :key="index" :value="sheetName">
                         {{ sheetName }}
                       </option>
@@ -40,16 +53,25 @@
             <div class="tab-content" id="v-pills-tabContent">
               <div class="tab-pane fade show active" id="v-pills-table" role="tabpanel" aria-labelledby="v-pills-table-tab">
                 <tabular-preview 
+                  v-if="isReady"
                   :data="worksheet" 
                   :resource="dataresource"
                   :activeSheetName="activeSheetName"
                 />
               </div>
               <div class="tab-pane fade" id="v-pills-chart" role="tabpanel" aria-labelledby="v-pills-chart-tab">
-                Chart
+                <chart-preview 
+                  v-if="isReady"
+                  :chartOptions="chartOptions" 
+                  :resource="dataresource"
+                  :activeSheetName="activeSheetName"
+                />
               </div>
               <div class="tab-pane fade" id="v-pills-preview" role="tabpanel" aria-labelledby="v-pills-preview-tab">
                 Preview
+              </div>
+              <div class="tab-pane fade" id="v-pills-map" role="tabpanel" aria-labelledby="v-pills-map-tab">
+                Map
               </div>
             </div>
           </div>
@@ -67,7 +89,8 @@ import NProgress from "nprogress"
 import PageHeader from "../../../components/PageHeader"
 import PageFooter from "../../../components/PageFooter"
 import TabularPreview from "../../../components/previews/TabularPreview"
-import QueryableWorker from "../../../util/queryable.worker"
+import ChartPreview from "../../../components/previews/ChartPreview"
+import VueElementLoading from 'vue-element-loading'
 
 export default {
   name: "dataresource-show",
@@ -75,7 +98,9 @@ export default {
   components: {
     PageHeader,
     PageFooter,
-    TabularPreview
+    TabularPreview,
+    ChartPreview,
+    VueElementLoading
   },
 
   data() {
@@ -84,6 +109,11 @@ export default {
       worksheet: [],
       sheetNames: [],
       activeSheetName: '',
+      chartOptions: {
+        series: [{
+          data: [1,2,3] // sample data
+        }]
+      },
       trans: JSON.parse(CurrentTenant.lang),
       id: this.$route.params.resourceId,
       isReady: false,
@@ -92,7 +122,7 @@ export default {
   },
 
   mounted() {
-    NProgress.done()
+    
   },
 
   beforeRouteEnter(to, from, next) {
@@ -102,11 +132,7 @@ export default {
   },
 
   watch: {
-    activeSheetName: function (val, oldVal) {
-      if (val != oldVal) {
-        this.load(val)
-      }
-    }
+    
   },
 
   methods: {
@@ -128,43 +154,43 @@ export default {
       this.isReady = false
       let method = 'get'
       let token = this.getToken()
-      let url = `/api/v1/dataresources/${this.$route.params.resourceId}`
-      let params = {}
-      params.previewData = 1
-      if (sheetName) params.sheetName = sheetName
+      let url = `/api/v1/dataresources/${this.$route.params.resourceId}?previewData=1`
+      if (sheetName) url += `&&sheetName=${sheetName}`
 
       let updateEssentials = (response) => {
-        this.dataresource = response.data.dataresource
-        let sn = Object.keys(response.data.worksheet)[0]
+        this.dataresource = response.dataresource
+        let sn = Object.keys(response.worksheet)[0]
         this.activeSheetName = sn
-        this.worksheet = response.data.worksheet[sn]
-        this.sheetNames = response.data.sheetNames
+        this.worksheet = response.worksheet[sn]
+        this.sheetNames = response.sheetNames
         this.isReady = true
         this.hasSuccess = true
       }
 
-      if (false) {
+      if (window.Worker) {
         console.info('worker available !!! using worker')
-        let queryableWorker = new QueryableWorker('request.worker.js')
+        let queryableWorker = new this.QueryableWorker('/workers/tasks.worker.js')
 
         try {
           queryableWorker.addListener('success', (response) => {
             updateEssentials(response)
             NProgress.done()
+            queryableWorker.terminate()
           })
 
           queryableWorker.addListener('error', (error) => {
             console.error(error)
             this.$router.push({ name: "data" })
             NProgress.done()
+            queryableWorker.terminate()
           })
+
+          queryableWorker.sendQuery('makeRequest', method, token, url)
         } catch (error) {
           queryableWorker.terminate()
           NProgress.done()
           console.error(error)
         }
-
-        queryableWorker.sendQuery('makeRequest', method, token, url, params)
       } else {
         console.warn('Worker not available. at a risk of window freeze')
 
@@ -183,6 +209,7 @@ export default {
     }
   }
 };
+
 </script>
 
 <style scoped></style>

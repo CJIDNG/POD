@@ -1,15 +1,16 @@
 <template>
   <fancy-grid-vue 
-	  :title="activeSheetName"
+	  :title="`Sheet - ${activeSheetName}`"
     :theme="'bootstrap'"
     width="100%"
-    height="600"
+    height="100%"
     :data="data"
     :resizable="true"
     :defaults="defaults"
     :sel-model="'rows'"
     :trackOver="true"
     :columns="columns"
+    :paging="true"
     :tbar="[{
       type: 'search',
       width: 350,
@@ -58,7 +59,8 @@ export default {
 
   computed: {
     columns() {
-      let header = [...this.data[0]]
+      let header = this.data.shift()
+
       return header.map((value, index) => {
         return {
           index: index,
