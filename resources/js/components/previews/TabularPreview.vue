@@ -1,39 +1,35 @@
 <template>
-  <fancy-grid-vue 
-	  :title="`Sheet - ${activeSheetName}`"
-    :theme="'bootstrap'"
-    width="100%"
-    height="100%"
-    :data="data"
-    :resizable="true"
-    :defaults="defaults"
-    :sel-model="'rows'"
-    :trackOver="true"
-    :columns="columns"
-    :paging="true"
-    :tbar="[{
-      type: 'search',
-      width: 350,
-      emptyText: 'Search',
-      paramsMenu: true,
-      paramsText: 'Parameters'
-    }]"></fancy-grid-vue>
+  <table id="datatable" class="table table-secondary">
+    <thead></thead>
+    <tbody></tbody>
+  </table>
 </template>
 
 <script>
-import FancyGridVue from 'fancy-grid-vue'
+var $ = require( 'jquery' )
+require( 'datatables.net-bs4' )
+require( 'datatables.net-fixedheader-bs4' )
+require( 'datatables.net-responsive-bs4' )
 
 export default {
-  name: 'TabularPreview',
+  name: "TabularPreview",
 
   props: {
+    isReady: {
+      type: Boolean,
+      required: true
+    },
     data: {
       type: Array,
       required: true
     },
+    columns: {
+      type: Array,
+      required: true  
+    },
     resource: {
       type: Object,
-      required: true,
+      required: true
     },
     activeSheetName: {
       type: String,
@@ -41,42 +37,45 @@ export default {
     }
   },
 
-  components: {
-    FancyGridVue
-  },
+  components: {},
 
   data() {
     return {
-      defaults: {
-        type: 'string',
-        width: 100,
-        sortable: true,
-        editable: false,
-        resizable: true
+      datatable: null,
+      dataChanged: false,
+      columnChanged: false
+    };
+  },
+
+  watch: {
+    isReady: function (val) {
+      if (val) {
+        if ($.fn.dataTable.isDataTable('#datatable')) {
+          $('#datatable').DataTable().clear().destroy()
+          $('#datatable').html('<thead></thead><tbody></tbody>')
+        }
+
+        this.initDatatable(
+          this.data,
+          this.columns
+        )
       }
     }
   },
 
-  computed: {
-    columns() {
-      let header = this.data.shift()
-
-      return header.map((value, index) => {
-        return {
-          index: index,
-          title: value
-        }
+  methods: {
+    initDatatable (data, columns) {
+      $('#datatable').DataTable({
+        destroy: true,
+        data: data,
+        columns: columns,
+        responsive: true,
+        pagingType: 'simple'
       })
     }
-  },
-
-  watch: {
-    
   }
-
-}
+};
 </script>
 
 <style>
-
 </style>

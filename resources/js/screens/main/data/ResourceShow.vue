@@ -4,7 +4,7 @@
 
     <main class="py-4">
       <vue-element-loading :active="!isReady" :is-full-screen="true"/>
-      <div class="col-xl-8 offset-xl-2 px-xl-5 col-md-12">
+      <div class="col-12 col-md-10 mx-auto">
         <h1 class="my-3">{{ dataresource.title }}</h1>
         <div class="content-body mt-4 mb-3" v-html="dataresource.description"></div>
         <p v-if="dataresource.format" class="text-muted">
@@ -50,19 +50,21 @@
                 </form>
               </li>
             </ul>
-            <div class="tab-content" id="v-pills-tabContent">
+            <div style="width: 100%; min-height: 400px" class="tab-content" id="v-pills-tabContent">
               <div class="tab-pane fade show active" id="v-pills-table" role="tabpanel" aria-labelledby="v-pills-table-tab">
-                <tabular-preview 
-                  v-if="isReady"
-                  :data="worksheet" 
+                <tabular-preview
+                  :isReady="isReady"
+                  :data="worksheet"
+                  :columns="columns"
                   :resource="dataresource"
                   :activeSheetName="activeSheetName"
                 />
               </div>
               <div class="tab-pane fade" id="v-pills-chart" role="tabpanel" aria-labelledby="v-pills-chart-tab">
                 <chart-preview 
-                  v-if="isReady"
-                  :chartOptions="chartOptions" 
+                  :isReady="isReady"
+                  :data="worksheet" 
+                  :columns="columns"
                   :resource="dataresource"
                   :activeSheetName="activeSheetName"
                 />
@@ -107,22 +109,14 @@ export default {
     return {
       dataresource: {},
       worksheet: [],
+      columns: [],
       sheetNames: [],
       activeSheetName: '',
-      chartOptions: {
-        series: [{
-          data: [1,2,3] // sample data
-        }]
-      },
       trans: JSON.parse(CurrentTenant.lang),
       id: this.$route.params.resourceId,
       isReady: false,
       hasSuccess: false
     };
-  },
-
-  mounted() {
-    
   },
 
   beforeRouteEnter(to, from, next) {
@@ -155,14 +149,14 @@ export default {
       let method = 'get'
       let token = this.getToken()
       let url = `/api/v1/dataresources/${this.$route.params.resourceId}?previewData=1`
-      if (sheetName) url += `&&sheetName=${sheetName}`
+      if (sheetName) url += `&sheetName=${sheetName}`
 
       let updateEssentials = (response) => {
         this.dataresource = response.dataresource
-        let sn = Object.keys(response.worksheet)[0]
-        this.activeSheetName = sn
-        this.worksheet = response.worksheet[sn]
+        this.activeSheetName = response.activeSheetName
+        this.worksheet = response.worksheet
         this.sheetNames = response.sheetNames
+        this.columns = JSON.parse(response.columns)
         this.isReady = true
         this.hasSuccess = true
       }
@@ -179,7 +173,6 @@ export default {
           })
 
           queryableWorker.addListener('error', (error) => {
-            console.error(error)
             this.$router.push({ name: "data" })
             NProgress.done()
             queryableWorker.terminate()
@@ -189,19 +182,19 @@ export default {
         } catch (error) {
           queryableWorker.terminate()
           NProgress.done()
-          console.error(error)
         }
       } else {
         console.warn('Worker not available. at a risk of window freeze')
 
         this.request()
           .get(url, {
-            params: params
+            params: {
+              sheetName: sheetName ?? null
+            }
           }).then(response => {
-            updateEssentials(response)
+            updateEssentials(response.data)
             NProgress.done()
           }).catch(error => {
-            console.error(error)
             this.$router.push({ name: "data" })
             NProgress.done()
           })

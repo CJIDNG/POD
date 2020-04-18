@@ -54,16 +54,28 @@ class DataresourceController extends Controller
           'id' => NULL,
         ], 200);
       } else {
-        $dataresource = Dataresource::where('id', $id)->with('format.previews')->first();
+        $dataresource = Dataresource::where('id', $id)
+          ->with('format.previews')
+          ->with('dataset.resources')
+          ->first();
 
         if (request('previewData')) {
           $sn = request('sheetName') ?? NULL;
           $result = $this->getFileData($dataresource->path, $sn);
+
+          $columns = collect($result['columns'])->map(function($column, $key) {
+            return array(
+              'index' => $key,
+              'title' => $column
+            );
+          })->toJson();
           
           return response()->json([
             'dataresource' => $dataresource,
             'worksheet' => $result['worksheet'],
             'sheetNames' => $result['sheetNames'],
+            'activeSheetName' => $result['activeSheetName'],
+            'columns' => $columns
           ], 200);
         }
 
@@ -116,7 +128,8 @@ class DataresourceController extends Controller
       $worksheet = $spreadsheet->getActiveSheet();
     }
 
-    $worksheetData = array($activeSheetName => []);
+    $worksheetData = array();
+    $columns = array();
     
     // Get the highest row and column numbers referenced in the worksheet
     $highestRow = $worksheet->getHighestRow(); // e.g. 10
@@ -127,14 +140,26 @@ class DataresourceController extends Controller
       $rowData = array();
       for ($col = 1; $col <= $highestColumnIndex; ++$col) {
         $value = $worksheet->getCellByColumnAndRow($col, $row)->getCalculatedValue();
+
+        if (!$value) {
+          $value = " ";
+        }
+
         array_push($rowData, $value);
       }
-      array_push($worksheetData[$activeSheetName], $rowData);
+
+      if ($row == 1) {
+        $columns = $rowData;
+      } else {
+        array_push($worksheetData, $rowData);
+      }
     }
 
     return array(
       'worksheet' => $worksheetData, 
-      'sheetNames' => $sheetNames
+      'sheetNames' => $sheetNames,
+      'activeSheetName' => $activeSheetName,
+      'columns' => $columns
     );
   }
 

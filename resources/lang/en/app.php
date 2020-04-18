@@ -20,6 +20,8 @@ return [
   'assets_are_not_up_to_date' => 'The assets for Current Tenant are not up-to-date with the installed version.',
   'author' => 'Author',
   'average_reading_time' => 'Average Reading Time',
+  'axes' => 'Axes(yAxis)',
+  'axis_type' => 'Axis type',
   'bio' => 'Bio',
   'blog' => 'Blog',
   'cancel' => 'Cancel',
@@ -29,6 +31,7 @@ return [
   'caption' => 'Caption',
   'change_user_password' => 'Change user password',
   'chart' => 'Chart',
+  'chart_type' => 'Chart type',
   'choose_a_unique_username' => 'Choose a unique username and share public details about yourself.',
   'choose_a_username' => 'Choose a username...',
   'click_to_see_insights' => 'Click on a post below to see more detailed insights.',
@@ -211,6 +214,8 @@ return [
   'give_your_tracker_has_bot' => 'Indicate if tracker has bot',
   'give_your_tracker_bot_a_name' => 'Give tracker\'s bot name',
   'give_your_tracker_a_description' => 'Give tracker\'s description',
+
+  'group_column' => 'Group column(xAxis)',
 
   'health_facility' => 'Health Facility',
   'home' => 'Home',

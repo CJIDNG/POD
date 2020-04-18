@@ -17,10 +17,8 @@ let queryableFunctions = {
 
     fetch(request)
       .then((response) => {
-        // throw response.json()
         return response.json()
       }).then((json) => {
-        // console.dir(json)
         reply('success', json)
       }).catch((error) => {
         throw error
