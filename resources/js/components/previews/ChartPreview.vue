@@ -1,13 +1,13 @@
 <template>
   <div class="row">
-    <div class="col-12 col-md-8">
+    <div class="col-12 col-md-10">
       <highcharts :options="chartOptions"></highcharts>
     </div>
-    <div class="col-12 col-md-4">
+    <div class="col-12 col-md-2">
       <form>
         <div class="form-group">
           <label for="chart-type">{{ $parent.trans.app.chart_type }}</label>
-          <select class="form-control" id="chart-type">
+          <select v-model="chartType" class="form-control" id="chart-type">
             <option 
               v-for="(chart,index) in availableCharts" 
               :key="index">
@@ -17,7 +17,7 @@
         </div>
         <div class="form-group">
           <label for="x_axis">{{ $parent.trans.app.group_column }}</label>
-          <select class="form-control" id="x_axis">
+          <select v-model="xColumnId" class="form-control" id="x_axis">
             <option 
               v-for="(column, index) in columns" 
               :key="index"
@@ -37,7 +37,8 @@
         </div> -->
         <div class="form-group">
           <label for="axes">{{ $parent.trans.app.axes }}</label>
-          <select multiple class="form-control" id="axes">
+          <select v-model="yColumnIds" multiple class="form-control" id="axes">
+            <option value="" disabled>{{ $parent.trans.app.you_can_select_more_than_one }}</option>
             <option 
               v-for="(column, index) in columns" 
               :key="index"
@@ -46,6 +47,12 @@
             </option>
           </select>
         </div>
+        <div class="form-group">
+          <vue-element-loading :active="loading" />
+          <button @click.prevent="loadChart" type="button" class="btn btn-info">
+            {{ $parent.trans.app.load_chart }}
+          </button>
+        </div>
       </form>
     </div>
   </div>
@@ -53,15 +60,12 @@
 
 <script>
 import {Chart} from 'highcharts-vue'
+import VueElementLoading from 'vue-element-loading'
 
 export default {
   name: 'ChartPreview',
 
   props: {
-    isReady: {
-      type: Boolean,
-      required: true
-    },
     data: {
       type: Array,
       required: true
@@ -81,72 +85,70 @@ export default {
   },
 
   components: {
-    highcharts: Chart
+    highcharts: Chart,
+    VueElementLoading
   },
 
   data() {
     return {
-      availableCharts: ['line', 'spline', 'area', 'areaspline', 'column', 'bar', 'pie', 'scatter', 'gauge', 'arearange', 'areasplinerange', 'columnrange'],
-      chart: {
-        type: '',
-        height: 600
-      },
-      title: '',
-      xAxis: [{
-        title: {
-          text: ''
-        },
-        categories: [],
-      }],
-      yAxis: [{
-        title: {
-          text: ''
-        },
-        // opposite: true
-      }],
-      series: [{
-        yAxis: 0,
-        name: '',
-        data: [] 
-      }],
-      // chartOptions: {
-      //   chart: {
-      //     type: ''
-      //   },
-      //   title: {
-      //     text: this.resource.title
-      //   },
-      //   xAxis: [{ //--- Primary yAxis
-      //     title: {
-      //       text: 'Cities'
-      //     },
-      //     categories: ['Kano', 'Kaduna', 'Zaria', 'Abuja', 'Ibadan', 'Jalingo', 'Taraba', 'Kontagora', 'Niger', 'Benue', 'Osun', 'Ogun']
-      //   }],
-      //   yAxis: [{ //--- Primary yAxis
-      //     title: {
-      //       text: 'Temperature'
-      //     }
-      //   }, { //--- Secondary yAxis
-      //     title: {
-      //       text: 'Rainfall'
-      //     },
-      //     opposite: true
-      //   }],
-      //   series: [{
-      //     name: 'Temperature',
-      //     yAxis: 0,
-      //     data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-      //   },{
-      //     name: 'Rainfall',
-      //     yAxis: 1,
-      //     data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-      //   }]
-      // },
+      loading: false,
+      availableCharts: ['line', 'spline', 'area', 'areaspline', 'column', 'bar', 'pie'],
+      chartType: 'line',
+      xColumnId: '',
+      yColumnIds: [],
+      chartOptions: {}
     }
   },
 
-  computed: {
+  methods: {
+    loadChart() {
+      this.loading = true
+      let queryableWorker = new this.QueryableWorker('/workers/tasks.worker.js')
 
+      let updateEssentials = (response) => {
+        // console.log(response)
+        this.chartOptions = response
+        this.loading = false
+      }
+
+      if (window.Worker) {
+        this.validate()
+        console.info('worker available !!! using worker')
+        let queryableWorker = new this.QueryableWorker('/workers/tasks.worker.js')
+
+        try {
+          queryableWorker.addListener('success', (response) => {
+            updateEssentials(response)
+            queryableWorker.terminate()
+          })
+
+          queryableWorker.addListener('error', (error) => {
+            queryableWorker.terminate()
+            this.loading = false
+          })
+
+          queryableWorker.sendQuery(
+            'buildChartOptions', 
+            this.resource.title, 
+            this.chartType, 
+            this.xColumnId,
+            this.yColumnIds,
+            this.data,
+            this.columns
+          )
+        } catch (error) {
+          queryableWorker.terminate()
+          this.loading = false
+        }
+      }
+    },
+
+    validate() {
+      if (!this.chartType || !this.xColumnId || !Array.isArray(this.yColumnIds) ||
+        this.yColumnIds.length == 0) {
+        throw new TypeError('error - some required parameters are not provided')
+      }
+    }
   }
 
 }

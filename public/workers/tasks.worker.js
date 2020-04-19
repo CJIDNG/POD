@@ -23,8 +23,60 @@ let queryableFunctions = {
       }).catch((error) => {
         throw error
       })
+  }, 
+
+  buildChartOptions: function (title, chartType, xColumnId, yColumnIds, data, columns) {
+    if (arguments.length < 6) { throw new TypeError('reply - not enough arguments'); return; }
+    
+    try {
+      let xColumn = getColumn(columns, xColumnId)
+      let yColumns = getColumns(columns, yColumnIds)
+      let chart = {
+        type: chartType,
+        height: 600
+      }
+      let xAxis = [{
+        title: {
+          text: xColumn.title
+        },
+        categories: data.map((datum) => datum[xColumnId])
+      }]
+      let yAxis = yColumns.map((column) => ({ title: { text: column.title }}))
+      let series = yAxis.map((axis, index) => ({
+        name: axis.title.text,
+        yAxis: index,
+        data: data.map((datum) => (typeof datum[yColumnIds[index]] === 'string') ? 
+            Number(datum[yColumnIds[index]].replace(/,/g, '')) : 
+            Number(datum[yColumnIds[index]]))
+      }))
+
+      let legend = {
+        layout: 'vertical',
+        floating: true,
+        backgroundColor: '#FFFFFF',
+        align: 'left',
+        verticalAlign: 'bottom',
+        y: -20,
+        x: 0
+      }
+
+      reply('success', {
+        title,
+        chart,
+        xAxis,
+        yAxis,
+        series,
+        legend
+      })
+    } catch (error) {
+      reply('error', error)
+    }
   }
 }
+
+var getColumn = (columns, id) => columns[columns.findIndex((column) => column.index == id)]
+
+var getColumns = (columns, ids = []) => ids.map((id) => getColumn(columns, id))
 
 function defaultReply(message) {
   // your default PUBLIC function executed only when main page calls the queryableWorker.postMessage() method directly

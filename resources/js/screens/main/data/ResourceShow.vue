@@ -24,13 +24,13 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="v-pills-preview-tab" data-toggle="pill" href="#v-pills-preview" role="tab" aria-controls="v-pills-preview" aria-selected="false">
-                  {{ trans.app.preview }}
+                <a class="nav-link" id="v-pills-map-tab" data-toggle="pill" href="#v-pills-map" role="tab" aria-controls="v-pills-map" aria-selected="false">
+                  {{ trans.app.map }}
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="v-pills-map-tab" data-toggle="pill" href="#v-pills-map" role="tab" aria-controls="v-pills-map" aria-selected="false">
-                  {{ trans.app.map }}
+                <a class="nav-link" id="v-pills-preview-tab" data-toggle="pill" href="#v-pills-preview" role="tab" aria-controls="v-pills-preview" aria-selected="false">
+                  {{ trans.app.preview }}
                 </a>
               </li>
               <li class="ml-3">
@@ -62,18 +62,18 @@
               </div>
               <div class="tab-pane fade" id="v-pills-chart" role="tabpanel" aria-labelledby="v-pills-chart-tab">
                 <chart-preview 
-                  :isReady="isReady"
+                  
                   :data="worksheet" 
                   :columns="columns"
                   :resource="dataresource"
                   :activeSheetName="activeSheetName"
                 />
               </div>
-              <div class="tab-pane fade" id="v-pills-preview" role="tabpanel" aria-labelledby="v-pills-preview-tab">
-                Preview
-              </div>
               <div class="tab-pane fade" id="v-pills-map" role="tabpanel" aria-labelledby="v-pills-map-tab">
                 Map
+              </div>
+              <div class="tab-pane fade" id="v-pills-preview" role="tabpanel" aria-labelledby="v-pills-preview-tab">
+                Preview
               </div>
             </div>
           </div>
