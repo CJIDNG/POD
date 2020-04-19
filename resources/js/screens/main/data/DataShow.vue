@@ -41,6 +41,7 @@
             </div>
             <div class="ml-auto pl-3">
               <router-link
+                v-if="isPreviewable(resource.format.extension)"
                 :to="{ name: 'resource-show', params: { id: dataset.id, resourceId: resource.id } }"
                 class="btn btn-outline-info"
               >

@@ -157,6 +157,8 @@ export default {
       }
     },
 
+    isPreviewable: (extension) => ['csv', 'xls', 'xlsx'].indexOf(extension) !== -1,
+
     /*
       QueryableWorker instances methods:
         * sendQuery(queryable function name, argument to pass 1, argument to pass 2, etc. etc): calls a Worker's queryable function
