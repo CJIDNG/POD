@@ -157,6 +157,7 @@ export default {
           queryableWorker.addListener('success', (response) => {
             updateEssentials(response)
             queryableWorker.terminate()
+            this.loading = false
           })
 
           queryableWorker.addListener('error', (error) => {
@@ -180,8 +181,10 @@ export default {
     },
 
     validate() {
-      if (!this.labelField || !this.latitudeField || !this.longitudeField) {
+      if (this.labelField == null || !this.latitudeField || !this.longitudeField) {
+        console.log(this.labelField, this.latitudeField, this.longitudeField)
         throw new TypeError('error - some required parameters are not provided')
+        this.loading = false
       }
     }
   }

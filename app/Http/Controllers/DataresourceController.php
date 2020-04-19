@@ -262,8 +262,6 @@ class DataresourceController extends Controller
     $explodedFilename = explode('.', $filename);
     $extension = $explodedFilename[count($explodedFilename) - 1];
 
-    dd($extension);
-
     return \App\Dataformat::where('extension', $extension)->first()->id;
   }
 

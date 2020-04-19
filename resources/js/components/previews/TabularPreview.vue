@@ -1,5 +1,5 @@
 <template>
-  <table id="datatable" class="table table-secondary">
+  <table id="datatable" class="table">
     <thead></thead>
     <tbody></tbody>
   </table>
