@@ -43,7 +43,11 @@ mix.setPublicPath('public')
           ]
         },
         { test: /jquery-mousewheel/, loader: "imports-loader?define=>false&this=>window" },
-			  { test: /malihu-custom-scrollbar-plugin/, loader: "imports-loader?define=>false&this=>window" }
+        { test: /malihu-custom-scrollbar-plugin/, loader: "imports-loader?define=>false&this=>window" },
+        {
+          test: /\.worker\.js$/,
+          use: { loader: 'worker-loader' }
+        }
       ]
     }
   })

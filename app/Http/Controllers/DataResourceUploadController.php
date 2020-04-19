@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class DataResourceUploadController extends Controller
 {
@@ -21,7 +22,7 @@ class DataResourceUploadController extends Controller
     $file = reset($payload);
 
     if ($file instanceof UploadedFile) {
-      $path = $file->storePublicly($this->baseStoragePath(), [
+      $path = $file->storePubliclyAs($this->baseStoragePath(), Str::uuid().'.'.$file->guessClientExtension(), [
         'disk' => config('data.storage_disk'),
       ]);
 

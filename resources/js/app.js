@@ -34,8 +34,8 @@ moment.tz.setDefault(CurrentTenant.timezone)
 Vue.config.productionTip = false
 
 Vue.use(VueRouter)
-Vue.use(VueHolder);
-Vue.use( CKEditor );
+Vue.use(VueHolder)
+Vue.use(CKEditor)
 
 const router = new VueRouter({
   routes: Routes,

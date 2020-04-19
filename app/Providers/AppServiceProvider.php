@@ -24,9 +24,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-      Relation::morphMap([
-        'state' => 'App\State',
-        'localGovernment' => 'App\LocalGovernment'
-      ]);
+      // Relation::morphMap([
+      //   'state' => 'App\State',
+      //   'localGovernment' => 'App\LocalGovernment'
+      // ]);
     }
 }

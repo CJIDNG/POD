@@ -52,11 +52,6 @@ class Dataformat extends Model
         'mime_type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
       ],
       [
-        'name' => 'resource description framework',
-        'extension' => 'rdf',
-        'mime_type' => 'application/rdf+xml'
-      ],
-      [
         'name' => 'text file',
         'extension' => 'txt',
         'mime_type' => 'text/plain'
@@ -87,44 +82,9 @@ class Dataformat extends Model
         'mime_type' => 'application/pdf'
       ],
       [
-        'name' => 'open document format',
-        'extension' => 'odf',
-        'mime_type' => 'application/vnd.oasis.opendocument.formula'
-      ],
-      [
-        'name' => 'open document spreadsheet',
-        'extension' => 'ods',
-        'mime_type' => 'application/vnd.oasis.opendocument.spreadsheet'
-      ],
-      [
-        'name' => 'open document text',
-        'extension' => 'odt',
-        'mime_type' => 'application/vnd.oasis.opendocument.text'
-      ],
-      [
-        'name' => 'tab seperated values',
-        'extension' => 'tsv',
-        'mime_type' => 'text/tab-separated-values'
-      ],
-      [
-        'name' => 'table of data seperated by tabs',
-        'extension' => 'tab',
-        'mime_type' => 'text/tab-separated-values'
-      ],
-      [
         'name' => 'for representing simple geographical features',
         'extension' => 'geojson',
         'mime_type' => 'application/geo+json'
-      ],
-      [
-        'name' => 'extensible markup language',
-        'extension' => 'xml',
-        'mime_type' => 'application/xml'
-      ],
-      [
-        'name' => 'archive format',
-        'extension' => 'zip',
-        'mime_type' => 'application/zip'
       ],
     ];
   }

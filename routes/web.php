@@ -13,7 +13,5 @@
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-
 // Catch-all routes...
 Route::get('/{view?}', 'Controller')->where('view', '(.*)')->name('tenant');

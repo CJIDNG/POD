@@ -95,21 +95,21 @@ export default {
     hasSubapp(subapp) {
       return CurrentTenant.subapps.includes(subapp);
     },
-    
+
     downloadBlob(blob, filename) {
       alert(typeof blog)
       // Create an object URL for the blob object
       // const url = URL.createObjectURL(blob);
-      
+
       // Create a new anchor element
       const a = document.createElement('a');
-      
+
       // Set the href and download attributes for the anchor element
       // You can optionally set other attributes like `title`, etc
       // Especially, if the anchor element will be attached to the DOM
       a.href = blob;
       a.download = filename || 'download';
-      
+
       // Click handler that releases the object URL after the element has been clicked
       // This is required for one-off downloads of the blob content
       const clickHandler = () => {
@@ -118,17 +118,17 @@ export default {
           this.removeEventListener('click', clickHandler);
         }, 150);
       };
-      
+
       // Add the click event listener on the anchor element
       // Comment out this line if you don't want a one-off download of the blob content
       a.addEventListener('click', clickHandler, false);
-      
+
       // Programmatically trigger a click on the anchor element
       // Useful if you want the download to happen automatically
       // Without attaching the anchor element to the DOM
       // Comment out this line if you don't want an automatic download of the blob content
       a.click();
-      
+
       // Return the anchor element
       // Useful if you want a reference to the element
       // in order to attach it to the DOM or use it in some other way
@@ -154,6 +154,69 @@ export default {
           }
           return '<span class="' + cls + '">' + match + '</span>';
         });
+      }
+    },
+
+    isPreviewable: (extension) => ['csv', 'xls', 'xlsx'].indexOf(extension) !== -1,
+
+    /*
+      QueryableWorker instances methods:
+        * sendQuery(queryable function name, argument to pass 1, argument to pass 2, etc. etc): calls a Worker's queryable function
+        * postMessage(string or JSON Data): see Worker.prototype.postMessage()
+        * terminate(): terminates the Worker
+        * addListener(name, function): adds a listener
+        * removeListener(name): removes a listener
+      QueryableWorker instances properties:
+        * defaultListener: the default listener executed only when the Worker calls the postMessage() function directly
+      */
+    QueryableWorker(url, defaultListener, onError) {
+      var instance = this,
+        worker = new Worker(url),
+        listeners = {};
+
+      this.defaultListener = defaultListener || function () { };
+
+      if (onError) { worker.onerror = onError; }
+
+      this.postMessage = function (message) {
+        worker.postMessage(message);
+      }
+
+      this.terminate = function () {
+        worker.terminate();
+      }
+
+      this.addListener = function (name, listener) {
+        listeners[name] = listener;
+      }
+
+      this.removeListener = function (name) {
+        delete listeners[name];
+      }
+
+      /* 
+        This functions takes at least one argument, the method name we want to query.
+        Then we can pass in the arguments that the method needs.
+      */
+      this.sendQuery = function () {
+        if (arguments.length < 1) {
+          throw new TypeError('QueryableWorker.sendQuery takes at least one argument');
+          return;
+        }
+        worker.postMessage({
+          'queryMethod': arguments[0],
+          'queryMethodArguments': Array.prototype.slice.call(arguments, 1)
+        });
+      }
+
+      worker.onmessage = (event) => {
+        if (event.data instanceof Object &&
+          event.data.hasOwnProperty('queryMethodListener') &&
+          event.data.hasOwnProperty('queryMethodArguments')) {
+          listeners[event.data.queryMethodListener].apply(instance, event.data.queryMethodArguments);
+        } else {
+          this.defaultListener.call(instance, event.data);
+        }
       }
     }
   },
