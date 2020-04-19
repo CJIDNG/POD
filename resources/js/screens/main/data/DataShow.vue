@@ -25,11 +25,10 @@
           >
             <div class="mr-auto py-1">
               <p class="mb-1">
-                <a
-                  href="#"
+                <router-link
+                  :to="{ name: 'resource-show', params: { id: dataset.id, resourceId: resource.id } }"
                   class="font-weight-bold text-lg lead text-decoration-none"
-                  @click.prevent=""
-                >{{ resource.title }}</a>
+                >{{ resource.title }}</router-link>
               </p>
               <p class="mb-1">{{ `${resource.description.substring(0, 50)}...` }}</p>
               <p class="text-muted mb-0">
@@ -41,12 +40,19 @@
               </p>
             </div>
             <div class="ml-auto pl-3">
+              <router-link
+                v-if="isPreviewable(resource.format.extension)"
+                :to="{ name: 'resource-show', params: { id: dataset.id, resourceId: resource.id } }"
+                class="btn btn-outline-info"
+              >
+                {{ trans.app.preview }}
+              </router-link>
               <a
                 v-if="isLoggedIn"
                 :href="resource.path"
                 class="btn btn-outline-info"
                 @click="downloadResource(resource.id)"
-              :download="resource.title">
+                :download="resource.title">
                 Download
               </a>
               <a 

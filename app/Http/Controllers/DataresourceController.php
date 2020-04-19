@@ -6,9 +6,20 @@ use App\Dataresource;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpSpreadsheet\{Spreadsheet, IOFactory};
+use \PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 
 class DataresourceController extends Controller
 {
+  public function __construct() {
+    $client = new \Redis();
+    $client->connect('127.0.0.1', 6379);
+    $pool = new \Cache\Adapter\Redis\RedisCachePool($client);
+    $simpleCache = new \Cache\Bridge\SimpleCache\SimpleCacheBridge($pool);
+
+    \PhpOffice\PhpSpreadsheet\Settings::setCache($simpleCache);
+  }
+
   /**
    * Display a listing of the resource.
    *
@@ -43,7 +54,30 @@ class DataresourceController extends Controller
           'id' => NULL,
         ], 200);
       } else {
-        $dataresource = Dataresource::find($id);
+        $dataresource = Dataresource::where('id', $id)
+          ->with('format.previews')
+          ->with('dataset.resources')
+          ->first();
+
+        if (request('previewData')) {
+          $sn = request('sheetName') ?? NULL;
+          $result = $this->getFileData($dataresource->path, $sn);
+
+          $columns = collect($result['columns'])->map(function($column, $key) {
+            return array(
+              'index' => $key,
+              'title' => $column
+            );
+          })->toJson();
+          
+          return response()->json([
+            'dataresource' => $dataresource,
+            'worksheet' => $result['worksheet'],
+            'sheetNames' => $result['sheetNames'],
+            'activeSheetName' => $result['activeSheetName'],
+            'columns' => $columns
+          ], 200);
+        }
 
         if ($dataresource) {
           return response()->json($dataresource, 200);
@@ -52,6 +86,81 @@ class DataresourceController extends Controller
         }
       }
     }
+  }
+
+  private function getFileName($path) {
+    /**
+     * usage of str_replace here is a hack to make 
+     * the is_file function in PhpSpreadsheet work as expected
+     */
+    return Storage::disk('public')->path(\str_replace('storage/', '', $path));
+  }
+
+  private function getFileType($inputFileName) {
+    return IOFactory::identify($inputFileName);
+  }
+
+  private function createReader($inputFileType) {
+    $reader = IOFactory::createReader($inputFileType);
+    $reader->setReadDataOnly(TRUE);
+    return $reader;
+  }
+
+  private function getFileData($path, $sn = NULL) {
+    /**
+     * probably terrible hacks for time 
+     * and memory limit
+     */
+    set_time_limit(300);
+    ini_set('memory_limit', '-1');
+    $inputFileName = $this->getFileName($path);
+    $inputFileType = $this->getFileType($inputFileName);
+    $reader = $this->createReader($inputFileType);
+    
+    $spreadsheet = $reader->load($inputFileName);
+    $sheetNames = $spreadsheet->getSheetNames();
+
+    if ($sn) {
+      $activeSheetName = $sn;
+      $worksheet = $spreadsheet->getSheetByName($sn);
+    } else {
+      $activeSheetName = $sheetNames[0];
+      $worksheet = $spreadsheet->getActiveSheet();
+    }
+
+    $worksheetData = array();
+    $columns = array();
+    
+    // Get the highest row and column numbers referenced in the worksheet
+    $highestRow = $worksheet->getHighestRow(); // e.g. 10
+    $highestColumn = $worksheet->getHighestColumn(); // e.g 'F'
+    $highestColumnIndex = Coordinate::columnIndexFromString($highestColumn); // e.g. 5
+
+    for ($row = 1; $row <= $highestRow; ++$row) {
+      $rowData = array();
+      for ($col = 1; $col <= $highestColumnIndex; ++$col) {
+        $value = $worksheet->getCellByColumnAndRow($col, $row)->getCalculatedValue();
+
+        if (!$value) {
+          $value = " ";
+        }
+
+        array_push($rowData, $value);
+      }
+
+      if ($row == 1) {
+        $columns = $rowData;
+      } else {
+        array_push($worksheetData, $rowData);
+      }
+    }
+
+    return array(
+      'worksheet' => $worksheetData, 
+      'sheetNames' => $sheetNames,
+      'activeSheetName' => $activeSheetName,
+      'columns' => $columns
+    );
   }
 
   /**
