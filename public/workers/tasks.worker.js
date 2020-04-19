@@ -71,6 +71,22 @@ let queryableFunctions = {
     } catch (error) {
       reply('error', error)
     }
+  },
+
+  buildMarkers: function (labelField, latitudeField, longitudeField, data) {
+    try {
+      let markers = data.map((datum) => ({
+        latLng: [
+          parseFloat(datum[latitudeField]),
+          parseFloat(datum[longitudeField])
+        ],
+        label: datum[labelField]
+      }))
+
+      reply('success', markers)
+    } catch (error) {
+      reply('error', error)
+    }
   }
 }
 

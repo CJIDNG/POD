@@ -28,11 +28,6 @@
                   {{ trans.app.map }}
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" id="v-pills-preview-tab" data-toggle="pill" href="#v-pills-preview" role="tab" aria-controls="v-pills-preview" aria-selected="false">
-                  {{ trans.app.preview }}
-                </a>
-              </li>
               <li class="ml-3">
                 <form class="form-inline">
                   <div class="form-group mb-2">
@@ -62,7 +57,7 @@
               </div>
               <div class="tab-pane fade" id="v-pills-chart" role="tabpanel" aria-labelledby="v-pills-chart-tab">
                 <chart-preview 
-                  
+                  v-if="isReady"
                   :data="worksheet" 
                   :columns="columns"
                   :resource="dataresource"
@@ -70,15 +65,83 @@
                 />
               </div>
               <div class="tab-pane fade" id="v-pills-map" role="tabpanel" aria-labelledby="v-pills-map-tab">
-                Map
-              </div>
-              <div class="tab-pane fade" id="v-pills-preview" role="tabpanel" aria-labelledby="v-pills-preview-tab">
-                Preview
+                <map-preview
+                  :data="worksheet" 
+                  :columns="columns"
+                  :resource="dataresource"
+                  :activeSheetName="activeSheetName"
+                />
               </div>
             </div>
           </div>
         </div>
 
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="list-group mt-5">
+
+              <h1>
+                {{ trans.app.resources }}
+                <hr>
+              </h1>
+              
+
+              <router-link
+                v-for="(resource, index) in dataset.resources"
+                :key="index"
+                class="list-group-item list-group-item-action"
+                :to="{ name: 'resource-show', params: { id: dataset.id, resourceId: resource.id } }">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">{{ resource.title }}</h5>
+                </div>
+                <small></small>
+              </router-link>
+
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="list-group mt-5">
+              
+              <h1>
+                {{ trans.app.resource_meta }}
+                <hr>
+              </h1>
+
+              <a class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">{{ trans.app.file_extension }}</h5>
+                </div>
+                <p class="mb-1" v-if="dataresource.format">{{ dataresource.format.extension }}</p>
+                <small></small>
+              </a>
+
+              <a class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">{{ trans.app.mime_type }}</h5>
+                </div>
+                <p class="mb-1" v-if="dataresource.format">{{ dataresource.format.mime_type }}</p>
+                <small></small>
+              </a>
+
+              <a class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">{{ trans.app.created }}</h5>
+                </div>
+                <p class="mb-1">{{ dataresource.created_at }}</p>
+                <small></small>
+              </a>
+
+              <a class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">{{ trans.app.updated }}</h5>
+                </div>
+                <p class="mb-1">{{ dataresource.updated_at }}</p>
+                <small></small>
+              </a>
+
+            </div>
+          </div>
+        </div>
       </div>
     </main>
     <page-footer></page-footer>
@@ -92,6 +155,7 @@ import PageHeader from "../../../components/PageHeader"
 import PageFooter from "../../../components/PageFooter"
 import TabularPreview from "../../../components/previews/TabularPreview"
 import ChartPreview from "../../../components/previews/ChartPreview"
+import MapPreview from "../../../components/previews/MapPreview"
 import VueElementLoading from 'vue-element-loading'
 
 export default {
@@ -102,12 +166,14 @@ export default {
     PageFooter,
     TabularPreview,
     ChartPreview,
+    MapPreview,
     VueElementLoading
   },
 
   data() {
     return {
       dataresource: {},
+      dataset: {},
       worksheet: [],
       columns: [],
       sheetNames: [],
@@ -126,7 +192,9 @@ export default {
   },
 
   watch: {
-    
+    '$route' (to, from) {
+      this.load()
+    }
   },
 
   methods: {
@@ -153,6 +221,7 @@ export default {
 
       let updateEssentials = (response) => {
         this.dataresource = response.dataresource
+        this.dataset = response.dataresource.dataset
         this.activeSheetName = response.activeSheetName
         this.worksheet = response.worksheet
         this.sheetNames = response.sheetNames
