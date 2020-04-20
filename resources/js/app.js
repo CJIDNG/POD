@@ -6,7 +6,9 @@ import VueRouter from 'vue-router'
 import moment from 'moment-timezone'
 import HelperMixin from "./mixins/HelperMixin"
 import RequestMixin from "./mixins/RequestMixin"
+import MetaMixin from "./mixins/MetaMixin"
 import VueHolder from 'vue-holderjs'
+import VueMeta from 'vue-meta'
 
 // https://ckeditor.com/blog/best-wysiwyg-editor-for-vue/
 import CKEditor from '@ckeditor/ckeditor5-vue';
@@ -26,6 +28,7 @@ if (/starfolksoftware/.test(CurrentTenant.platform.name)) {
 
 Vue.mixin(HelperMixin)
 Vue.mixin(RequestMixin)
+Vue.mixin(MetaMixin)
 
 // Set the default timezone
 moment.tz.setDefault(CurrentTenant.timezone)
@@ -36,6 +39,7 @@ Vue.config.productionTip = false
 Vue.use(VueRouter)
 Vue.use(VueHolder)
 Vue.use(CKEditor)
+Vue.use(VueMeta)
 
 const router = new VueRouter({
   routes: Routes,

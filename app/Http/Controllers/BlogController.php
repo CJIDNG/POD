@@ -28,11 +28,33 @@ class BlogController extends Controller
    */
   public function index(): JsonResponse
   {
-    return response()->json(Post::published()
+    $data = Post::published()
       ->orderByDesc('published_at')
       ->withCount('views')
       ->with('tags')
-      ->simplePaginate(10), 200);
+      ->simplePaginate();
+
+    if (request('filterBy') == 'tag' && request('filter')) {
+      $data = $this->tag(request('filter'));
+    }
+
+    if (request('filterBy') == 'topic' && request('filter')) {
+      $data = $this->topic(request('filter'));
+    }
+
+    return response()->json([
+      'current_page' => $data->currentPage(),
+      'data' => $data->items(),
+      'first_page_url' => '',
+      'from' => '',
+      'next_page_url' => $data->nextPageUrl(),
+      'path' => '',
+      'per_page' => $data->perPage(),
+      'prev_page_url' => $data->previousPageUrl(),
+      'to' => '',
+      'topics' => Topic::all(['name', 'slug']),
+      'tags' => Tag::all(['name', 'slug'])
+    ], 200);
   }
 
   /**
@@ -93,26 +115,21 @@ class BlogController extends Controller
    * Show all posts with a given tag.
    *
    * @param string $slug
-   * @return View
+   * @return object
    */
-  public function tag(string $slug): View
+  public function tag(string $slug): object
   {
     $tag = Tag::with('posts')->where('slug', $slug)->first();
 
     if ($tag) {
-      $data = [
-        'tag'    => $tag,
-        'tags'   => Tag::all(['name', 'slug']),
-        'topics' => Topic::all(['name', 'slug']),
-        'posts'  => Post::whereHas('tags', function ($query) use ($slug) {
-            $query->where('slug', $slug);
-        })->published()->orderByDesc('published_at')->simplePaginate(10),
-        'user' => Auth::user()
-      ];
-
-      return response()->json($data, 200);
+      return Post::whereHas('tags', function ($query) use ($slug) {
+          $query->where('slug', $slug);
+      })->orderByDesc('published_at')
+        ->withCount('views')
+        ->with('tags')
+        ->simplePaginate(10);
     } else {
-      abort(404);
+      return [];
     }
   }
 
@@ -120,26 +137,21 @@ class BlogController extends Controller
    * Show all posts under a given topic.
    *
    * @param string $slug
-   * @return View
+   * @return object
    */
-  public function topic(string $slug): View
+  public function topic(string $slug): object
   {
     $topic = Topic::with('posts')->where('slug', $slug)->first();
 
     if ($topic) {
-      $data = [
-        'tags'   => Tag::all(['name', 'slug']),
-        'topics' => Topic::all(['name', 'slug']),
-        'topic'  => $topic,
-        'posts'  => Post::whereHas('topic', function ($query) use ($slug) {
-          $query->where('slug', $slug);
-        })->published()->orderByDesc('published_at')->simplePaginate(10),
-        'user' => Auth::user()
-      ];
-
-      return response()->json($data, 200);
+      return Post::whereHas('topic', function ($query) use ($slug) {
+        $query->where('slug', $slug);
+      })->orderByDesc('published_at')
+        ->withCount('views')
+        ->with('tags')
+        ->simplePaginate(10);
     } else {
-      abort(404);
+      return [];
     }
   }
 }
