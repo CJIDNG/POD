@@ -13,9 +13,6 @@ class TenantDatabaseSeeder extends Seeder
   public function run()
   {
     $this->call(PermissionsTableSeeder::class);
-    $this->call(LocationTableSeeder::class);
-    $this->call(AgenciesTableSeeder::class);
-    $this->call(MinistriesTableSeeder::class);
     $this->call(DatalicenseSeeder::class);
     $this->call(DatavisualisationSeeder::class);
     $this->call(DataformatSeeder::class);

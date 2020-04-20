@@ -16,12 +16,12 @@ class PermissionsTableSeeder extends Seeder
   {
     // create roles
     collect(DefaultRolesAndPermissions::roles())->each(function ($role) {
-      Role::create(['name' => $role]);
+      Role::firstOrCreate(['name' => $role]);
     });
 
     // create permissions
     collect(DefaultRolesAndPermissions::permissions())->each(function ($permission) {
-      Permission::create(['name' => $permission]);
+      Permission::firstOrCreate(['name' => $permission]);
     });
 
     // sync permissions to roles
