@@ -36,7 +36,11 @@
               to="/blog"
               v-if="hasSubapp('blog')"
             >
-              {{ trans.app.blog }}
+              {{ 
+                /spoor/.test(this.CurrentTenant.platform.name) ?
+                'Reasearch' :
+                trans.app.blog
+              }}
             </router-link>
             <li v-if="hasSubapp('tracker')" class="nav-item dropdown">
               <a 
