@@ -7,6 +7,7 @@
 
 
         <div class="container marketing">
+
           <div class="row featurette" style="margin-top: 50px">
             <div class="col-md-5 order-md-2 my-auto">
               <h2 class="featurette-heading">
@@ -23,6 +24,10 @@
             <div class="col-md-7 order-md-1">
               <img :src="medicine_svg" alt="" class="img-fluid">
             </div>
+          </div>
+
+          <div class="mt-5 mb-5">
+            <iframe width="100%" height="600" src="//jsfiddle.net/frknasir/ckrovnpb/7/embedded/result/dark/" allowfullscreen="allowfullscreen" allowpaymentrequest frameborder="0"></iframe>
           </div>
 
         </div><!-- /.container -->

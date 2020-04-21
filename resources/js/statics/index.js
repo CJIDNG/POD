@@ -4,6 +4,7 @@ import { HCTStatics } from './healthcaretracka'
 import { UdemeStatics } from './udeme'
 import { FarukNasirStatics } from './faruknasir'
 import { StarfolkSoftwareStatics } from './starfolksoftware'
+import { SpoorStatics } from './spoor'
 
 let Statics
 
@@ -26,6 +27,10 @@ switch (true) {
 
   case /starfolksoftware/.test(CurrentTenant.platform.name):
     Statics = StarfolkSoftwareStatics
+    break;
+  
+  case /spoor/.test(CurrentTenant.platform.name):
+    Statics = SpoorStatics
     break;
 
   default:

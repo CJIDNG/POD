@@ -143,7 +143,7 @@ export default {
       let queryableWorker = new this.QueryableWorker('/workers/tasks.worker.js')
 
       let updateEssentials = (response) => {
-        // console.log(response)
+        console.log(response)
         this.markers = response
         this.loading = false
       }
