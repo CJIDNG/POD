@@ -39,7 +39,7 @@
                 v-if="featuredPost.featured_image" :src="featuredPost.featured_image" 
                 class="card-img-right flex-auto d-none d-lg-block img-fluid" 
                 alt="Card image cap">
-              <img class="img-fluid" v-else v-holder="'img=200x250?auto=yes&theme=thumb'">
+              <img class="img-fluid" v-else v-holder="'img=500x250?auto=yes&theme=thumb'">
             </div>
           </div>
         </div>
@@ -232,15 +232,15 @@ export default {
           }
         })
         .then(response => {
+          this.tags = response.data.tags
+          this.topics = response.data.topics
+          
           if (!_.isEmpty(response.data) && !_.isEmpty(response.data.data)) {
             this.page += 1;
-            console.log(this.$meta().refresh())
             this.posts.push(...response.data.data);
             this.from = response.data.from
             this.to = response.data.to
             this.total = response.data.total
-            this.tags = response.data.tags
-            this.topics = response.data.topics
 
             $state.loaded();
           } else {
