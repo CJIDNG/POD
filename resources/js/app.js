@@ -39,7 +39,13 @@ Vue.config.productionTip = false
 Vue.use(VueRouter)
 Vue.use(VueHolder)
 Vue.use(CKEditor)
-Vue.use(VueMeta)
+Vue.use(VueMeta, {
+  keyName: 'metaInfo',
+  attribute: 'data-vue-meta',
+  ssrAttribute: 'data-vue-meta-server-rendered',
+  tagIDKeyName: 'vmid',
+  refreshOnceOnNavigation: true
+})
 
 const router = new VueRouter({
   routes: Routes,
@@ -59,7 +65,7 @@ router.beforeEach((to, from, next) => {
 })
 
 const app = new Vue({
-  el: '#app',
+  // el: '#app',
   router,
   store,
 
