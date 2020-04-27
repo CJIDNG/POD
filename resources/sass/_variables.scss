@@ -16,7 +16,20 @@ $green-500: rgba(3, 168, 124, .6);
 $blue: rgb(84, 175, 204);
 $blue-500: rgba(158, 213, 237, 0.6);
 
-$font-family-sans-serif: "Karla", sans-serif;
+// $font-family-sans-serif: "Karla", sans-serif;
+$font-family-sans-serif:
+  // Safari for macOS and iOS (San Francisco)
+  -apple-system,
+  // Chrome < 56 for macOS (San Francisco)
+  BlinkMacSystemFont,
+  // Windows
+  "Segoe UI",
+  // Android
+  "Roboto",
+  // Basic web fallback
+  "Helvetica Neue", Arial, sans-serif,
+  // Emoji fonts
+  "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
 $font-family-serif: "Merriweather", serif;
 $line-height-base: 1.6;
 
