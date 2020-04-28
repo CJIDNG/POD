@@ -136,7 +136,7 @@ export default {
 
   data() {
     return {
-      trans: JSON.parse(CurrentTenant.lang)
+      trans: JSON.parse(CurrentTenant.translations)
     };
   },
 

@@ -224,7 +224,7 @@ export default {
       columns: [],
       sheetNames: [],
       activeSheetName: '',
-      trans: JSON.parse(CurrentTenant.lang),
+      trans: JSON.parse(CurrentTenant.translations),
       id: this.$route.params.resourceId,
       isReady: false,
       hasSuccess: false

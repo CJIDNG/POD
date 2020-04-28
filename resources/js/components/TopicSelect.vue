@@ -46,7 +46,7 @@
             return {
                 options: allTopics,
                 value: this.assigned ? this.assigned : [],
-                trans: JSON.parse(CurrentTenant.lang),
+                trans: JSON.parse(CurrentTenant.translations),
             }
         },
 

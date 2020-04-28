@@ -202,7 +202,7 @@ export default {
       topics: [],
       filterBy: '',
       filter: '',
-      trans: JSON.parse(CurrentTenant.lang),
+      trans: JSON.parse(CurrentTenant.translations),
       from: "",
       to: "",
       total: "",

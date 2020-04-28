@@ -72,7 +72,7 @@ export default {
   data() {
     return {
       member: {},
-      trans: JSON.parse(CurrentTenant.lang),
+      trans: JSON.parse(CurrentTenant.translations),
       id: this.$route.params.id
     };
   },

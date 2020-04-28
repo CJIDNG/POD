@@ -46,7 +46,7 @@ export default {
     return {
       options: allTopics,
       value: this.tagged ? this.tagged : [],
-      trans: JSON.parse(CurrentTenant.lang)
+      trans: JSON.parse(CurrentTenant.translations)
     };
   },
 

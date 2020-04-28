@@ -146,7 +146,7 @@ export default {
       isReady: false,
       trackerItem: {},
       tracker: {},
-      trans: JSON.parse(CurrentTenant.lang),
+      trans: JSON.parse(CurrentTenant.translations),
       id: this.$route.params.id
     };
   },

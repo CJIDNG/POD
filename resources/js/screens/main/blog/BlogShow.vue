@@ -197,7 +197,7 @@ export default {
       avatar: '',
       slug: this.$route.params.slug,
       isReady: false,
-      trans: JSON.parse(CurrentTenant.lang)
+      trans: JSON.parse(CurrentTenant.translations)
     };
   },
 

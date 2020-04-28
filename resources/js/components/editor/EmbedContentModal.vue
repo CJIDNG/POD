@@ -51,7 +51,7 @@
             return {
                 blot: null,
                 content: null,
-                trans: JSON.parse(CurrentTenant.lang),
+                trans: JSON.parse(CurrentTenant.translations),
             }
         },
 

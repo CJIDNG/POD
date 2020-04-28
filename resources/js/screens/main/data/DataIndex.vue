@@ -165,7 +165,7 @@ export default {
     return {
       page: 1,
       datasets: [],
-      trans: JSON.parse(CurrentTenant.lang),
+      trans: JSON.parse(CurrentTenant.translations),
       infiniteId: +new Date(),
       licenses: [],
       topics: [],

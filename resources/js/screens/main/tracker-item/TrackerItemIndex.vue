@@ -172,7 +172,7 @@ export default {
       page: 1,
       trackerItems: [],
       tracker: {},
-      trans: JSON.parse(CurrentTenant.lang),
+      trans: JSON.parse(CurrentTenant.translations),
       infiniteId: +new Date(),
       query: "",
       url: `/api/v1/trackerItems/${this.$route.params.trackerId}`,

@@ -203,7 +203,7 @@ export default {
   data() {
     return {
       dataset: {},
-      trans: JSON.parse(CurrentTenant.lang),
+      trans: JSON.parse(CurrentTenant.translations),
       id: this.$route.params.id,
       isReady: false
     };

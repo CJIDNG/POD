@@ -119,7 +119,7 @@
                     minute: '',
                 },
                 result: '',
-                trans: JSON.parse(CurrentTenant.lang),
+                trans: JSON.parse(CurrentTenant.translations),
             }
         },
 

@@ -256,7 +256,7 @@ export default {
         'select',
         'textArea'
       ],
-      trans: JSON.parse(CurrentTenant.lang)
+      trans: JSON.parse(CurrentTenant.translations)
     }
   },
 

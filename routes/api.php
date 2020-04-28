@@ -69,6 +69,10 @@ Route::group(['prefix' => 'v1'], function () {
   Route::post('/settings', 'SettingsController@update')
     ->middleware(['auth:api', 'tenancy.enforce']);
 
+  Route::prefix('locale')->group(function () {
+    Route::post('/', 'LocaleController@update');
+  });
+
   // Role routes...
   Route::get('/roles', 'RoleController@index')
     ->middleware(['auth:api', 'permission:view_roles']);
