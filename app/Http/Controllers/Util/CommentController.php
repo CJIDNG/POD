@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Util;
 
 use App\Comment;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class CommentController extends Controller
+class CommentController extends \App\Http\Controllers\Controller
 {
   /**
    * Display a listing of the resource.

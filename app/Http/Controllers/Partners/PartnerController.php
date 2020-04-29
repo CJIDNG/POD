@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Partners;
 
 use App\Partner;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class PartnerController extends Controller
+class PartnerController extends \App\Http\Controllers\Controller
 {
   /**
    * Display a listing of the resource.

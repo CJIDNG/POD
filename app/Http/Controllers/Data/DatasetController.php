@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Data;
 
 use App\Dataset;
 use App\Datatopic;
@@ -11,7 +11,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use DB;
 
-class DatasetController extends Controller
+class DatasetController extends \App\Http\Controllers\Controller
 {
   /**
    * Display a listing of the resource.

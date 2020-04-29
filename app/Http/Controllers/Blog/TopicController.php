@@ -2,53 +2,127 @@
 
 namespace App\Http\Controllers\Blog;
 
-use App\Post;
 use App\Topic;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\Rule;
+use Ramsey\Uuid\Uuid;
 
-class TopicController extends Controller
+class TopicController extends \App\Http\Controllers\Controller
 {
     /**
      * Get all the topics.
      *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function index(Request $request)
+    public function index(): JsonResponse
     {
-        return Topic::select(['name', 'slug'])
-                    ->whereHas('posts')
-                    ->withCount('posts')
-                    ->orderByDesc('posts_count')
-                    ->take(15)
-                    ->get();
+        return response()->json(
+            Topic::forCurrentUser()
+                 ->latest()
+                 ->withCount('posts')
+                 ->paginate(), 200
+        );
     }
 
     /**
-     * Show a given topic.
+     * Get a single topic or return a UUID to create one.
      *
-     * @param Request $request
-     * @param string $slug
-     * @return \Illuminate\Http\JsonResponse
+     * @param null $id
+     * @return JsonResponse
+     * @throws Exception
      */
-    public function show(Request $request, string $slug)
+    public function show($id = null): JsonResponse
     {
-        $topic = Topic::select('name', 'slug')->where('slug', $slug)->first();
+        if (Topic::forCurrentUser()->pluck('id')->contains($id) || $this->isNewTopic($id)) {
+            if ($this->isNewTopic($id)) {
+                return response()->json(Topic::make([
+                    'id' => Uuid::uuid4(),
+                ]), 200);
+            } else {
+                $topic = Topic::find($id);
+
+                if ($topic) {
+                    return response()->json($topic, 200);
+                } else {
+                    return response()->json(null, 301);
+                }
+            }
+        }
+    }
+
+    /**
+     * Create or update a topic.
+     *
+     * @param string $id
+     * @return JsonResponse
+     */
+    public function store(string $id): JsonResponse
+    {
+        $data = [
+            'id' => request('id'),
+            'name' => request('name'),
+            'slug' => request('slug'),
+            'user_id' => request()->user()->id,
+        ];
+
+        $messages = [
+            'required' => __('app.validation_required'),
+            'unique' => __('app.validation_unique'),
+        ];
+
+        validator($data, [
+            'name' => 'required',
+            'slug' => [
+                'required',
+                'alpha_dash',
+                Rule::unique('topics')->where(function ($query) use ($data) {
+                    return $query->where('slug', $data['slug'])->where('user_id', $data['user_id']);
+                })->ignore($id)->whereNull('deleted_at'),
+            ],
+        ], $messages)->validate();
+
+        if ($id !== 'create') {
+            $topic = Topic::find($id);
+        } else {
+            if ($topic = Topic::onlyTrashed()->where('slug', request('slug'))->first()) {
+                $topic->restore();
+            } else {
+                $topic = new Topic(['id' => request('id')]);
+            }
+        }
+
+        $topic->fill($data);
+        $topic->save();
+
+        return response()->json($topic->refresh(), 201);
+    }
+
+    /**
+     * Delete a topic.
+     *
+     * @param string $id
+     * @return mixed
+     */
+    public function destroy(string $id)
+    {
+        $topic = Topic::find($id);
 
         if ($topic) {
-            $posts = Post::whereHas('topic', function ($query) use ($slug) {
-                $query->where('slug', $slug);
-            })->published()->withUserMeta()->orderByDesc('published_at')->get();
+            $topic->delete();
 
-            $posts->each->append('read_time');
-
-            return response()->json([
-                'topic' => $topic,
-                'posts' => $posts,
-            ]);
-        } else {
-            return response()->json(null, 404);
+            return response()->json([], 204);
         }
+    }
+
+    /**
+     * Return true if we're creating a new topic.
+     *
+     * @param string $id
+     * @return bool
+     */
+    private function isNewTopic(string $id): bool
+    {
+        return $id === 'create';
     }
 }

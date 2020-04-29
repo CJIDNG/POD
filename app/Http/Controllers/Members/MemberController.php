@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Members;
 
 use App\Member;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class MemberController extends Controller
+class MemberController extends \App\Http\Controllers\Controller
 {
   /**
    * Display a listing of the resource.

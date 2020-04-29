@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Data;
 
 use App\Datatopic;
 use Illuminate\Http\JsonResponse;
 use DB;
 
-class DatatopicController extends Controller
+class DatatopicController extends \App\Http\Controllers\Controller
 {
   /**
    * Display a listing of the resource.

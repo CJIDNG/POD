@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Data;
 
 use App\Dataformat;
 use Illuminate\Http\JsonResponse;
 
-class DataformatController extends Controller
+class DataformatController extends \App\Http\Controllers\Controller
 {
   /**
    * Display a listing of the resource.

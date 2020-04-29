@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Services;
 
-use App\Designation;
+use App\Service;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class DesignationController extends Controller
+class ServiceController extends \App\Http\Controllers\Controller
 {
   /**
    * Display a listing of the resource.
@@ -19,18 +19,18 @@ class DesignationController extends Controller
     $all = request('all') ?? NULL;
     
     if ($all) {
-      $designations = Designation::all();
+      $services = Service::all();
     } else {
-      $designations = Designation::orderBy('title')
+      $services = Service::orderBy('name')
         ->paginate();
     }
     return response()->json(
-      $designations, 200
+      $services, 200
     );
   }
 
   /**
-   * Get a single designation or return an id to create one.
+   * Get a single service or return an id to create one.
    *
    * @param null $id
    * @return JsonResponse
@@ -38,15 +38,15 @@ class DesignationController extends Controller
    */
   public function show($id = null): JsonResponse
   {
-    if (Designation::all()->pluck('id')->contains($id) || $this->isNewDesignation($id)) {
-      if ($this->isNewDesignation($id)) {
+    if (Service::all()->pluck('id')->contains($id) || $this->isNewService($id)) {
+      if ($this->isNewService($id)) {
         return response()->json([
           'id' => NULL,
         ], 200);
       } else {
-        $designation = Designation::find($id);
+        $service = Service::find($id);
 
-        return response()->json($designation, 200);
+        return response()->json($service, 200);
       }
     } else {
       return response()->json(null, 301);
@@ -54,7 +54,7 @@ class DesignationController extends Controller
   }
 
   /**
-   * Create or update a designation.
+   * Create or update a service.
    *
    * @param string $id
    * @return JsonResponse
@@ -63,7 +63,9 @@ class DesignationController extends Controller
   {
     $data = [
       'id' => request('id'),
-      'title' => request('title')
+      'name' => request('name'),
+      'description' => request('description'),
+      'thumbnail' => request('thumbnail')
     ];
 
     $messages = [
@@ -72,15 +74,16 @@ class DesignationController extends Controller
     ];
 
     validator($data, [
-      'title' => 'required'
+      'name' => 'required',
+      'description' => 'required',
     ], $messages)->validate();
 
-    $designation = $id !== 'create' ? Designation::find($id) : new Designation(['id' => request('id')]);
+    $service = $id !== 'create' ? Service::find($id) : new Service(['id' => request('id')]);
 
-    $designation->fill($data);
-    $designation->save();
+    $service->fill($data);
+    $service->save();
 
-    return response()->json($designation->refresh(), 201);
+    return response()->json($service->refresh(), 201);
   }
 
   /**
@@ -91,22 +94,22 @@ class DesignationController extends Controller
    */
   public function destroy($id)
   {
-    $designation = Designation::find($id);
+    $service = Service::find($id);
 
-    if ($designation) {
-      $designation->delete();
+    if ($service) {
+      $service->delete();
 
       return response()->json([], 204);
     }
   }
 
   /**
-   * Return true if we're creating a new designation.
+   * Return true if we're creating a new service.
    *
    * @param string $id
    * @return bool
    */
-  private function isNewDesignation(string $id): bool
+  private function isNewService(string $id): bool
   {
     return $id === 'create';
   }

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Util;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
 
-class MediaController extends Controller
+class MediaController extends \App\Http\Controllers\Controller
 {
     /**
      * Stores a given file and returns the path.

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Settings;
 
 use App\Platform;
 use Illuminate\Http\Request;
@@ -9,7 +9,7 @@ use DB;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
 
-class PlatformController extends Controller
+class PlatformController extends \App\Http\Controllers\Controller
 {
     /**
      * Display a listing of the resource.

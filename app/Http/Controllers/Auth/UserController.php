@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Resources\UserResource;
@@ -12,7 +12,7 @@ use App\Role;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
 
-class UserController extends Controller
+class UserController extends \App\Http\Controllers\Controller
 {
     /**
      * Display a listing of the resource.

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Settings;
 
 use App\UserMeta;
 use Illuminate\Http\JsonResponse;
@@ -8,7 +8,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
-class SettingsController extends Controller
+class SettingsController extends \App\Http\Controllers\Controller
 {
   /**
    * Get user settings.

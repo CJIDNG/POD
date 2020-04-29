@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use App\Role;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class RoleController extends Controller
+class RoleController extends \App\Http\Controllers\Controller
 {
   /**
    * Display a listing of the resource.
@@ -86,7 +86,7 @@ class RoleController extends Controller
 
     // $role->fill($data);
     // $role->save();
-    $role = Role::create(['name' => $data['name']]);
+    $role = Role::firstOrCreate(['name' => $data['name']]);
 
     // admin role has everything
     if($role->name === 'Admin') {

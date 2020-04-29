@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Settings;
 
 use Illuminate\Routing\Controller;
 
-class LocaleController extends Controller
+class LocaleController extends \App\Http\Controllers\Controller
 {
   /**
    * Return the app translations for a given locale.

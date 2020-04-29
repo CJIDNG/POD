@@ -2,53 +2,128 @@
 
 namespace App\Http\Controllers\Blog;
 
-use App\Post;
 use App\Tag;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Routing\Controller;
+use Illuminate\Validation\Rule;
+use Ramsey\Uuid\Uuid;
 
-class TagController extends Controller
+class TagController extends \App\Http\Controllers\Controller
 {
     /**
      * Get all the tags.
      *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function index(Request $request)
+    public function index(): JsonResponse
     {
-        return Tag::select(['name', 'slug'])
-                   ->whereHas('posts')
-                   ->withCount('posts')
-                   ->orderByDesc('posts_count')
-                   ->take(15)
-                   ->get();
+        return response()->json(
+            Tag::forCurrentUser()
+               ->latest()
+               ->withCount('posts')
+               ->paginate(), 200
+        );
     }
 
     /**
-     * Show a given tag.
+     * Get a single tag or return a UUID to create one.
      *
-     * @param Request $request
-     * @param string $slug
-     * @return \Illuminate\Http\JsonResponse
+     * @param null $id
+     * @return JsonResponse
+     * @throws Exception
      */
-    public function show(Request $request, string $slug)
+    public function show($id = null): JsonResponse
     {
-        $tag = Tag::select('name', 'slug')->where('slug', $slug)->first();
+        if (Tag::forCurrentUser()->pluck('id')->contains($id) || $this->isNewTag($id)) {
+            if ($this->isNewTag($id)) {
+                return response()->json(Tag::make([
+                    'id' => Uuid::uuid4(),
+                ]), 200);
+            } else {
+                $tag = Tag::find($id);
+
+                if ($tag) {
+                    return response()->json($tag, 200);
+                } else {
+                    return response()->json(null, 301);
+                }
+            }
+        }
+    }
+
+    /**
+     * Create or update a tag.
+     *
+     * @param string $id
+     * @return JsonResponse
+     */
+    public function store(string $id): JsonResponse
+    {
+        $data = [
+            'id' => request('id'),
+            'name' => request('name'),
+            'slug' => request('slug'),
+            'user_id' => request()->user()->id,
+        ];
+
+        $messages = [
+            'required' => __('app.validation_required'),
+            'unique' => __('app.validation_unique'),
+        ];
+
+        validator($data, [
+            'name' => 'required',
+            'slug' => [
+                'required',
+                'alpha_dash',
+                Rule::unique('tags')->where(function ($query) use ($data) {
+                    return $query->where('slug', $data['slug'])->where('user_id', $data['user_id']);
+                })->ignore($id)->whereNull('deleted_at'),
+            ],
+        ], $messages)->validate();
+
+        if ($this->isNewTag($id)) {
+            if ($tag = Tag::onlyTrashed()->where('slug', $data['slug'])->first()) {
+                $tag->restore();
+            } else {
+                $tag = new Tag(['id' => $data['id']]);
+            }
+        } else {
+            $tag = Tag::find($id);
+        }
+
+        $tag->fill($data);
+        $tag->save();
+
+        return response()->json($tag->refresh(), 201);
+    }
+
+    /**
+     * Delete a tag.
+     *
+     * @param string $id
+     * @return mixed
+     */
+    public function destroy(string $id)
+    {
+        $tag = Tag::find($id);
 
         if ($tag) {
-            $posts = Post::whereHas('tags', function ($query) use ($slug) {
-                $query->where('slug', $slug);
-            })->published()->withUserMeta()->orderByDesc('published_at')->get();
+            $tag->delete();
 
-            $posts->each->append('read_time');
-
-            return response()->json([
-                'tag' => $tag,
-                'posts' => $posts,
-            ]);
-        } else {
-            return response()->json(null, 404);
+            return response()->json([], 204);
         }
+    }
+
+    /**
+     * Return true if we're creating a new tag.
+     *
+     * @param string $id
+     * @return bool
+     */
+    private function isNewTag(string $id): bool
+    {
+        return $id === 'create';
     }
 }

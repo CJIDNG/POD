@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Data;
 
 use App\Dataresource;
 use Illuminate\Http\Request;
@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\{Spreadsheet, IOFactory};
 use \PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 
-class DataresourceController extends Controller
+class DataresourceController extends \App\Http\Controllers\Controller
 {
   public function __construct() {
     $client = new \Redis();

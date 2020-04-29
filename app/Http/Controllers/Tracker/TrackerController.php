@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Tracker;
 
 use App\Tracker;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class TrackerController extends Controller
+class TrackerController extends \App\Http\Controllers\Controller
 {
   /**
    * Display a listing of the resource.

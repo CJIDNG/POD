@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Analytics;
 
 use App\Post;
 use App\Traits\Trends;
@@ -9,7 +9,7 @@ use App\Visit;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 
-class StatsController extends Controller
+class StatsController extends \App\Http\Controllers\Controller
 {
     use Trends;
 

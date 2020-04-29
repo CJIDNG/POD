@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Data;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class DataResourceUploadController extends Controller
+class DataResourceUploadController extends \App\Http\Controllers\Controller
 {
   /**
    * Stores a given file and returns the path.

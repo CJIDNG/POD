@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Data;
 
 use App\Datalicense;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
-class DatalicenseController extends Controller
+class DatalicenseController extends \App\Http\Controllers\Controller
 {
   /**
    * Display a listing of the resource.

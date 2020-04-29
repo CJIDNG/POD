@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
 
-class UserController extends Controller
+class BlogUserController extends Controller
 {
     /**
      * The user associated with a post.
