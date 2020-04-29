@@ -144,7 +144,7 @@
             visitCount: 0,
             visitTrend: {},
             isReady: false,
-            trans: JSON.parse(CurrentTenant.lang),
+            trans: JSON.parse(CurrentTenant.translations),
           }
         },
 

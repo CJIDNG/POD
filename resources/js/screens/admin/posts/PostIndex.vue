@@ -20,7 +20,7 @@
               id
               v-model="postType"
               @change="changeType"
-              class="my-auto bg-transparent appearance-none border-0 text-muted"
+              class="my-auto ml-auto w-auto bg-transparent custom-select border-0"
             >
               <option value="published">{{ trans.app.published }} ({{ publishedCount }})</option>
               <option value="approved">{{ trans.app.approved }} ({{ approvedCount }})</option>
@@ -138,7 +138,7 @@ export default {
       approvedCount: 0,
       postType: this.isEditor ? "forApproval" : "published",
       infiniteId: +new Date(),
-      trans: JSON.parse(CurrentTenant.lang)
+      trans: JSON.parse(CurrentTenant.translations)
     };
   },
 

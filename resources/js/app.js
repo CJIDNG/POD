@@ -4,11 +4,11 @@ import { store } from './store'
 import NProgress from 'nprogress'
 import VueRouter from 'vue-router'
 import moment from 'moment-timezone'
+import ComponentMixin from "./mixins/ComponentMixin"
 import HelperMixin from "./mixins/HelperMixin"
 import RequestMixin from "./mixins/RequestMixin"
 import MetaMixin from "./mixins/MetaMixin"
 import VueHolder from 'vue-holderjs'
-import VueMeta from 'vue-meta'
 
 // https://ckeditor.com/blog/best-wysiwyg-editor-for-vue/
 import CKEditor from '@ckeditor/ckeditor5-vue';
@@ -26,6 +26,7 @@ if (/starfolksoftware/.test(CurrentTenant.platform.name)) {
   require('../../public/assets/themes/argon/assets/css/argon-design-system.min.css?v=1.2.0')
 }
 
+Vue.mixin(ComponentMixin)
 Vue.mixin(HelperMixin)
 Vue.mixin(RequestMixin)
 Vue.mixin(MetaMixin)
@@ -39,13 +40,6 @@ Vue.config.productionTip = false
 Vue.use(VueRouter)
 Vue.use(VueHolder)
 Vue.use(CKEditor)
-Vue.use(VueMeta, {
-  keyName: 'metaInfo',
-  attribute: 'data-vue-meta',
-  ssrAttribute: 'data-vue-meta-server-rendered',
-  tagIDKeyName: 'vmid',
-  refreshOnceOnNavigation: true
-})
 
 const router = new VueRouter({
   routes: Routes,

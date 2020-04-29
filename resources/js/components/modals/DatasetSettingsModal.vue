@@ -136,7 +136,7 @@ export default {
     return {
       allTopics: [],
       allLicenses: [],
-      trans: JSON.parse(CurrentTenant.lang)
+      trans: JSON.parse(CurrentTenant.translations)
     };
   },
 

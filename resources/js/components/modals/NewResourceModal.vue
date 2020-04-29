@@ -192,7 +192,7 @@ export default {
       galleryModalClasses: ["modal-xl", "modal-dialog-scrollable"],
       maxUploadFilesize: CurrentTenant.maxUpload,
       path: CurrentTenant.path,
-      trans: JSON.parse(CurrentTenant.lang),
+      trans: JSON.parse(CurrentTenant.translations),
       allFormats: [],
     };
   },

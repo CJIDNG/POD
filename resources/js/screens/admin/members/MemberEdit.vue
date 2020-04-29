@@ -294,7 +294,7 @@ export default {
       },
       designations: [],
       isReady: false,
-      trans: JSON.parse(CurrentTenant.lang),
+      trans: JSON.parse(CurrentTenant.translations),
       roles: []
     };
   },

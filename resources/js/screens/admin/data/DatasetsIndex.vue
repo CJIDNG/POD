@@ -119,7 +119,7 @@ export default {
       approvedCount: 0,
       datasetType: this.isEditor ? "forApproval" : "published",
       infiniteId: +new Date(),
-      trans: JSON.parse(CurrentTenant.lang)
+      trans: JSON.parse(CurrentTenant.translations)
     };
   },
 

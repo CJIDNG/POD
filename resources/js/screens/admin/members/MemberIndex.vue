@@ -73,7 +73,7 @@ export default {
     return {
       page: 1,
       members: [],
-      trans: JSON.parse(CurrentTenant.lang)
+      trans: JSON.parse(CurrentTenant.translations)
     };
   },
 

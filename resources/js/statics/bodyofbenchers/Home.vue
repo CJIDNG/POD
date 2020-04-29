@@ -115,7 +115,7 @@ export default {
 
   data() {
     return {
-      trans: JSON.parse(CurrentTenant.lang),
+      trans: JSON.parse(CurrentTenant.translations),
       platform: CurrentTenant.platform,
       sorting_svg: SortingSVG,
       judge_svg: JudgeSVG,
