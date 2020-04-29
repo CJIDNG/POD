@@ -91,6 +91,7 @@ class CurrentTenant
       'languageCodes' => self::getAvailableLanguageCodes(),
       'locale' => optional($metaData)->locale ?? config('app.locale'),
       'maxUpload' => config('custom.upload_filesize'),
+      'identifier' => 'id',
       'path' => config('custom.path'),
       'timezone' => config('app.timezone'),
       'translations' => collect(['app' => trans('app', [], optional($metaData)->locale)])->toJson(),

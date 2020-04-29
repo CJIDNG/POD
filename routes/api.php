@@ -191,9 +191,30 @@ Route::group(['prefix' => 'v1'], function () {
   Route::delete('/resource/uploads', 'DataResourceUploadController@destroy')
     ->middleware(['auth:api', 'role:Admin|Data Curator|Data Researcher & Editor']);
 
-  Route::group(['prefix' => 'blog'], function () {
-    Route::get('/', 'BlogController@index')->name('blog.index');
-    Route::middleware('throttle:60,1')->get('/view/{slug}', 'BlogController@post')->name('blog.post');
+  // Route::group(['prefix' => 'blog'], function () {
+  //   Route::get('/', 'BlogController@index')->name('blog.index');
+  //   Route::middleware('throttle:60,1')->get('/view/{slug}', 'BlogController@post')->name('blog.post');
+  // });
+
+  Route::namespace('Blog')->prefix('blog')->group(function () {
+    Route::prefix('posts')->group(function () {
+      Route::get('/', 'PostController@index');
+      Route::get('{identifier}/{slug}', 'PostController@show'); //->middleware('Canvas\Http\Middleware\Session')
+    });
+
+    Route::prefix('tags')->group(function () {
+      Route::get('/', 'TagController@index');
+      Route::get('{slug}', 'TagController@show');
+    });
+
+    Route::prefix('topics')->group(function () {
+      Route::get('/', 'TopicController@index');
+      Route::get('{slug}', 'TopicController@show');
+    });
+
+    Route::prefix('users')->group(function () {
+      Route::get('{identifier}', 'UserController@show');
+    });
   });
 
   Route::group(['prefix' => 'data'], function () {
