@@ -53,6 +53,7 @@
         </div>
       </main>
     </div>
+    <page-footer></page-footer>
   </div>
 </template>
 

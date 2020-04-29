@@ -4,6 +4,7 @@ import { store } from './store'
 import NProgress from 'nprogress'
 import VueRouter from 'vue-router'
 import moment from 'moment-timezone'
+import ComponentMixin from "./mixins/ComponentMixin"
 import HelperMixin from "./mixins/HelperMixin"
 import RequestMixin from "./mixins/RequestMixin"
 import MetaMixin from "./mixins/MetaMixin"
@@ -25,6 +26,7 @@ if (/starfolksoftware/.test(CurrentTenant.platform.name)) {
   require('../../public/assets/themes/argon/assets/css/argon-design-system.min.css?v=1.2.0')
 }
 
+Vue.mixin(ComponentMixin)
 Vue.mixin(HelperMixin)
 Vue.mixin(RequestMixin)
 Vue.mixin(MetaMixin)

@@ -32,6 +32,7 @@
         </main>
       </div>
     </div>
+    <page-footer></page-footer>
   </div>
 </template>
 
