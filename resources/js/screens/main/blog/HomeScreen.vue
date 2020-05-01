@@ -39,8 +39,8 @@
 
     <div class="pt-5">
       <div class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 col-md-12 mt-3">
-        <h1 class="font-serif">{{ trans.app.stories }}</h1>
-        <p class="lead text-secondary">{{ trans.app.the_recently_published_stories }}</p>
+        <h1 class="font-serif">{{ trans.app.recently_published }}</h1>
+        <!-- <p class="lead text-secondary">{{ trans.app.the_recently_published_stories }}</p> -->
         <p class="lead text-secondary">
           {{ trans.app.browse_by }} : 
           <router-link :to="{name:'blog-tags'}" class="text-muted text-decoration-none ml-3 mr-3">

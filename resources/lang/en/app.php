@@ -315,6 +315,7 @@ return [
   'published_posts' => 'Published Post(s)',
   'publishing' => 'Publishing',
   'prev' => 'Prev',
+  'recently_published' => 'Recently published',
   'report' => 'Report',
   'report_an_incident' => 'Report an incident',
   'resource' => 'Resource',
