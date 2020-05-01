@@ -299,7 +299,7 @@ export default {
     return {
       editor: null,
       controlIsActive: false,
-      trans: JSON.parse(CurrentTenant.lang)
+      trans: JSON.parse(CurrentTenant.translations)
     };
   },
 

@@ -79,7 +79,7 @@ export default {
     return {
       page: 1,
       partners: [],
-      trans: JSON.parse(CurrentTenant.lang)
+      trans: JSON.parse(CurrentTenant.translations)
     };
   },
 

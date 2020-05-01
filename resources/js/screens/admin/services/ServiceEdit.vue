@@ -153,7 +153,7 @@ export default {
         hasSuccess: false
       },
       isReady: false,
-      trans: JSON.parse(CurrentTenant.lang),
+      trans: JSON.parse(CurrentTenant.translations),
       roles: []
     };
   },

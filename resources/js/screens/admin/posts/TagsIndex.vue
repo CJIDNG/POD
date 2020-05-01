@@ -72,7 +72,7 @@ export default {
     return {
       page: 1,
       tags: [],
-      trans: JSON.parse(CurrentTenant.lang)
+      trans: JSON.parse(CurrentTenant.translations)
     };
   },
 

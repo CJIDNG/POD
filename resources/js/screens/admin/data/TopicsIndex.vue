@@ -71,7 +71,7 @@ export default {
     return {
       page: 1,
       topics: [],
-      trans: JSON.parse(CurrentTenant.lang)
+      trans: JSON.parse(CurrentTenant.translations)
     };
   },
 

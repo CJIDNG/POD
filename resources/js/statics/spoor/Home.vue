@@ -100,7 +100,7 @@ export default {
   data() {
     return {
       posts: [],
-      trans: JSON.parse(CurrentTenant.lang),
+      trans: JSON.parse(CurrentTenant.translations),
       platform: CurrentTenant.platform
     };
   },

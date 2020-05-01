@@ -132,7 +132,7 @@ export default {
       selectedImagesForPond: [],
       maxUploadFilesize: CurrentTenant.maxUpload,
       path: CurrentTenant.path,
-      trans: JSON.parse(CurrentTenant.lang)
+      trans: JSON.parse(CurrentTenant.translations)
     };
   },
 

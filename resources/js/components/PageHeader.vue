@@ -155,7 +155,7 @@ export default {
       user: CurrentTenant.user,
       avatar: this.$root.avatar,
       token: this.getToken(),
-      trans: JSON.parse(CurrentTenant.lang),
+      trans: JSON.parse(CurrentTenant.translations),
       trackers: []
     };
   },

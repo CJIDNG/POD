@@ -119,7 +119,7 @@ export default {
       },
       tracker: {},
       isReady: false,
-      trans: JSON.parse(CurrentTenant.lang),
+      trans: JSON.parse(CurrentTenant.translations),
       formOptions: {
         validateAfterLoad: true,
         validateAfterChanged: true

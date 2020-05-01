@@ -116,7 +116,7 @@ export default {
       page: 1,
       infiniteId: +new Date(),
       trackerItems: [],
-      trans: JSON.parse(CurrentTenant.lang),
+      trans: JSON.parse(CurrentTenant.translations),
       isReady: false,
       confirmationStatus: 'confirmed',
       confirmedCount: 0,

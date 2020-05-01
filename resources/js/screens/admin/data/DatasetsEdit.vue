@@ -338,7 +338,7 @@ export default {
       formats: [],
       id: this.$route.params.id || "create",
       isReady: false,
-      trans: JSON.parse(CurrentTenant.lang),
+      trans: JSON.parse(CurrentTenant.translations),
       resource_id: 'create',
     };
   },

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use App\Http\Resources\UserResource;
 use Auth;
+use Locale;
 
 class CurrentTenant
 {
@@ -87,11 +88,13 @@ class CurrentTenant
       'subapps' => collect($this->subapps)->pluck('name'),
       'avatar' => optional($metaData)->avatar && ! empty(optional($metaData)->avatar) ? $metaData->avatar : "https://secure.gravatar.com/avatar/{$emailHash}?s=500",
       'darkMode' => optional($metaData)->dark_mode,
-      'lang' => self::compileLanguageFile(config('app.locale')),
-      'locale' => config('app.locale'),
+      'languageCodes' => self::getAvailableLanguageCodes(),
+      'locale' => optional($metaData)->locale ?? config('app.locale'),
       'maxUpload' => config('custom.upload_filesize'),
+      'identifier' => 'id',
       'path' => config('custom.path'),
       'timezone' => config('app.timezone'),
+      'translations' => collect(['app' => trans('app', [], optional($metaData)->locale)])->toJson(),
       'unsplash' => config('custom.unsplash.access_key'),
       'user' => Auth::check() ? new UserResource(auth()->user()) : '',
       'roles' => Role::all()->pluck('name'),
@@ -114,5 +117,22 @@ class CurrentTenant
     $lines->put('app', include $file);
 
     return $lines->toJson();
+  }
+
+  /**
+   * Return the available locales.
+   *
+   * @return array
+   */
+  private static function getAvailableLanguageCodes()
+  {
+    $locales = preg_grep('/^([^.])/', scandir(dirname(__DIR__, 1).'/resources/lang'));
+    $translations = collect();
+
+    foreach ($locales as $locale) {
+      $translations->put($locale, Str::ucfirst(Locale::getDisplayName($locale, $locale)));
+    }
+
+    return $translations->toArray();
   }
 }
