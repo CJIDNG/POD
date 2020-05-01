@@ -57,14 +57,14 @@
               class="card"
             >
               <router-link
-                :to="`/blog/${post.slug}/show`">
+                :to="{ name: 'blog-post', params: { identifier: publicIdentifier(post), slug: post.slug } }">
                 <img v-if="post.featured_image" :src="post.featured_image" class="card-img-top" :alt="post.featured_image_caption">
                 <img class="img-fluid" v-else v-holder="'img=500x250?auto=yes&theme=thumb'">
               </router-link>
               <div class="card-body">
                 <h5 class="card-title">
                   <router-link
-                    :to="`/blog/${post.slug}/show`">
+                    :to="{ name: 'blog-post', params: { identifier: publicIdentifier(post), slug: post.slug } }">
                     {{ post.title }}
                   </router-link>
                 </h5>
@@ -116,13 +116,13 @@ export default {
   methods: {
     fetchLatestPosts() {
       this.request()
-        .get("/api/v1/blog", {
+        .get("/api/v1/blog/posts", {
           params: {
             page: 1
           }
         })
         .then(response => {
-          this.posts = response.data.data.splice(0, 3)
+          this.posts = response.data.posts.splice(0, 3)
           NProgress.done()
         })
         .catch(error => {

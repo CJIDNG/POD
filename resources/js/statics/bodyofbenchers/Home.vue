@@ -73,7 +73,7 @@
               <div class="card-body">
                 <h5 class="card-title">
                   <router-link
-                    :to="`/blog/${post.slug}/show`"
+                    :to="{ name: 'blog-post', params: { identifier: publicIdentifier(post), slug: post.slug } }"
                   >
                     {{ post.title }}
                   </router-link>
@@ -136,14 +136,14 @@ export default {
   methods: {
     fetchData() {
       this.request()
-        .get("/api/v1/blog", {
+        .get("/api/v1/blog/posts", {
           params: {
             page: 1
           }
         })
         .then(response => {
-          if (!_.isEmpty(response.data) && !_.isEmpty(response.data.data)) {
-            this.posts = response.data.data.slice(0, 3)
+          if (!_.isEmpty(response.data) && !_.isEmpty(response.data.posts)) {
+            this.posts = response.data.posts.slice(0, 3)
           }
 
           NProgress.done();
