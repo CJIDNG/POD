@@ -125,19 +125,13 @@
 <script>
 import $ from "jquery";
 import NProgress from "nprogress";
-import PageHeader from "../../../components/PageHeader";
-import ProfileModal from "../../../components/modals/ProfileModal";
-import AdminPage from "../../../components/AdminPage";
-import PageFooter from "../../../components/PageFooter";
+import ProfileModal from "../../../components/global/modals/ProfileModal";
 
 export default {
   name: "settings-show",
 
   components: {
-    PageHeader,
-    ProfileModal,
-    AdminPage,
-    PageFooter
+    ProfileModal
   },
 
   metaInfo() {

@@ -252,19 +252,15 @@
 <script>
 import $ from "jquery";
 import NProgress from "nprogress";
-import PageHeader from "../../../components/PageHeader";
-import DeleteModal from "../../../components/modals/DeleteModal";
-import AdminPage from '../../../components/AdminPage';
-import ImageUploadModal from "../../../components/modals/ImageUploadModal";
+import DeleteModal from "../../../components/global/modals/DeleteModal";
+import ImageUploadModal from "../../../components/global/modals/ImageUploadModal";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
 export default {
   name: "members-edit",
 
   components: {
-    PageHeader,
     DeleteModal,
-    AdminPage,
     ImageUploadModal,
   },
 

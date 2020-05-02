@@ -39,15 +39,13 @@
 <script>
 import NProgress from "nprogress";
 import vueHeadful from "vue-headful";
-import PageHeader from "../../../components/PageHeader";
-import TaxonomyGrid from "../../../components/TaxonomyGrid";
+import TaxonomyGrid from "../../../components/blog/TaxonomyGrid";
 
 export default {
   name: "tag-screen",
 
   components: {
     TaxonomyGrid,
-    PageHeader,
     vueHeadful
   },
 

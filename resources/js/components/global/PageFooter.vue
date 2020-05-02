@@ -5,7 +5,7 @@
 <script>
 import {
   Statics,
-} from "../statics"
+} from "../../statics"
 
 export default {
   name: 'page-footer',

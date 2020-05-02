@@ -191,7 +191,7 @@
 </template>
 
 <script>
-import { EventBus } from "../bus";
+import { EventBus } from "../../bus";
 var $ = require("jquery");
 require("jquery-mousewheel")($);
 require("malihu-custom-scrollbar-plugin")($);

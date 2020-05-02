@@ -32,14 +32,12 @@
 <script>
 import NProgress from "nprogress";
 import vueHeadful from "vue-headful";
-import PostList from "../../../components/PostList";
-import PageHeader from "../../../components/PageHeader";
+import PostList from "../../../components/blog/PostList";
 
 export default {
   name: "tag-posts-screen",
 
   components: {
-    PageHeader,
     PostList,
     vueHeadful
   },

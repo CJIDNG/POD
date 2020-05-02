@@ -40,7 +40,6 @@
 <script>
 import moment from "moment";
 import NProgress from "nprogress";
-import PageHeader from "../../components/PageHeader";
 import MedicineSVG from "../../../../public/assets/svg/undraw_medicine_b1ol.svg"
 import CollectingSVG from "../../../../public/assets/svg/undraw_collecting_fjjl.svg"
 import SortingSVG from "../../../../public/assets/svg/undraw_sorting_thoughts_6d48.svg"
@@ -50,7 +49,7 @@ export default {
   name: "contact-index",
 
   components: {
-    PageHeader
+
   },
 
   data() {

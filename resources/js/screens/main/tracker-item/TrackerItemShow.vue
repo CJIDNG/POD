@@ -88,16 +88,12 @@
 import $ from "jquery";
 import moment from "moment";
 import NProgress from "nprogress";
-import PageHeader from "../../../components/PageHeader";
-import PageFooter from "../../../components/PageFooter"
-import NewCommentModal from "../../../components/modals/tracker/NewCommentModal"
+import NewCommentModal from "../../../components/global/modals/tracker/NewCommentModal"
 
 export default {
   name: "trackerItems-show",
 
   components: {
-    PageHeader,
-    PageFooter,
     NewCommentModal
   },
 

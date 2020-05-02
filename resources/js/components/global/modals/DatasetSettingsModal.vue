@@ -107,8 +107,8 @@
 <script>
 import _ from "lodash";
 import { mapState } from "vuex";
-import DatatopicSelect from "../DatatopicSelect";
-import Tooltip from "../../directives/Tooltip";
+import DatatopicSelect from "../../data/DatatopicSelect";
+import Tooltip from "../../../directives/Tooltip";
 
 export default {
   name: "datset-settings-modal",

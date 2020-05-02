@@ -267,7 +267,7 @@ import EmbedVideoModal from "./EmbedVideoModal";
 import EmbedImageModal from "./EmbedImageModal";
 import DividerBlot from "./DividerBlot";
 import EmbedLinkBlot from "./EmbedLinkBlot";
-import Closable from "../../directives/Closable";
+import Closable from "../../../directives/Closable";
 
 export default {
   name: "quill-editor",
@@ -594,7 +594,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../../../../resources/sass/variables";
+@import "../../../../../resources/sass/variables";
 @import "~quill/dist/quill.bubble.css";
 
 .ql-container {

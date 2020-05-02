@@ -18,15 +18,12 @@
 <script>
 import moment from "moment";
 import NProgress from "nprogress";
-import PageHeader from "../../../components/PageHeader";
-import PageFooter from "../../../components/PageFooter"
 
 export default {
   name: "member-show",
 
   components: {
-    PageHeader,
-    PageFooter
+    
   },
 
   data() {

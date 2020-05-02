@@ -106,9 +106,9 @@
 <script>
 import _ from "lodash";
 import { mapState } from "vuex";
-import TagSelect from "../TagSelect";
-import TopicSelect from "../TopicSelect";
-import Tooltip from "../../directives/Tooltip";
+import TagSelect from "../../blog/TagSelect";
+import TopicSelect from "../../blog/TopicSelect";
+import Tooltip from "../../../directives/Tooltip";
 
 export default {
   name: "settings-modal",

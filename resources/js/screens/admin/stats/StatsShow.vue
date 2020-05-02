@@ -257,17 +257,13 @@
 <script>
 import NProgress from "nprogress";
 import Tooltip from "../../../directives/Tooltip";
-import LineChart from "../../../components/LineChart";
-import AdminPage from '../../../components/AdminPage';
-import PageHeader from "../../../components/PageHeader";
+import LineChart from "../../../components/analytics/LineChart";
 
 export default {
   name: "stats-show",
 
   components: {
-    LineChart,
-    PageHeader,
-    AdminPage,
+    LineChart
   },
 
   directives: {

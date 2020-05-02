@@ -53,7 +53,7 @@
                 :class="!CurrentTenant.darkMode ? 'bg-light': 'bg-darker'"
                 class="form-control border-0"
                 :title="trans.app.meta_title"
-                v-model="activeDataset.meta.title"
+                v-model="activePost.meta.title"
                 :placeholder="trans.app.meta_title_placeholder"
               />
             </div>
@@ -91,7 +91,7 @@
                 :class="!CurrentTenant.darkMode ? 'bg-light': 'bg-darker'"
                 class="form-control border-0"
                 @input="update"
-                v-model="activeDataset.meta.description"
+                v-model="activePost.meta.description"
                 :placeholder="trans.app.meta_description_placeholder"
               ></textarea>
             </div>
@@ -107,7 +107,7 @@
                 :class="!CurrentTenant.darkMode ? 'bg-light': 'bg-darker'"
                 class="form-control border-0"
                 name="canonical_link"
-                v-model="activeDataset.meta.canonical_link"
+                v-model="activePost.meta.canonical_link"
                 :title="trans.app.canonical_link"
                 :placeholder="trans.app.canonical_link_placeholder"
               />
@@ -129,10 +129,10 @@
 <script>
 import _ from "lodash";
 import { mapState } from "vuex";
-import Tooltip from "../../directives/Tooltip";
+import Tooltip from "../../../directives/Tooltip";
 
 export default {
-  name: "dataset-seo-modal",
+  name: "seo-modal",
 
   data() {
     return {
@@ -140,7 +140,7 @@ export default {
     };
   },
 
-  computed: mapState(["activeDataset"]),
+  computed: mapState(["activePost"]),
 
   directives: {
     Tooltip
@@ -152,12 +152,12 @@ export default {
     }, 3000),
 
     syncDescription() {
-      this.activeDataset.meta.description = this.activeDataset.description.substring(0, 255);
+      this.activePost.meta.description = this.activePost.summary;
       this.$parent.$parent.save();
     },
 
     syncTitle() {
-      this.activeDataset.meta.title = this.activeDataset.title;
+      this.activePost.meta.title = this.activePost.title;
       this.$parent.$parent.save();
     }
   }

@@ -145,7 +145,7 @@
 
 <script>
 import $ from "jquery";
-import { EventBus } from "../bus";
+import { EventBus } from "../../bus";
 
 export default {
   name: "page-header",

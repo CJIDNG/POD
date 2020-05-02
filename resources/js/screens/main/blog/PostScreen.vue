@@ -137,17 +137,15 @@
 
 <script>
 import hljs from "highlight.js";
-import PostList from "../../../components/PostList";
+import PostList from "../../../components/blog/PostList";
 import NProgress from "nprogress";
 import vueHeadful from "vue-headful";
 import mediumZoom from "medium-zoom";
-import PageHeader from "../../../components/PageHeader";
 
 export default {
   name: "post-screen",
 
   components: {
-    PageHeader,
     PostList,
     vueHeadful
   },

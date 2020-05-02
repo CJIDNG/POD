@@ -134,7 +134,7 @@
 
 <script>
 import _ from "lodash"
-import { EventBus } from './../../bus'
+import { EventBus } from './../../../bus'
 import { mapState } from "vuex"
 import vueFilePond from "vue-filepond"
 import $ from "jquery"

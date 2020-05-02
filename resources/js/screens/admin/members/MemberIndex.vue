@@ -57,8 +57,8 @@
 <script>
 import NProgress from "nprogress";
 import InfiniteLoading from "vue-infinite-loading";
-import AdminPage from '../../../components/AdminPage';
-import PageHeader from "../../../components/PageHeader";
+import AdminPage from '../../../components/global/AdminPage';
+import PageHeader from "../../../components/global/PageHeader";
 
 export default {
   name: "members-index",

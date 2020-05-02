@@ -100,7 +100,6 @@
 <script>
 import moment from "moment";
 import NProgress from "nprogress";
-import PageHeader from "../../components/PageHeader";
 import SortingSVG from "../../../../public/assets/svg/undraw_sorting_thoughts_6d48.svg"
 import JudgeSVG from "../../../../public/assets/svg/judge.svg"
 import CallSVG from "../../../../public/assets/svg/conference_call.svg"
@@ -110,7 +109,7 @@ export default {
   name: "contact-index",
 
   components: {
-    PageHeader
+
   },
 
   data() {
