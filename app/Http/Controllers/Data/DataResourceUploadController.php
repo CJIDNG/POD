@@ -6,6 +6,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Model\Util\CurrentTenant;
 
 class DataResourceUploadController extends \App\Http\Controllers\Controller
 {
@@ -55,7 +56,7 @@ class DataResourceUploadController extends \App\Http\Controllers\Controller
    */
   private function baseStoragePath(): string
   {
-    $currentTenant = new \App\CurrentTenant();
+    $currentTenant = new CurrentTenant();
     $platformName = $currentTenant->getPlatform()->name;
     return $currentTenant->getWebsite() ? 
       sprintf('%s', config('data.storage_path')."/${platformName}") :

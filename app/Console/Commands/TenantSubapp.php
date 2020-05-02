@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Model\Util\Subapp;
+use App\Model\Settings\Platform;
 
 class TenantSubapp extends Command
 {
@@ -41,14 +43,14 @@ class TenantSubapp extends Command
     $subapp = $this->argument('subapp');
 
     // set up platform subapps
-    $platform = \App\Platform::where('name', $fqdn)->first();
+    $platform = Platform::where('name', $fqdn)->first();
 
     if (!$platform) {
       $this->error('unrecognised platform');
       return false;
     }
 
-    $subappId = \App\Subapp::where('name', $subapp)->get(['id'])->pluck('id');
+    $subappId = Subapp::where('name', $subapp)->get(['id'])->pluck('id');
 
     if (!$subappId) {
       $this->error('unrecognised subapp');

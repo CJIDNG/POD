@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Util;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
+use App\Model\Util\CurrentTenant;
 
 class MediaController extends \App\Http\Controllers\Controller
 {
@@ -54,7 +55,7 @@ class MediaController extends \App\Http\Controllers\Controller
      */
     private function baseStoragePath(): string
     {
-      $currentTenant = new \App\CurrentTenant();
+      $currentTenant = new CurrentTenant();
       $platformName = $currentTenant->getPlatform()->name;
       return $currentTenant->getWebsite() ? 
         sprintf('%s/%s', config('custom.storage_path')."/${platformName}", 'images') :

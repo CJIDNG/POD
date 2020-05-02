@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Model\Util\Subapp;
 
 class SubappRegister extends Command
 {
@@ -39,14 +40,14 @@ class SubappRegister extends Command
     {
       $subapp = $this->argument('subapp');
 
-      $subappId = \App\Subapp::where('name', $subapp)->first();
+      $subappId = Subapp::where('name', $subapp)->first();
 
       if ($subappId) {
         $this->error('subapp exists already');
         return false;
       }
 
-      \App\Subapp::firstOrCreate([
+      Subapp::firstOrCreate([
         'name' => $subapp
       ]);
 

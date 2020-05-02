@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Data;
 
 use App\Model\Data\Dataresource;
+use App\Model\Data\Dataformat;
+use App\Model\Util\CurrentTenant;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
@@ -262,7 +264,7 @@ class DataresourceController extends \App\Http\Controllers\Controller
     $explodedFilename = explode('.', $filename);
     $extension = $explodedFilename[count($explodedFilename) - 1];
 
-    return \App\Dataformat::where('extension', $extension)->first()->id;
+    return Dataformat::where('extension', $extension)->first()->id;
   }
 
   public function download($id) {
@@ -281,7 +283,7 @@ class DataresourceController extends \App\Http\Controllers\Controller
    */
   private function baseStoragePath(): string
   {
-    $currentTenant = new \App\CurrentTenant();
+    $currentTenant = new CurrentTenant();
     $platformName = $currentTenant->getPlatform()->name;
     return $currentTenant->getWebsite() ? 
       sprintf('%s', config('data.storage_path')."/${platformName}") :

@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 use Hyn\Tenancy\Environment;
+use App\Model\Auth\Permission;
+use App\Model\Auth\Role;
 
 class AuthPermission extends Command
 {
@@ -51,7 +53,7 @@ class AuthPermission extends Command
         // check if its remove
         if( $is_remove = $this->option('remove') ) {
           // remove permission
-          if( \App\Permission::where('name', 'LIKE', '%'. $this->getNameArgument())->delete() ) {
+          if( Permission::where('name', 'LIKE', '%'. $this->getNameArgument())->delete() ) {
             $this->warn('Permissions ' . implode(', ', $permissions) . ' deleted.');
           }  else {
             $this->warn('No permissions for ' . $this->getNameArgument() .' found!');
@@ -59,15 +61,15 @@ class AuthPermission extends Command
         } else {
           // create permissions
           foreach ($permissions as $permission) {
-            \App\Permission::firstOrCreate(['name' => $permission ]);
+            Permission::firstOrCreate(['name' => $permission ]);
           }
 
           $this->info('Permissions ' . implode(', ', $permissions) . ' created.');
         }
 
         // sync role for admin
-        if( $role = \App\Role::where('name', 'Admin')->first() ) {
-          $role->syncPermissions(\App\Permission::all());
+        if( $role = Role::where('name', 'Admin')->first() ) {
+          $role->syncPermissions(Permission::all());
           $this->info('Admin permissions');
         }
       }

@@ -13,10 +13,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Str;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
+use App\Traits\HasApprovalFlow;
 
 class Post extends Model
 {
-  use SoftDeletes, UsesTenantConnection;
+  use SoftDeletes, HasApprovalFlow, UsesTenantConnection;
 
   /**
    * The table associated with the model.
@@ -128,16 +129,6 @@ class Post extends Model
   }
 
   /**
-   * Get the user relationship.
-   *
-   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-   */
-  public function editor(): BelongsTo
-  {
-    return $this->belongsTo(\App\Model\Auth\User::class, 'editor_id');
-  }
-
-  /**
    * Get the user meta relationship.
    *
    * @return \Illuminate\Database\Eloquent\Relations\HasOneThrough
@@ -172,36 +163,6 @@ class Post extends Model
   public function visits(): HasMany
   {
     return $this->hasMany(\App\Model\Analytics\Visit::class);
-  }
-
-  /**
-   * Check to see if the post is published.
-   *
-   * @return bool
-   */
-  public function getPublishedAttribute(): bool
-  {
-    return ! is_null($this->published_at) && $this->published_at <= now()->toDateTimeString();
-  }
-
-  /**
-   * Check to see if the post is submitted for approval.
-   *
-   * @return bool
-   */
-  public function getSubmittedAttribute(): bool
-  {
-    return ! is_null($this->submitted_at) && $this->submitted_at <= now()->toDateTimeString();
-  }
-
-  /**
-   * Check to see if the post is approved.
-   *
-   * @return bool
-   */
-  public function getApprovedAttribute(): bool
-  {
-    return ! is_null($this->approved_at) && $this->approved_at <= now()->toDateTimeString();
   }
 
   /**
@@ -297,70 +258,6 @@ class Post extends Model
     arsort($sliced);
 
     return $sliced;
-  }
-
-  /**
-   * Scope a query to only include published posts.
-   *
-   * @param Builder $query
-   * @return Builder
-   */
-  public function scopePublished($query): Builder
-  {
-    return $query->where([
-      ['submitted_at', '<=', now()->toDateTimeString()],
-      ['approved_at', '<=', now()->toDateTimeString()],
-      ['published_at', '<=', now()->toDateTimeString()]
-    ]);
-  }
-
-  /**
-   * Scope a query to only include posts submitted for approval.
-   *
-   * @param Builder $query
-   * @return Builder
-   */
-  public function scopeSubmitted($query): Builder
-  {
-    return $query->where([
-      ['submitted_at', '<=', now()->toDateTimeString()],
-      ['approved_at', '=', NULL],
-      ['published_at', '=', NULL]
-    ]);
-  }
-
-  /**
-   * Scope a query to only include approved posts.
-   *
-   * @param Builder $query
-   * @return Builder
-   */
-  public function scopeApproved($query): Builder
-  {
-    return $query->where([
-      ['submitted_at', '<=', now()->toDateTimeString()],
-      ['approved_at', '<=', now()->toDateTimeString()],
-      ['published_at', '=', NULL]
-    ]);
-  }
-
-  /**
-   * Scope a query to only include drafted posts.
-   *
-   * @param Builder $query
-   * @return Builder
-   */
-  public function scopeDraft($query): Builder
-  {
-    return $query->where([
-      ['submitted_at', '=', NULL],
-      ['approved_at', '=', NULL],
-      ['published_at', '=', NULL]
-    ])->orWhere([
-      ['submitted_at', '>', now()->toDateTimeString()],
-      ['approved_at', '>', now()->toDateTimeString()],
-      ['published_at', '>', now()->toDateTimeString()]
-    ]);
   }
 
   /**
