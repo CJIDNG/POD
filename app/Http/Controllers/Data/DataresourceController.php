@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Data;
 
-use App\Dataresource;
+use App\Model\Data\Dataresource;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;

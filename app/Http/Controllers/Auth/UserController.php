@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Model\Auth\User;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
 use Illuminate\Support\Facades\Hash;
-use App\Role;
+use App\Model\Auth\Role;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
 
@@ -116,7 +116,7 @@ class UserController extends \App\Http\Controllers\Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\User  $user
+     * @param  \App\Model\Auth\User  $user
      * @return \Illuminate\Http\Response
      */
     public function show ($id = null) {
@@ -151,7 +151,7 @@ class UserController extends \App\Http\Controllers\Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\User  $user
+     * @param  \App\Model\Auth\User  $user
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {

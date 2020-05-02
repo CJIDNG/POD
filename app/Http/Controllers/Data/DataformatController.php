@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Data;
 
-use App\Dataformat;
+use App\Model\Data\Dataformat;
 use Illuminate\Http\JsonResponse;
 
 class DataformatController extends \App\Http\Controllers\Controller

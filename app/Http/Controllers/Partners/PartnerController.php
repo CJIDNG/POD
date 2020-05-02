@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Partners;
 
-use App\Partner;
+use App\Model\Partners\Partner;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

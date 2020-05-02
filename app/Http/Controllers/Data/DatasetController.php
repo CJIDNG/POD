@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Data;
 
-use App\Dataset;
-use App\Datatopic;
-use App\Datalicense;
-use App\Dataformat;
+use App\Model\Data\Dataset;
+use App\Model\Data\Datatopic;
+use App\Model\Data\Datalicense;
+use App\Model\Data\Dataformat;
 use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Http\JsonResponse;

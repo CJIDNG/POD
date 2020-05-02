@@ -7,7 +7,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 
-use App\CurrentTenant;
+use App\Model\Util\CurrentTenant;
 
 class Controller extends BaseController
 {

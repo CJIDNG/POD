@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Tracker;
 
-use App\Tracker;
+use App\Model\Tracker\Tracker;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Members;
 
-use App\Member;
+use App\Model\Members\Member;
+use App\Model\Members\Designation;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -47,14 +48,14 @@ class MemberController extends \App\Http\Controllers\Controller
           'member' => Member::make([
             'id' => NULL,
           ]),
-          'designations' => \App\Designation::get(['id','title'])
+          'designations' => Designation::get(['id','title'])
         ], 200);
       } else {
         $member = Member::with('designations')->find($id);
 
         return response()->json([
           'member' => $member,
-          'designations' => \App\Designation::get(['id','title'])
+          'designations' => Designation::get(['id','title'])
         ], 200);
       }
     } else {

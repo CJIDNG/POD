@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\PostViewed;
-use App\Post;
+use App\Model\Blog\Post;
 
 class CaptureVisit
 {

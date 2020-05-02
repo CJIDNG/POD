@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Post;
+use App\Model\Blog\Post;
 
 class PostViewed
 {

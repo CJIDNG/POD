@@ -16,7 +16,7 @@ trait HasComments
    */
   public function comments()
   {
-    return $this->morphMany(\App\Comment::class, 'commentable');
+    return $this->morphMany(\App\Model\Util\Comment::class, 'commentable');
   }
 
   /**
@@ -39,7 +39,7 @@ trait HasComments
    */
   public function commentAsUser(?Model $user, string $comment)
   {
-    $comment = new \App\Comment([
+    $comment = new \App\Model\Util\Comment([
       'comment' => $comment,
       'is_approved' => ($user instanceof Commentator) ? ! $user->needsCommentApproval($this) : false,
       'user_id' => is_null($user) ? null : $user->getKey(),
