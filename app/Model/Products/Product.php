@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Traits\HasApprovalFlow;
 
 class Product extends Model
@@ -49,6 +50,10 @@ class Product extends Model
     'features' => 'array'
   ];
 
+  public function user(): BelongsTo {
+    return $this->belongsTo(\App\Model\Auth\User::class);
+  }
+
   /**
    * Scope a query to only include posts for the current logged in user.
    *
@@ -59,6 +64,8 @@ class Product extends Model
   {
     return $query->where('user_id', request()->user()->id ?? null);
   }
+
+
 
   /**
    * The "booting" method of the model.

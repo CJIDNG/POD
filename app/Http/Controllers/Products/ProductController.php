@@ -55,6 +55,8 @@ class ProductController extends \App\Http\Controllers\Controller
    */
   public function show($id = null): JsonResponse
   {
+    $containsId = Product::pluck('id')->contains($id);
+
     if ($containsId || $this->isNewProduct($id)) {
       if ($this->isNewProduct($id)) {
         $statement = DB::connection('tenant')->select("SHOW TABLE STATUS LIKE 'products'");
@@ -63,7 +65,7 @@ class ProductController extends \App\Http\Controllers\Controller
             'id' => $statement[0]->Auto_increment,
             'name' => '',
             'description' => '',
-            'user_id' => request()->user()->id,
+            'user_id' => '',
           ])
         ], 200);
       } else {
@@ -110,7 +112,9 @@ class ProductController extends \App\Http\Controllers\Controller
       'user_id' => 'required'
     ], $messages)->validate();
 
-    $product = $id !== 'create' ? Product::find($id) : new Product(['id' => NULL]);
+    $product = Product::firstOrNew([
+      'id' => $id
+    ]);
 
     $product->fill($data);
     $product->save();

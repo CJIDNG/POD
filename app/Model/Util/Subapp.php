@@ -31,4 +31,18 @@ class Subapp extends Model
   public function platforms(): BelongsToMany {
     return $this->belongsToMany(\App\Model\Settings\Platform::class, 'platform_subapp', 'subapp_id', 'platform_id');
   }
+
+  /**
+   * The "booting" method of the model.
+   *
+   * @return void
+   */
+  protected static function boot()
+  {
+    parent::boot();
+
+    static::deleting(function ($item) {
+      $item->platforms()->detach();
+    });
+  }
 }

@@ -87,7 +87,7 @@ class CurrentTenant
       'hostname' => $this->hostname,
       'platform' => $this->platform,
       'allPlatforms' => \App\Model\Settings\Platform::with('website')->get(),
-      'subapps' => collect($this->subapps)->pluck('name'),
+      'subapps' => collect(\App\Model\Util\Subapp::all())->pluck('name'),
       'avatar' => optional($metaData)->avatar && ! empty(optional($metaData)->avatar) ? $metaData->avatar : "https://secure.gravatar.com/avatar/{$emailHash}?s=500",
       'darkMode' => optional($metaData)->dark_mode,
       'languageCodes' => self::getAvailableLanguageCodes(),

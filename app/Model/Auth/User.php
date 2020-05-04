@@ -91,4 +91,8 @@ class User extends Authenticatable
   public function trackerItems(): HasMany {
     return $this->hasMany(\App\Model\Tracker\TrackerItem::class);
   }
+
+  public function products(): HasMany {
+    return $this->hasMany(\App\Model\Products\Product::class);
+  }
 }

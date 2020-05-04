@@ -117,7 +117,6 @@
       </main>
 
       <profile-modal v-if="isReady" ref="profileModal" :form="form" />
-      <page-footer></page-footer>
     </div>
   </admin-page>
 </template>

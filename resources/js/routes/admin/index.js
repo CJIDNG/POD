@@ -4,6 +4,7 @@ import member from './member'
 import partner from './partner'
 import platforms from './platforms'
 import posts from './posts'
+import products from './product'
 import roles from './roles'
 import service from './service'
 import settings from './settings'
@@ -40,6 +41,10 @@ if (hasSubapp('blog')) {
 
 if (hasSubapp('members')) {
   adminRoutes.push(...designation, ...member)
+}
+
+if (hasSubapp('products')) {
+  adminRoutes.push(...products)
 }
 
 if (hasSubapp('services')) {
