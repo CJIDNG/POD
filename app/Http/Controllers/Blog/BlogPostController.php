@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Blog;
 
-use App\User;
+use App\Model\Auth\User;
 use App\Events\PostViewed;
-use App\Post;
-use App\UserMeta;
+use App\Model\Blog\Post;
+use App\Model\Auth\UserMeta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Auth;
@@ -74,7 +74,7 @@ class BlogPostController extends Controller
         $posts = Post::published()->withUserMeta()->get();
         $post = $posts->firstWhere('slug', $slug);
 
-        $metaData = \App\UserMeta::forCurrentUser()->first();
+        $metaData = UserMeta::forCurrentUser()->first();
         $emailHash = Auth::check() ? md5(trim(Str::lower(request()->user()->email))) : '';
 
         if ($this->isPublished($post)) {

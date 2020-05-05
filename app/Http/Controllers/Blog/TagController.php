@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Blog;
 
-use App\Tag;
+use App\Model\Blog\Tag;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;

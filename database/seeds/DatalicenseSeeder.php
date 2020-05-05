@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Model\Data\Datalicense;
 
 class DatalicenseSeeder extends Seeder
 {
@@ -11,10 +12,10 @@ class DatalicenseSeeder extends Seeder
    */
   public function run()
   {
-    $allLicenses = \App\Datalicense::defaultLicenses();
+    $allLicenses = Datalicense::defaultLicenses();
 
     foreach ($allLicenses as $license) {
-      \App\Datalicense::firstOrCreate($license);
+      Datalicense::firstOrCreate($license);
     }
   }
 }

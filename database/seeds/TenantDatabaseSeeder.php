@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Subapp;
+use App\Model\Util\Subapp;
 
 class TenantDatabaseSeeder extends Seeder
 {

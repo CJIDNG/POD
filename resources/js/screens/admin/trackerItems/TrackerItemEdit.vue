@@ -89,9 +89,7 @@
 <script>
 import $ from "jquery";
 import NProgress from "nprogress";
-import PageHeader from "../../../components/PageHeader";
-import DeleteModal from "../../../components/modals/DeleteModal";
-import AdminPage from '../../../components/AdminPage';
+import DeleteModal from "../../../components/global/modals/DeleteModal";
 import VueFormGenerator from 'vue-form-generator/dist/vfg-core.js'
 // import 'vue-form-generator/dist/vfg-core.css'
 
@@ -99,9 +97,7 @@ export default {
   name: "trackerItems-edit",
 
   components: {
-    PageHeader,
     DeleteModal,
-    AdminPage,
     VueFormGenerator: VueFormGenerator.component
   },
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Data;
 
-use App\Datalicense;
+use App\Model\Data\Datalicense;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 

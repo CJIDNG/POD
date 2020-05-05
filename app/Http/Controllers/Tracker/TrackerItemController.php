@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Tracker;
 
-use App\TrackerItem;
+use App\Model\Tracker\TrackerItem;
+use App\Model\Tracker\Tracker;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class TrackerItemController extends \App\Http\Controllers\Controller
    */
   public function index($trackerId): JsonResponse
   {
-    $tracker = \App\Tracker::find($trackerId);
+    $tracker = Tracker::find($trackerId);
 
     $confirmedCount = $tracker->trackedItems()->confirmed()->count();
     $notConfirmedCount = $tracker->trackedItems()->notConfirmed()->count();

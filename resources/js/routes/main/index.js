@@ -1,6 +1,7 @@
 import blog from './blog'
 import data from './data'
 import member from './member'
+import product from './product'
 import trackerItem from './trackerItem'
 import { hasSubapp } from './../../util/has-subapp'
 
@@ -57,6 +58,10 @@ if (hasSubapp('data')) {
 
 if (hasSubapp('members')) {
   mainRoutes.push(...member)
+}
+
+if (hasSubapp('products')) {
+  mainRoutes.push(...product)
 }
 
 if (hasSubapp('tracker')) {

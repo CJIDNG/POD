@@ -148,16 +148,13 @@
 
 <script>
 import moment from "moment";
-import NProgress from "nprogress";
-import PageHeader from "../../../components/PageHeader";
-import PageFooter from "../../../components/PageFooter"
+import NProgress from "nprogress"
 
 export default {
   name: "dataset-show",
 
   components: {
-    PageHeader,
-    PageFooter
+    
   },
 
   data() {

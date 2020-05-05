@@ -292,17 +292,13 @@
 <script>
 import $ from "jquery"
 import NProgress from "nprogress"
-import AdminPage from '../../../components/AdminPage'
-import PageHeader from "../../../components/PageHeader"
-import DeleteModal from "../../../components/modals/DeleteModal"
+import DeleteModal from "../../../components/global/modals/DeleteModal"
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
 export default {
   name: "platforms-edit",
 
   components: {
-    AdminPage,
-    PageHeader,
     DeleteModal
   },
 

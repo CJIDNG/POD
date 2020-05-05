@@ -115,16 +115,12 @@ import _ from "lodash"
 import moment from "moment";
 import NProgress from "nprogress";
 import InfiniteLoading from "vue-infinite-loading";
-import PageHeader from "../../../components/PageHeader";
-import PageFooter from "../../../components/PageFooter"
 
 export default {
   name: "trackerItems-index",
 
   components: {
-    InfiniteLoading,
-    PageHeader,
-    PageFooter
+    InfiniteLoading
   },
 
   data() {

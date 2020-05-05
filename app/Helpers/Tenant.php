@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use App\Platform;
+use App\Model\Settings\Platform;
 use Hyn\Tenancy\Contracts\Repositories\HostnameRepository;
 use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 use Hyn\Tenancy\Environment;

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Blog;
 
-use App\User;
-use App\Post;
-use App\UserMeta;
+use App\Model\Auth\User;
+use App\Model\Blog\Post;
+use App\Model\Auth\UserMeta;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;

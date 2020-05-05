@@ -85,7 +85,7 @@ Route::group(['prefix' => 'v1'], function () {
 
     // Permission routes...
     Route::get('/permissions', function () {
-      return response()->json(\App\Permission::all()->pluck('name'));
+      return response()->json(\App\Model\Auth\Permission::all()->pluck('name'));
     })->middleware(['auth:api', 'role:Admin']);
   });
 
@@ -113,9 +113,9 @@ Route::group(['prefix' => 'v1'], function () {
   Route::namespace('Util')->group(function () {
     // Media routes...
     Route::post('/media/uploads', 'MediaController@store')
-      ->middleware(['auth:api', 'role:Admin|Writer|Editor']);
+      ->middleware(['auth:api']);
     Route::delete('/media/uploads', 'MediaController@destroy')
-      ->middleware(['auth:api', 'role:Admin|Writer|Editor']);
+      ->middleware(['auth:api']);
 
     // comments routes...
     Route::get('/comments', 'CommentController@index');
@@ -216,6 +216,16 @@ Route::group(['prefix' => 'v1'], function () {
       ->middleware(['auth:api', 'permission:create_services']);
     Route::delete('/services/{id}', 'ServiceController@destroy')
       ->middleware(['auth:api', 'permission:delete_services']);
+  });
+
+  Route::namespace('Products')->group(function () {
+    // products routes...
+    Route::get('/products', 'ProductController@index');
+    Route::get('/products/{id?}', 'ProductController@show');
+    Route::post('/products/{id}', 'ProductController@store')
+      ->middleware(['auth:api', 'permission:create_products']);
+    Route::delete('/products/{id}', 'ProductController@destroy')
+      ->middleware(['auth:api', 'permission:delete_products']);
   });
 
   Route::namespace('Tracker')->group(function () {

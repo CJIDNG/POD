@@ -1,8 +1,8 @@
 <?php
 
-use App\Subapp;
-use App\Platform;
-use App\CurrentTenant;
+use App\Model\Util\Subapp;
+use App\Model\Settings\Platform;
+use App\Model\Util\CurrentTenant;
 use App\Constants\Subapps\Udeme;
 use App\Constants\Subapps\HealthCareTracka;
 use Illuminate\Database\Seeder;

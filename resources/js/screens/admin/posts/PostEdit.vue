@@ -193,17 +193,15 @@ import $ from "jquery";
 import moment from "moment";
 import { mapGetters } from "vuex";
 import NProgress from "nprogress";
-import SeoModal from "../../../components/modals/SeoModal";
-import AdminPage from "../../../components/AdminPage";
-import PageHeader from "../../../components/PageHeader";
-import DeleteModal from "../../../components/modals/DeleteModal";
-import ApproveModal from "../../../components/modals/ApproveModal";
-import SubmitModal from "../../../components/modals/SubmitModal";
+import SeoModal from "../../../components/global/modals/SeoModal";
+import DeleteModal from "../../../components/global/modals/DeleteModal";
+import ApproveModal from "../../../components/global/modals/ApproveModal";
+import SubmitModal from "../../../components/global/modals/SubmitModal";
 import VueTextAreaAutosize from "vue-textarea-autosize";
-import PublishModal from "../../../components/modals/PublishModal";
-import SettingsModal from "../../../components/modals/SettingsModal";
-import QuillEditor from "../../../components/editor/QuillEditor";
-import FeaturedImageModal from "../../../components/modals/FeaturedImageModal";
+import PublishModal from "../../../components/global/modals/PublishModal";
+import SettingsModal from "../../../components/global/modals/SettingsModal";
+import QuillEditor from "../../../components/global/editor/QuillEditor";
+import FeaturedImageModal from "../../../components/global/modals/FeaturedImageModal";
 
 Vue.use(VueTextAreaAutosize);
 
@@ -217,8 +215,6 @@ export default {
     ApproveModal,
     SubmitModal,
     QuillEditor,
-    AdminPage,
-    PageHeader,
     SeoModal,
     SettingsModal
   },

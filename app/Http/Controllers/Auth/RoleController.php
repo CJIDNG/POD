@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Role;
+use App\Model\Auth\Permission;
+use App\Model\Auth\Role;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -45,14 +46,14 @@ class RoleController extends \App\Http\Controllers\Controller
           'role' => Role::make([
             'id' => NULL
           ]),
-          'permissions' => \App\Permission::get(['id', 'name'])
+          'permissions' => Permission::get(['id', 'name'])
         ], 200);
       } else {
         $role = Role::with('permissions:id,name')->find($id);
 
         return response()->json([
           'role' => $role,
-          'permissions' => \App\Permission::get(['id', 'name'])
+          'permissions' => Permission::get(['id', 'name'])
         ], 200);
       }
     } else {
@@ -90,7 +91,7 @@ class RoleController extends \App\Http\Controllers\Controller
 
     // admin role has everything
     if($role->name === 'Admin') {
-      $role->syncPermissions(\App\Permission::all());
+      $role->syncPermissions(Permission::all());
     } else {
       $role->syncPermissions(request('permissions', []));
     }

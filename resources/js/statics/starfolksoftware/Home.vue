@@ -321,13 +321,12 @@
 <script>
 import moment from "moment";
 import NProgress from "nprogress";
-import PageHeader from "../../components/PageHeader";
 
 export default {
   name: "home-index",
 
   components: {
-    PageHeader
+    
   },
 
   data() {

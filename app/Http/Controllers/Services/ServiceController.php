@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Services;
 
-use App\Service;
+use App\Model\Services\Service;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
