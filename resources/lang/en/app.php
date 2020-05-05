@@ -18,6 +18,7 @@ return [
   'approved' => 'Approved',
   'approved_by' => 'Approved by',
   'approve' => 'approve',
+  'are_you_sure' => 'Are you sure? This is irreversible',
   'assets_are_not_up_to_date' => 'The assets for Current Tenant are not up-to-date with the installed version.',
   'author' => 'Author',
   'average_reading_time' => 'Average Reading Time',

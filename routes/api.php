@@ -113,9 +113,9 @@ Route::group(['prefix' => 'v1'], function () {
   Route::namespace('Util')->group(function () {
     // Media routes...
     Route::post('/media/uploads', 'MediaController@store')
-      ->middleware(['auth:api', 'role:Admin|Writer|Editor']);
+      ->middleware(['auth:api']);
     Route::delete('/media/uploads', 'MediaController@destroy')
-      ->middleware(['auth:api', 'role:Admin|Writer|Editor']);
+      ->middleware(['auth:api']);
 
     // comments routes...
     Route::get('/comments', 'CommentController@index');

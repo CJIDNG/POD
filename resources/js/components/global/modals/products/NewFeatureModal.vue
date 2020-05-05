@@ -264,7 +264,7 @@ export default {
     getServerOptions() {
       let vm = this
       return {
-        url: this.resourceUploadPath(),
+        url: this.mediaUploadPath(),
         headers: {
           "X-CSRF-TOKEN": this.getToken()
         },

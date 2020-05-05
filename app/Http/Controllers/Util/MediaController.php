@@ -37,7 +37,8 @@ class MediaController extends \App\Http\Controllers\Controller
      */
     public function destroy()
     {
-        $file = pathinfo(request()->getContent());
+        $path = request()->getContent() == "" ? request('path') : request()->getContent();
+        $file = pathinfo($path);
         $storagePath = $this->baseStoragePath();
         $path = "{$storagePath}/{$file['basename']}";
 

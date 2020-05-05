@@ -27,6 +27,15 @@
       </svg>
       <h2>{{ feature.title }}</h2>
       <p v-html="feature.description"></p>
+      <p>
+        <button
+          v-if="hasDelete"
+          type="button"
+          class="btn btn-danger"
+          @click="features = deleteFeature(index, features)">
+          {{ trans.app.delete }}
+        </button>
+      </p>
     </div><!-- /.col-lg-4 -->
   </div><!-- /.row -->
 </template>
@@ -37,7 +46,33 @@ export default {
     features: {
       type: Array,
       required: true
+    },
+
+    hasDelete: {
+      type: Boolean,
+      default: false
     }
+  },
+
+  data() {
+    return {
+      trans: JSON.parse(CurrentTenant.translations),
+    }
+  },
+
+  watch: {
+    features: function (val) {
+      this.$emit('update:features', val)
+    }
+  },
+
+  methods: {
+    deleteFeature(id, features) {
+      if (confirm(this.trans.app.are_you_sure)) {
+        this.deleteMedia(features[id].thumbnail)
+        return features.splice(id, 1)
+      }
+    },
   }
 }
 </script>

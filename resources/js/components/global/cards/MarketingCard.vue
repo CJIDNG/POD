@@ -9,6 +9,15 @@
             {{ marketing.title }}
           </h2>
           <p class="lead" v-html="marketing.description"></p>
+          <p>
+            <button
+              v-if="hasDelete"
+              type="button"
+              class="btn btn-danger"
+              @click="deleteMarketing(index, marketings)">
+              {{ trans.app.delete }}
+            </button>
+          </p>
         </div>
         <div class="col-md-5" :class="index % 2 == 0 ? 'order-md-2' : 'order-md-1'">
           <img 
@@ -31,6 +40,33 @@ export default {
     marketings: {
       type: Array,
       required: true
+    },
+
+    hasDelete: {
+      type: Boolean,
+      default: false
+    }
+  },
+
+  data() {
+    return {
+      trans: JSON.parse(CurrentTenant.translations),
+    };
+  },
+
+  watch: {
+    marketings: function (val) {
+      this.$emit('update:marketings', val)
+    }
+  },
+
+  methods: {
+    deleteMarketing(id, marketing) {
+      if (confirm(this.trans.app.are_you_sure)) {
+        this.deleteMedia(marketing[id].thumbnail).then((response) => {
+          return marketing.splice(id, 1)
+        })
+      }
     }
   }
 }

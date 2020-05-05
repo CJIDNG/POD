@@ -135,13 +135,13 @@
           <div class="features">
             <h3>{{ trans.app.features }}</h3>
             <hr>
-            <feature-card :features="product.features" />
+            <feature-card :features="product.features" hasDelete />
           </div>
 
           <div class="marketing">
             <h3>{{ trans.app.marketing }}</h3>
             <hr>
-            <marketing-card :marketings="product.marketing" />
+            <marketing-card :marketings="product.marketing" hasDelete />
           </div>
         </div>
       </main>
@@ -174,7 +174,7 @@
 
       <new-feature-modal @new-feature="addFeature" ref="newFeatureModal" />
 
-      <new-marketing-modal @new-feature="addFeature(member=true)" ref="newMarketingModal" />
+      <new-marketing-modal @new-feature="addMarketing" ref="newMarketingModal" />
     </template>
   </admin-page>
 </template>
@@ -377,21 +377,13 @@ export default {
         });
     },
 
-    addFeature(feature, marketing = false) {
-      if (marketing) {
-        this.product.marketing.push(feature)
-      } else {
-        this.product.features.push(feature)
-      }
+    addFeature(feature) {
+      this.product.features.push(feature)
     },
 
-    deleteFeature(id, marketing = false) {
-      if (marketing) {
-        this.product.marketing.slice(id, 1)
-      } else {
-        this.product.features.slice(id, 1)
-      }
-    },
+    addMarketing(marketing) {
+      this.product.marketing.push(marketing)
+    }
   }
 };
 </script>
