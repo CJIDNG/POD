@@ -156,7 +156,7 @@ export default {
       avatar: this.$root.avatar,
       token: this.getToken(),
       trans: JSON.parse(CurrentTenant.translations),
-      trackers: []
+      trackers: CurrentTenant.trackers || []
     };
   },
 
@@ -179,17 +179,6 @@ export default {
   methods: {
     sessionLogout() {
       this.logout();
-    },
-
-    fetchData() {
-      this.request()
-        .get("/api/v1/trackers?all=1")
-        .then(response => {
-          this.trackers = response.data
-        })
-        .catch(error => {
-          console.log(error)
-        });
     }
   }
 };

@@ -101,6 +101,10 @@ class CurrentTenant
       'user' => Auth::check() ? new UserResource(auth()->user()) : '',
       'roles' => \App\Model\Auth\Role::all()->pluck('name'),
       'permissions' => \App\Model\Auth\Permission::all()->pluck('name'),
+      'partners' => \App\Model\Partners\Partner::all(),
+      'products' => \App\Model\Products\Product::published()->get(),
+      'services' => \App\Model\Services\Service::all(),
+      'trackers' => \App\Model\Tracker\Tracker::all(),
     ] : [];
   }
 
