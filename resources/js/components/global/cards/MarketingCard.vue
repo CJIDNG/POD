@@ -1,6 +1,6 @@
 <template>
-  <div class="row">
-    <div v-for="(marketing, index) in marketings" :key="index">
+  <div>
+    <div class="mt-5 mb-5" v-for="(marketing, index) in marketings" :key="index">
       <hr class="featurette-divider">
 
       <div class="row featurette">

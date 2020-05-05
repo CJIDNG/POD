@@ -42,6 +42,30 @@
                 trans.app.blog
               }}
             </router-link>
+            <li v-if="hasSubapp('products')" class="nav-item dropdown">
+              <a 
+                class="nav-link dropdown-toggle" 
+                href="#" id="productDropdown" 
+                role="button" 
+                data-toggle="dropdown" 
+                aria-haspopup="true" 
+                aria-expanded="false"
+              >
+                {{ trans.app.products }}
+              </a>
+              <div 
+                class="dropdown-menu" 
+                aria-labelledby="productDropdown"
+              >
+                <router-link 
+                  v-for="(product, index) in products"
+                  :key="index"
+                  class="dropdown-item" 
+                  :to="{name: 'products-show', params: { id: product.id }}">
+                  {{ product.name }}
+                </router-link>
+              </div>
+            </li>
             <li v-if="hasSubapp('tracker')" class="nav-item dropdown">
               <a 
                 class="nav-link dropdown-toggle" 
@@ -156,12 +180,9 @@ export default {
       avatar: this.$root.avatar,
       token: this.getToken(),
       trans: JSON.parse(CurrentTenant.translations),
-      trackers: CurrentTenant.trackers || []
+      trackers: CurrentTenant.trackers || [],
+      products: CurrentTenant.products || [],
     };
-  },
-
-  created() {
-    this.fetchData()
   },
 
   mounted() {
