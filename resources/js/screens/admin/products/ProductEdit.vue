@@ -101,6 +101,12 @@
                 @click="showNewMarketingModal"
               >{{ trans.app.new_marketing }}</a>
               <a
+                v-if="canEdit"
+                href="#"
+                class="dropdown-item"
+                @click="showLogoUploadModal"
+              >{{ trans.app.upload_logo }}</a>
+              <a
                 v-if="canConvertToDraft"
                 href="#"
                 class="dropdown-item"
@@ -171,6 +177,8 @@
         :header="trans.app.submit"
         :message="trans.app.submitted_products_are_no_longer_editable"
       />
+
+      <logo-upload-modal ref="logoUploadModal" />
 
       <new-feature-modal @new-feature="addFeature" ref="newFeatureModal" />
 
@@ -354,6 +362,10 @@ export default {
 
     showNewMarketingModal() {
       $(this.$refs.newMarketingModal.$el).modal("show");
+    },
+
+    showLogoUploadModal() {
+      $(this.$refs.logoUploadModal.$el).modal("show");
     },
 
     loadProduct() {

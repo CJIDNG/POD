@@ -210,9 +210,9 @@ export default {
   },
 
   mounted() {
-    this.selectedImageUrl = this.activePost.featured_image;
-    this.selectedImageCaption = this.activePost.featured_image_caption;
-    this.isReadyToAcceptUploads = _.isEmpty(this.activePost.featured_image);
+    this.selectedImageUrl = this.activeProduct.featured_image;
+    this.selectedImageCaption = this.activeProduct.featured_image_caption;
+    this.isReadyToAcceptUploads = _.isEmpty(this.activeProduct.featured_image);
   },
 
   watch: {
@@ -301,13 +301,8 @@ export default {
     },
 
     clickDone() {
-      this.activePost.featured_image = !_.isEmpty(this.selectedImageUrl)
+      this.activeProduct.logo = !_.isEmpty(this.selectedImageUrl)
         ? this.selectedImageUrl
-        : "";
-      this.activePost.featured_image_caption = !_.isEmpty(
-        this.selectedImageCaption
-      )
-        ? this.selectedImageCaption
         : "";
 
       this.$parent.$parent.save();
@@ -332,7 +327,7 @@ export default {
   },
 
   computed: {
-    ...mapState(["activePost"]),
+    ...mapState(["activeProduct"]),
 
     getServerOptions() {
       return {
