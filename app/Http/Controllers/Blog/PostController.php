@@ -11,6 +11,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Validation\Rule;
 use Ramsey\Uuid\Uuid;
 use App\Events\PostViewed;
+use Illuminate\Database\Eloquent\Model;
 
 class PostController extends \App\Http\Controllers\Controller
 {
@@ -66,48 +67,48 @@ class PostController extends \App\Http\Controllers\Controller
    */
   public function show($id = null): JsonResponse
   {
-      $isAdminOrEditor = request()->user()->hasAnyRole(['Admin', 'Editor']);
+    $isAdminOrEditor = request()->user()->hasAnyRole(['Admin', 'Editor']);
 
-      $containsId = $isAdminOrEditor ?
-        Post::pluck('id')->contains($id) : Post::forCurrentUser()->pluck('id')->contains($id);
+    $containsId = $isAdminOrEditor ?
+      Post::pluck('id')->contains($id) : Post::forCurrentUser()->pluck('id')->contains($id);
 
-      if ($containsId || $this->isNewPost($id)) {
-        if (!$isAdminOrEditor) {
-          $tags = Tag::forCurrentUser()->get(['name', 'slug']);
-          $topics = Topic::forCurrentUser()->get(['name', 'slug']);
-        } else {
-          $tags = Tag::get(['name', 'slug']);
-          $topics = Topic::get(['name', 'slug']);
-        }
-
-        if ($this->isNewPost($id)) {
-          $uuid = Uuid::uuid4();
-
-          return response()->json([
-            'post' => Post::make([
-              'id' => $uuid->toString(),
-              'slug' => "post-{$uuid->toString()}",
-              'user_id' => request()->user()->id,
-            ]),
-            'tags' => $tags,
-            'topics' => $topics
-          ]);
-        } else {
-          $post = $isAdminOrEditor ? 
-            Post::with('tags:name,slug', 'topic:name,slug')->find($id) :
-            Post::forCurrentUser()->with('tags:name,slug', 'topic:name,slug')->find($id);
-          
-          event(new PostViewed($post));
-
-          return response()->json([
-            'post' => $post,
-            'tags' => $tags,
-            'topics' => $topics
-          ]);
-        }
+    if ($containsId || $this->isNewPost($id)) {
+      if (!$isAdminOrEditor) {
+        $tags = Tag::forCurrentUser()->get(['name', 'slug']);
+        $topics = Topic::forCurrentUser()->get(['name', 'slug']);
       } else {
-        return response()->json(null, 301);
+        $tags = Tag::get(['name', 'slug']);
+        $topics = Topic::get(['name', 'slug']);
       }
+
+      if ($this->isNewPost($id)) {
+        $uuid = Uuid::uuid4();
+
+        return response()->json([
+          'post' => Post::make([
+            'id' => $uuid->toString(),
+            'slug' => "post-{$uuid->toString()}",
+            'user_id' => request()->user()->id,
+          ]),
+          'tags' => $tags,
+          'topics' => $topics
+        ]);
+      } else {
+        $post = $isAdminOrEditor ? 
+          Post::with('tags:name,slug', 'topic:name,slug')->find($id) :
+          Post::forCurrentUser()->with('tags:name,slug', 'topic:name,slug')->find($id);
+        
+        event(new PostViewed($post));
+
+        return response()->json([
+          'post' => $post,
+          'tags' => $tags,
+          'topics' => $topics
+        ]);
+      }
+    } else {
+      return response()->json(null, 301);
+    }
   }
 
   /**
@@ -168,6 +169,8 @@ class PostController extends \App\Http\Controllers\Controller
     $post->tags()->sync(
       $this->syncTags(request('tags'))
     );
+
+    $this->syncFactchecks(request('factchecks'), $post);
 
     return response()->json($post->refresh());
   }
@@ -255,5 +258,31 @@ class PostController extends \App\Http\Controllers\Controller
     } else {
       return [];
     }
+  }
+
+  /**
+   * Attach or create factchecks given an incoming array.
+   *
+   * @param array $incomingFactchecks
+   * @return array
+   */
+  private function syncFactchecks(array $incomingFactchecks, Model $model): array
+  {
+    if ($incomingFactchecks) {
+      $factchecks = Factcheck::all();
+
+      collect($factchecks)->each(function ($incomingFactcheck) use ($factchecks) {
+        $factcheck = $factchecks->where('id', $incomingFactcheck['id'])->first();
+
+        if (! $factcheck) {
+          $model->factcheck(
+            $incomingFactcheck['claim'], 
+            $incomingFactcheck['conclusion']
+          );
+        }
+      });
+    }
+
+    return $model->factchecks();
   }
 }
