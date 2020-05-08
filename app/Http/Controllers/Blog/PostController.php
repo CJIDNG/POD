@@ -12,6 +12,7 @@ use Illuminate\Validation\Rule;
 use Ramsey\Uuid\Uuid;
 use App\Events\PostViewed;
 use Illuminate\Database\Eloquent\Model;
+use App\Model\Util\Factcheck;
 
 class PostController extends \App\Http\Controllers\Controller
 {
@@ -95,8 +96,8 @@ class PostController extends \App\Http\Controllers\Controller
         ]);
       } else {
         $post = $isAdminOrEditor ? 
-          Post::with('tags:name,slug', 'topic:name,slug')->find($id) :
-          Post::forCurrentUser()->with('tags:name,slug', 'topic:name,slug')->find($id);
+          Post::with('tags:name,slug', 'topic:name,slug', 'factchecks')->find($id) :
+          Post::forCurrentUser()->with('tags:name,slug', 'topic:name,slug', 'factchecks')->find($id);
         
         event(new PostViewed($post));
 
@@ -269,9 +270,27 @@ class PostController extends \App\Http\Controllers\Controller
   private function syncFactchecks(array $incomingFactchecks, Model $model): array
   {
     if ($incomingFactchecks) {
-      $factchecks = Factcheck::all();
+      $factchecks = $model->factchecks;
 
-      collect($factchecks)->each(function ($incomingFactcheck) use ($factchecks) {
+      /**
+       * delete factchecks that are not in the incoming factchecks
+       * array
+       */
+      collect($factchecks)->each(function($factcheck) use ($incomingFactchecks) {
+        $inArray = collect($incomingFactchecks)->contains((function($incomingFactcheck) use ($factcheck) {
+          return $incomingFactcheck['id'] == $factcheck['id'];
+        }));
+
+        if (!$inArray) {
+          /**
+           * delete factcheck
+           */
+          $fc = Factcheck::find($factcheck->id);
+          $fc->delete();
+        }
+      });
+
+      collect($incomingFactchecks)->each(function ($incomingFactcheck) use ($factchecks, $model) {
         $factcheck = $factchecks->where('id', $incomingFactcheck['id'])->first();
 
         if (! $factcheck) {
@@ -279,10 +298,15 @@ class PostController extends \App\Http\Controllers\Controller
             $incomingFactcheck['claim'], 
             $incomingFactcheck['conclusion']
           );
+        } else {
+          $factcheck->update([
+            'claim' => $incomingFactcheck['claim'],
+            'conclusion' => $incomingFactcheck['conclusion']
+          ]);
         }
       });
     }
 
-    return $model->factchecks();
+    return collect($model->factchecks)->toArray();
   }
 }

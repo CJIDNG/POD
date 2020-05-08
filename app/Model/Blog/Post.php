@@ -80,6 +80,7 @@ class Post extends Model
    */
   protected $casts = [
     'meta' => 'array',
+    'factchecks' => 'array',
   ];
 
   /**

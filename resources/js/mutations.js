@@ -24,6 +24,7 @@ export const mutations = {
 
     payload.topic = _.get(data, 'topic.0', [])
     payload.tags = _.get(data, 'tags', [])
+    payload.factchecks = _.get(data, 'factchecks', [])
     payload.errors = []
     payload.isSaving = false
     payload.hasSuccess = false
@@ -59,6 +60,10 @@ export const mutations = {
 
   setPostTags(state, tags) {
     state.activePost.tags = tags
+  },
+
+  setPostFactchecks(state, factchecks) {
+    state.activePost.factchecks = factchecks
   },
 
   setPostTopic(state, topic) {

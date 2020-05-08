@@ -51,6 +51,7 @@ class BlogPostController extends Controller
     {
         $posts = Post::published()
                      ->withUserMeta()
+                     ->with('factchecks')
                      ->orderByDesc('published_at')
                      ->get();
 
@@ -71,7 +72,7 @@ class BlogPostController extends Controller
      */
     public function show(Request $request, string $identifier, string $slug = null)
     {
-        $posts = Post::published()->withUserMeta()->get();
+        $posts = Post::published()->withUserMeta()->with('factchecks')->get();
         $post = $posts->firstWhere('slug', $slug);
 
         $metaData = UserMeta::forCurrentUser()->first();
