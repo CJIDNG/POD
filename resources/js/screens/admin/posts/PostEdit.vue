@@ -143,6 +143,11 @@
           </div>
 
           <quill-editor :readOnly="!canEdit"></quill-editor>
+
+          <factchecks
+            :factchecks.sync="post.factchecks"
+            :editable="canEdit"
+          />
         </div>
       </main>
 
@@ -202,6 +207,7 @@ import PublishModal from "../../../components/global/modals/PublishModal";
 import SettingsModal from "../../../components/global/modals/SettingsModal";
 import QuillEditor from "../../../components/global/editor/QuillEditor";
 import FeaturedImageModal from "../../../components/global/modals/FeaturedImageModal";
+import Factchecks from "../../../components/factchecks/Factchecks"
 
 Vue.use(VueTextAreaAutosize);
 
@@ -216,7 +222,8 @@ export default {
     SubmitModal,
     QuillEditor,
     SeoModal,
-    SettingsModal
+    SettingsModal,
+    Factchecks
   },
 
   data() {

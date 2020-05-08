@@ -7,11 +7,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-
+use StarfolkSoftware\Factchecks\Contracts\Factchecker;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements Factchecker
 {
   use HasRoles, HasApiTokens, Notifiable, UsesTenantConnection;
 
@@ -94,5 +94,15 @@ class User extends Authenticatable
 
   public function products(): HasMany {
     return $this->hasMany(\App\Model\Products\Product::class);
+  }
+
+  /**
+   * Check if a comment for a specific model needs to be approved.
+   * @param mixed $model
+   * @return bool
+   */
+  public function needsFactcheckApproval($model): bool
+  {
+    return false;    
   }
 }

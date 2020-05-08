@@ -13,11 +13,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Str;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
+use StarfolkSoftware\Factchecks\Traits\HasFactchecks;
 use App\Traits\HasApprovalFlow;
 
 class Post extends Model
 {
-  use SoftDeletes, HasApprovalFlow, UsesTenantConnection;
+  use SoftDeletes, HasApprovalFlow, HasFactchecks, UsesTenantConnection;
 
   /**
    * The table associated with the model.
@@ -79,6 +80,7 @@ class Post extends Model
    */
   protected $casts = [
     'meta' => 'array',
+    'factchecks' => 'array',
   ];
 
   /**
