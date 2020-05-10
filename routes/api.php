@@ -13,8 +13,8 @@
 Route::group(['prefix' => 'v1'], function () {
   // Stats routes...
   Route::namespace('Analytics')->group(function () {
-    Route::get('/post-stats', 'PostsController@index')->middleware(['auth:api']);
-    Route::get('/post-stats/{id}', 'PostsController@show')->middleware(['auth:api']);  
+    Route::get('/stats', 'StatsController@index')->middleware(['auth:api']);
+    Route::get('/stats/{id}', 'StatsController@show')->middleware(['auth:api']);  
   });
 
   // Blog routes...

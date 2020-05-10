@@ -9,7 +9,7 @@ use App\Model\Analytics\Visit;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 
-class PostsController extends \App\Http\Controllers\Controller
+class StatsController extends \App\Http\Controllers\Controller
 {
   use Trends;
 
@@ -27,19 +27,13 @@ class PostsController extends \App\Http\Controllers\Controller
    */
   public function index(): JsonResponse
   {
-    $isAdminOrEditor = request()->user()->hasAnyRole(['admin', 'editor']);
-
-    $published = $isAdminOrEditor ?
-      Post::published()
-        ->latest()
-        ->get() :
-      Post::forCurrentUser()
-        ->published()
-        ->latest()
-        ->get();
+    $model = app(request('className'));
+    $published = $model
+      ->latest()
+      ->get();
 
     $views = View::select('created_at')
-      ->where('viewable_type', get_class(new Post()))
+      ->where('viewable_type', get_class(new $model()))
       ->whereIn('viewable_id', $published->pluck('id'))
       ->whereBetween('created_at', [
           today()->subDays(self::DAYS_PRIOR)->startOfDay()->toDateTimeString(),
@@ -47,7 +41,7 @@ class PostsController extends \App\Http\Controllers\Controller
       ])->get();
 
     $visits = Visit::select('created_at')
-      ->where('visitable_type', get_class(new Post()))
+      ->where('visitable_type', get_class(new $model()))
       ->whereIn('visitable_id', $published->pluck('id'))
       ->whereBetween('created_at', [
         today()->subDays(self::DAYS_PRIOR)->startOfDay()->toDateTimeString(),
@@ -60,27 +54,23 @@ class PostsController extends \App\Http\Controllers\Controller
       'visit_count' => $visits->count(),
       'visit_trend' => json_encode($this->getDataPoints($visits, self::DAYS_PRIOR)),
       'published_count' => $published->count(),
-      'draft_count' => Post::forCurrentUser()->draft()->count(),
-      'approved_count' => Post::forCurrentUser()->approved()->count(),
-      'submitted_count' => $isAdminOrEditor ? 
-        Post::submitted()->count() : Post::forCurrentUser()->submitted()->count(),
     ]);
   }
 
   /**
    * Get stats for a single post.
    *
+   * @param string $className
    * @param string $id
    * @return JsonResponse
    */
   public function show(string $id): JsonResponse
   {
-    $isAdminOrEditor = request()->user()->hasAnyRole(['admin', 'editor']);
+    $model = app(request('className'));
+    $model = $model::find($id);
 
-    $post = $isAdminOrEditor ? Post::find($id) : Post::forCurrentUser()->find($id);
-
-    if ($post && $post->published) {
-      $views = $post->views;
+    if ($model) {
+      $views = $model->views;
       $previousMonthlyViews = $views->whereBetween('created_at', [
         today()->subMonth()->startOfMonth()->startOfDay()->toDateTimeString(),
         today()->subMonth()->endOfMonth()->endOfDay()->toDateTimeString(),
@@ -94,7 +84,7 @@ class PostsController extends \App\Http\Controllers\Controller
         today()->endOfDay()->toDateTimeString(),
       ]);
 
-      $visits = $post->visits;
+      $visits = $model->visits;
       $previousMonthlyVisits = $visits->whereBetween('created_at', [
         today()->subMonth()->startOfMonth()->startOfDay()->toDateTimeString(),
         today()->subMonth()->endOfMonth()->endOfDay()->toDateTimeString(),
@@ -105,10 +95,10 @@ class PostsController extends \App\Http\Controllers\Controller
       ]);
 
       return response()->json([
-        'post' => $post,
-        'read_time' => $post->read_time,
-        'popular_reading_times' => $post->popular_reading_times,
-        'traffic' => $post->top_referers,
+        'model' => $model,
+        'read_time' => $model->read_time ?? NULL,
+        'popular_reading_times' => $model->popular_reading_times ?? NULL,
+        'traffic' => $model->top_referers ?? NULL,
         'view_count' => $currentMonthlyViews->count(),
         'view_trend' => json_encode($this->getDataPoints($lastThirtyDays, self::DAYS_PRIOR)),
         'view_month_over_month' => $this->compareMonthToMonth($currentMonthlyViews, $previousMonthlyViews),
