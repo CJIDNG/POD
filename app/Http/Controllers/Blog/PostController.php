@@ -10,7 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Validation\Rule;
 use Ramsey\Uuid\Uuid;
-use App\Events\PostViewed;
+use StarfolkSoftware\Analytics\Events\Viewed;
 use Illuminate\Database\Eloquent\Model;
 use App\Model\Util\Factcheck;
 
@@ -99,7 +99,7 @@ class PostController extends \App\Http\Controllers\Controller
           Post::with('tags:name,slug', 'topic:name,slug', 'factchecks')->find($id) :
           Post::forCurrentUser()->with('tags:name,slug', 'topic:name,slug', 'factchecks')->find($id);
         
-        event(new PostViewed($post));
+        event(new Viewed($post));
 
         return response()->json([
           'post' => $post,

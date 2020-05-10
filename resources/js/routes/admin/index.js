@@ -8,7 +8,6 @@ import products from './product'
 import roles from './roles'
 import service from './service'
 import settings from './settings'
-import stats from './stats'
 import tracker from './tracker'
 import trackerItem from './trackerItem'
 import users from './users'
@@ -30,10 +29,6 @@ let adminRoutes = [
 if (hasSubapp('data')) {
   adminRoutes.push(...data)
 }
-
-if (hasSubapp('analytics')) {
-  adminRoutes.push(...stats)
-} 
 
 if (hasSubapp('blog')) {
   adminRoutes.push(...posts)

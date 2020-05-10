@@ -15,10 +15,11 @@ use Illuminate\Support\Str;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use StarfolkSoftware\Factchecks\Traits\HasFactchecks;
 use App\Traits\HasApprovalFlow;
+use StarfolkSoftware\Analytics\Traits\{HasViews, HasVisits};
 
 class Post extends Model
 {
-  use SoftDeletes, HasApprovalFlow, HasFactchecks, UsesTenantConnection;
+  use SoftDeletes, HasApprovalFlow, HasFactchecks, UsesTenantConnection, HasViews, HasVisits;
 
   /**
    * The table associated with the model.

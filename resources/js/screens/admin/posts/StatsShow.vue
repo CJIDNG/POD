@@ -294,7 +294,7 @@ export default {
   beforeRouteEnter(to, from, next) {
     next(vm => {
       vm.request()
-        .get("/api/v1/stats/" + vm.id)
+        .get("/api/v1/post-stats/" + vm.id)
         .then(response => {
           vm.post = response.data.post;
           vm.viewCount = response.data.view_count;
