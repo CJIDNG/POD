@@ -39,14 +39,16 @@ class PostsController extends \App\Http\Controllers\Controller
         ->get();
 
     $views = View::select('created_at')
-      ->whereIn('post_id', $published->pluck('id'))
+      ->where('viewable_type', get_class(new Post()))
+      ->whereIn('viewable_id', $published->pluck('id'))
       ->whereBetween('created_at', [
           today()->subDays(self::DAYS_PRIOR)->startOfDay()->toDateTimeString(),
           today()->endOfDay()->toDateTimeString(),
       ])->get();
 
     $visits = Visit::select('created_at')
-      ->whereIn('post_id', $published->pluck('id'))
+      ->where('visitable_type', get_class(new Post()))
+      ->whereIn('visitable_id', $published->pluck('id'))
       ->whereBetween('created_at', [
         today()->subDays(self::DAYS_PRIOR)->startOfDay()->toDateTimeString(),
         today()->endOfDay()->toDateTimeString(),
@@ -78,7 +80,7 @@ class PostsController extends \App\Http\Controllers\Controller
     $post = $isAdminOrEditor ? Post::find($id) : Post::forCurrentUser()->find($id);
 
     if ($post && $post->published) {
-      $views = View::where('post_id', $post->id)->get();
+      $views = $post->views;
       $previousMonthlyViews = $views->whereBetween('created_at', [
         today()->subMonth()->startOfMonth()->startOfDay()->toDateTimeString(),
         today()->subMonth()->endOfMonth()->endOfDay()->toDateTimeString(),
@@ -92,7 +94,7 @@ class PostsController extends \App\Http\Controllers\Controller
         today()->endOfDay()->toDateTimeString(),
       ]);
 
-      $visits = Visit::where('post_id', $post->id)->get();
+      $visits = $post->visits;
       $previousMonthlyVisits = $visits->whereBetween('created_at', [
         today()->subMonth()->startOfMonth()->startOfDay()->toDateTimeString(),
         today()->subMonth()->endOfMonth()->endOfDay()->toDateTimeString(),

@@ -18,21 +18,11 @@ class EventServiceProvider extends ServiceProvider
     Registered::class => [
       SendEmailVerificationNotification::class,
     ],
-    StarfolkSoftware\Analytics\Events\Viewed::class => [
-      StarfolkSoftware\Analytics\Listeners\CaptureView::class,
-      StarfolkSoftware\Analytics\Listeners\CaptureVisit::class,
+    \StarfolkSoftware\Analytics\Events\Viewed::class => [
+      \StarfolkSoftware\Analytics\Listeners\CaptureView::class,
+      \StarfolkSoftware\Analytics\Listeners\CaptureVisit::class,
     ],
   ];
-
-  /**
-   * Determine if events and listeners should be automatically discovered.
-   *
-   * @return bool
-   */
-  public function shouldDiscoverEvents()
-  {
-    return true;
-  }
 
   /**
    * Register any events for your application.

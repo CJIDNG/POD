@@ -149,26 +149,6 @@ class Post extends Model
   }
 
   /**
-   * Get the views relationship.
-   *
-   * @return HasMany
-   */
-  public function views(): HasMany
-  {
-    return $this->hasMany(\App\Model\Analytics\View::class);
-  }
-
-  /**
-   * Get the visits relationship.
-   *
-   * @return HasMany
-   */
-  public function visits(): HasMany
-  {
-    return $this->hasMany(\App\Model\Analytics\Visit::class);
-  }
-
-  /**
    * Get the human-friendly estimated reading time of a post.
    *
    * @return string
