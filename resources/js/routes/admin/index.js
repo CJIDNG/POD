@@ -1,3 +1,4 @@
+import analytics from './analytics'
 import designation from './designation'
 import data from './data'
 import member from './member'
@@ -24,6 +25,7 @@ let adminRoutes = [
   ...roles,
   ...users,
   ...settings,
+  ...analytics,
 ]
 
 if (hasSubapp('data')) {

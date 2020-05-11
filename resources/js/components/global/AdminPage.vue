@@ -12,6 +12,11 @@
             <span>{{ trans.app.home }}</span>
           </router-link>
         </li>
+        <li :class="{'active': /admin\/stats/.test($route.path)}">
+          <router-link to="/admin/stats">
+            <span>{{ trans.app.analytics }}</span>
+          </router-link>
+        </li>
         <li class="dropdown" :class="{'active': /admin\/partners/.test($route.path) || 
           /admin\/platforms/.test($route.path) || 
           /admin\/designations/.test($route.path) || 
@@ -68,11 +73,6 @@
             <span>{{ trans.app.posts_simple }}</span>
           </a>
           <ul class="collapse list-unstyled" id="postSubmenu">
-            <li>
-              <router-link to="/admin/posts/stats">
-                <span>{{ trans.app.stats }}</span>
-              </router-link>
-            </li>
             <li>
               <router-link to="/admin/posts">
                 <span>{{ trans.app.posts_simple }}</span>
