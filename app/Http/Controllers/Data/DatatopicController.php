@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Data;
 
-use App\Datatopic;
+use App\Model\Data\Datatopic;
 use Illuminate\Http\JsonResponse;
 use DB;
 

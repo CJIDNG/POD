@@ -13,16 +13,13 @@
 </template>
 
 <script>
-import AdminPage from "../../../components/AdminPage";
-import PageHeader from "../../../components/PageHeader";
 import NProgress from "nprogress";
 
 export default {
   name: "dashboard",
 
   components: {
-    AdminPage,
-    PageHeader
+    
   },
 
   data() {

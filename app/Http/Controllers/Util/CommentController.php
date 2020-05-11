@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Util;
 
-use App\Comment;
+use App\Model\Util\Comment;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

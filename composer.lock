@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8d98bc6a15dc3c8fe34489d3f9edc796",
+    "content-hash": "743f2575425b5f3db479d01e20794025",
     "packages": [
         {
             "name": "cache/adapter-common",
@@ -3677,6 +3677,118 @@
                 "spatie"
             ],
             "time": "2020-02-18T21:16:24+00:00"
+        },
+        {
+            "name": "starfolksoftware/analytics",
+            "version": "v0.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/starfolksoftware/analytics.git",
+                "reference": "348534cd2c95e98d1818b131ad5ae47490b35f21"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/starfolksoftware/analytics/zipball/348534cd2c95e98d1818b131ad5ae47490b35f21",
+                "reference": "348534cd2c95e98d1818b131ad5ae47490b35f21",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.6.0|~5.7.0|~5.8.0|^6.0|^7.0",
+                "php": "^7.2.5"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^3.6|^5.0",
+                "phpunit/phpunit": "^7.0|^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "StarfolkSoftware\\Analytics\\AnalyticsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "StarfolkSoftware\\Analytics\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Faruk Nasir",
+                    "email": "frknasir@yahoo.com",
+                    "homepage": "https://faruknasir.com",
+                    "role": "Co-Founder Starfolk Software"
+                }
+            ],
+            "description": "Add analytics to your Laravel application",
+            "homepage": "https://github.com/starfolksoftware/analytics",
+            "keywords": [
+                "analytics",
+                "starfolk",
+                "starfolksoftware"
+            ],
+            "time": "2020-05-09T12:34:03+00:00"
+        },
+        {
+            "name": "starfolksoftware/factchecks",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/starfolksoftware/factchecks.git",
+                "reference": "706a2044513aa9e10a530cd7a38743d01dc65221"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/starfolksoftware/factchecks/zipball/706a2044513aa9e10a530cd7a38743d01dc65221",
+                "reference": "706a2044513aa9e10a530cd7a38743d01dc65221",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.6.0|~5.7.0|~5.8.0|^6.0|^7.0",
+                "php": "^7.2.5"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^3.6|^5.0",
+                "phpunit/phpunit": "^7.0|^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "StarfolkSoftware\\Factchecks\\FactchecksServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "StarfolkSoftware\\Factchecks\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Faruk Nasir",
+                    "email": "frknasir@yahoo.com",
+                    "homepage": "https://faruknasir.com",
+                    "role": "Co-Founder Starfolk Software"
+                }
+            ],
+            "description": "Add factchecking to your Laravel application",
+            "homepage": "https://github.com/starfolksoftware/factchecks",
+            "keywords": [
+                "factchecks",
+                "starfolk",
+                "starfolksoftware"
+            ],
+            "time": "2020-05-07T11:54:46+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

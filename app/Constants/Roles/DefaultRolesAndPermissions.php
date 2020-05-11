@@ -169,6 +169,14 @@ class DefaultRolesAndPermissions
       'update_datatopics',
       'view_datatopics',
       'delete_datatopics',
+
+      /**
+       * products permissions
+       */
+      'create_products',
+      'update_products',
+      'view_products',
+      'delete_products',
     ];
   }
 

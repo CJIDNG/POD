@@ -15,16 +15,6 @@ export default [
         component: require("../../screens/admin/posts/PostEdit").default
     },
     {
-        path: "/admin/posts/stats",
-        name: "posts-stats",
-        component: require("../../screens/admin/posts/StatsIndex").default
-    },
-    {
-        path: "/admin/posts/stats/:id",
-        name: "posts-stats-show",
-        component: require("../../screens/admin/posts/StatsShow").default
-    },
-    {
         path: "/admin/posts/tags",
         name: "tags",
         component: require("../../screens/admin/posts/TagsIndex").default

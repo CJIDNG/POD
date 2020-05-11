@@ -24,6 +24,7 @@ export const mutations = {
 
     payload.topic = _.get(data, 'topic.0', [])
     payload.tags = _.get(data, 'tags', [])
+    payload.factchecks = _.get(data, 'factchecks', [])
     payload.errors = []
     payload.isSaving = false
     payload.hasSuccess = false
@@ -59,6 +60,10 @@ export const mutations = {
 
   setPostTags(state, tags) {
     state.activePost.tags = tags
+  },
+
+  setPostFactchecks(state, factchecks) {
+    state.activePost.factchecks = factchecks
   },
 
   setPostTopic(state, topic) {
@@ -143,6 +148,69 @@ export const mutations = {
         state.activeDataset = {}
 
         this.$app.$router.push({ name: 'datasets' })
+      })
+      .catch(error => {
+        // Add any error debugging...
+      })
+  },
+
+  // for products
+  setActiveProduct(state, data) {
+    let payload = {}
+
+    payload.id = _.get(data, 'id', 'create')
+    payload.name = _.get(data, 'name', '')
+    payload.description = _.get(data, 'description', '')
+
+    payload.marketing = _.get(data, 'marketing', []) || []
+    payload.features = _.get(data, 'features', []) || []
+    payload.logo = _.get(data, 'logo', '')
+    payload.external_link = _.get(data, 'external_link', '')
+
+    payload.submitted_at = _.get(data, 'submitted_at', '')
+    payload.approved_at = _.get(data, 'approved_at', '')
+    payload.approved_by = _.get(data, 'approved_by', '')
+    payload.published_at = _.get(data, 'published_at', '')
+    payload.user_id = _.get(data, 'user_id', '')
+    
+    payload.errors = []
+    payload.isSaving = false
+    payload.hasSuccess = false
+
+    state.activeProduct = payload
+  },
+
+  saveActiveProduct(state, payload) {
+    if (payload.id === 'create') payload.data.id = ''
+    this.$app
+      .request()
+      .post('/api/v1/products/' + payload.id, payload.data)
+      .then(response => {
+        if (payload.id === 'create') {
+          this.$app.$router.push({
+            name: 'products-edit',
+            params: { id: response.data.id },
+          })
+        }
+
+        state.activeProduct.isSaving = false
+        state.activeProduct.hasSuccess = true
+        state.activeProduct.dataset = response.data
+      })
+      .catch(error => {
+        state.activeProduct.isSaving = false
+        state.activeProduct.errors = error.response.data.errors
+      })
+  },
+
+  deleteProduct(state, productId) {
+    this.$app
+      .request()
+      .delete('/api/v1/products/' + productId)
+      .then(response => {
+        state.activeProduct = {}
+
+        this.$app.$router.push({ name: 'products' })
       })
       .catch(error => {
         // Add any error debugging...

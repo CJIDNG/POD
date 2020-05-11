@@ -53,14 +53,12 @@
 <script>
 import $ from "jquery";
 import NProgress from "nprogress";
-import PageHeader from "../../../components/PageHeader";
 import VueFormGenerator from 'vue-form-generator/dist/vfg-core.js'
 
 export default {
   name: "incident-submit",
 
   components: {
-    PageHeader,
     VueFormGenerator: VueFormGenerator.component
   },
 

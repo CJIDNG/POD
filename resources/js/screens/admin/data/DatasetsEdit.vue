@@ -301,16 +301,14 @@ import moment from "moment";
 import { EventBus } from './../../../bus'
 import { mapGetters } from "vuex";
 import NProgress from "nprogress";
-import DatasetSeoModal from "../../../components/modals/DatasetSeoModal";
-import AdminPage from "../../../components/AdminPage";
-import PageHeader from "../../../components/PageHeader";
-import DeleteModal from "../../../components/modals/DeleteModal";
-import ApproveModal from "../../../components/modals/ApproveModal";
-import SubmitModal from "../../../components/modals/SubmitModal";
+import DatasetSeoModal from "../../../components/global/modals/DatasetSeoModal";
+import DeleteModal from "../../../components/global/modals/DeleteModal";
+import ApproveModal from "../../../components/global/modals/ApproveModal";
+import SubmitModal from "../../../components/global/modals/SubmitModal";
 import VueTextAreaAutosize from "vue-textarea-autosize";
-import PublishDatasetModal from "../../../components/modals/PublishDatasetModal";
-import DatasetSettingsModal from "../../../components/modals/DatasetSettingsModal";
-import NewResourceModal from "../../../components/modals/NewResourceModal";
+import PublishDatasetModal from "../../../components/global/modals/PublishDatasetModal";
+import DatasetSettingsModal from "../../../components/global/modals/DatasetSettingsModal";
+import NewResourceModal from "../../../components/global/modals/NewResourceModal";
 
 Vue.use(VueTextAreaAutosize);
 
@@ -323,8 +321,6 @@ export default {
     DeleteModal,
     ApproveModal,
     SubmitModal,
-    AdminPage,
-    PageHeader,
     DatasetSeoModal,
     DatasetSettingsModal
   },

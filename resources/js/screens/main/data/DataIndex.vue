@@ -108,17 +108,13 @@
 <script>
 import moment from "moment";
 import NProgress from "nprogress";
-import InfiniteLoading from "vue-infinite-loading";
-import PageHeader from "../../../components/PageHeader";
-import PageFooter from "../../../components/PageFooter"
+import InfiniteLoading from "vue-infinite-loading"
 
 export default {
   name: "datasets-index",
 
   components: {
-    InfiniteLoading,
-    PageHeader,
-    PageFooter
+    InfiniteLoading
   },
 
   data() {

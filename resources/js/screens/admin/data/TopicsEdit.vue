@@ -100,16 +100,12 @@
 <script>
 import $ from "jquery";
 import NProgress from "nprogress";
-import AdminPage from '../../../components/AdminPage';
-import PageHeader from "../../../components/PageHeader";
-import DeleteModal from "../../../components/modals/DeleteModal";
+import DeleteModal from "../../../components/global/modals/DeleteModal";
 
 export default {
   name: "datatopics-edit",
 
   components: {
-    AdminPage,
-    PageHeader,
     DeleteModal
   },
 

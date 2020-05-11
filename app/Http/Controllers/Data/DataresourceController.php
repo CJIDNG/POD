@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Data;
 
-use App\Dataresource;
+use App\Model\Data\Dataresource;
+use App\Model\Data\Dataformat;
+use App\Model\Util\CurrentTenant;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\{Spreadsheet, IOFactory};
 use \PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use StarfolkSoftware\Analytics\Events\Viewed;
 
 class DataresourceController extends \App\Http\Controllers\Controller
 {
@@ -27,16 +30,28 @@ class DataresourceController extends \App\Http\Controllers\Controller
    */
   public function index(): JsonResponse
   {
+    $result = [
+      'dataresources' => []
+    ];
     $all = request('all') ?? NULL;
     
     if ($all) {
-      $dataresources = Dataresource::all();
+      $dataresources = Dataresource::latest()
+        ->withCount('views')
+        ->with('user')
+        ->get();
     } else {
-      $dataresources = Dataresource::orderBy('name')
+      $dataresources = Dataresource::latest()
+        ->withCount('views')
+        ->with('user')
         ->paginate();
     }
+
+    $result['dataresources'] = $dataresources;
+    $result['publishedCount'] = $dataresources->count();
+
     return response()->json(
-      $dataresources, 200
+      $result, 200
     );
   }
 
@@ -69,6 +84,8 @@ class DataresourceController extends \App\Http\Controllers\Controller
               'title' => $column
             );
           })->toJson();
+
+          event(new Viewed($dataresource));
           
           return response()->json([
             'dataresource' => $dataresource,
@@ -80,6 +97,7 @@ class DataresourceController extends \App\Http\Controllers\Controller
         }
 
         if ($dataresource) {
+          event(new Viewed($dataresource));
           return response()->json($dataresource, 200);
         } else {
           return response()->json(null, 301);
@@ -262,7 +280,7 @@ class DataresourceController extends \App\Http\Controllers\Controller
     $explodedFilename = explode('.', $filename);
     $extension = $explodedFilename[count($explodedFilename) - 1];
 
-    return \App\Dataformat::where('extension', $extension)->first()->id;
+    return Dataformat::where('extension', $extension)->first()->id;
   }
 
   public function download($id) {
@@ -281,7 +299,7 @@ class DataresourceController extends \App\Http\Controllers\Controller
    */
   private function baseStoragePath(): string
   {
-    $currentTenant = new \App\CurrentTenant();
+    $currentTenant = new CurrentTenant();
     $platformName = $currentTenant->getPlatform()->name;
     return $currentTenant->getWebsite() ? 
       sprintf('%s', config('data.storage_path')."/${platformName}") :

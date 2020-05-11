@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Data;
 
-use App\Dataset;
-use App\Datatopic;
-use App\Datalicense;
-use App\Dataformat;
+use App\Model\Data\{
+  Dataset,
+  Datatopic,
+  Datalicense,
+  Dataformat,
+};
 use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use DB;
+use StarfolkSoftware\Analytics\Events\Viewed;
 
 class DatasetController extends \App\Http\Controllers\Controller
 {
@@ -41,7 +44,7 @@ class DatasetController extends \App\Http\Controllers\Controller
       $results['datasets'] = Dataset::forCurrentUser()
         ->draft()
         ->latest()
-        // ->withCount('views')
+        ->withCount('views')
         ->with('user', 'resources')
         ->with('approvedBy')
         ->paginate();
@@ -49,14 +52,14 @@ class DatasetController extends \App\Http\Controllers\Controller
       $results['datasets'] = $isAdminOrDataEditor ? 
         Dataset::submitted()
           ->latest()
-          // ->withCount('views')
+          ->withCount('views')
           ->with('user', 'resources')
           ->with('approvedBy')
           ->paginate() :
         Dataset::forCurrentUser()
           ->submitted()
           ->latest()
-          // ->withCount('views')
+          ->withCount('views')
           ->with('user', 'resources')
           ->with('approvedBy')
           ->paginate();
@@ -64,14 +67,14 @@ class DatasetController extends \App\Http\Controllers\Controller
       $results['datasets'] = $isAdminOrDataEditor ? 
         Dataset::approved()
           ->latest()
-          // ->withCount('views')
+          ->withCount('views')
           ->with('user', 'resources')
           ->with('approvedBy')
           ->paginate() :
         Dataset::forCurrentUser()
           ->approved()
           ->latest()
-          // ->withCount('views')
+          ->withCount('views')
           ->with('user', 'resources')
           ->with('approvedBy')
           ->paginate();
@@ -79,14 +82,14 @@ class DatasetController extends \App\Http\Controllers\Controller
       $results['datasets'] = $isAdminOrDataEditor ? 
         Dataset::published()
           ->latest()
-          // ->withCount('views')
+          ->withCount('views')
           ->with('user', 'resources')
           ->with('approvedBy')
           ->paginate() : 
         Dataset::forCurrentUser()
           ->published()
           ->latest()
-          // ->withCount('views')
+          ->withCount('views')
           ->with('user', 'resources')
           ->with('approvedBy')
           ->paginate();
@@ -170,6 +173,8 @@ class DatasetController extends \App\Http\Controllers\Controller
           Dataset::with('topics')->with(['resources', 'resources.user', 'resources.format', 'license', 'user'])->find($id) :
           Dataset::forCurrentUser()->with('topics')->with(['resources', 'resources.user', 'resources.format', 'license', 'user'])->find($id);
 
+        event(new Viewed($dataset));
+
         return response()->json([
           'dataset' => $dataset,
           'topics' => $topics,
@@ -197,28 +202,16 @@ class DatasetController extends \App\Http\Controllers\Controller
       $licenses = Datalicense::get(['id', 'name']);
       $formats = Dataformat::get(['id', 'name', 'extension']);
 
-      if ($this->isNewDataset($id)) {
-        return response()->json([
-          'dataset' => Dataset::make([
-            'id' => NULL,
-            'title' => 'Title',
-            'description' => 'Enter some description for your dataset...',
-            'user_id' => request()->user()->id,
-          ]),
-          'topics' => $topics,
-          'licenses' => $licenses,
-          'formats' => $formats
-        ], 200);
-      } else {
-        $dataset = Dataset::with('topics')->with(['resources', 'resources.user', 'resources.format', 'license', 'user'])->find($id);
+      $dataset = Dataset::with('topics')->with(['resources', 'resources.user', 'resources.format', 'license', 'user'])->find($id);
 
-        return response()->json([
-          'dataset' => $dataset,
-          'topics' => $topics,
-          'licenses' => $licenses,
-          'formats' => $formats
-        ], 200); 
-      }
+      event(new Viewed($dataset));
+      
+      return response()->json([
+        'dataset' => $dataset,
+        'topics' => $topics,
+        'licenses' => $licenses,
+        'formats' => $formats
+      ], 200); 
     } else {
       return response()->json(null, 301);
     }

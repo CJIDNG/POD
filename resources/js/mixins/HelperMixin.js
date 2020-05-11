@@ -268,6 +268,15 @@ export default {
             default:
                 break;
         }
+    },
+
+    deleteMedia(path) {
+      return this.request()
+        .delete("/api/v1/media/uploads", {
+          params: {
+            path
+          }
+        })
     }
   },
 };

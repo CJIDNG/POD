@@ -71,7 +71,7 @@
           <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
           
           <p v-for="(platform, index) in allPlatforms" :key="index">
-            <a target="_blank" :href="`https://${platform.website.hostnames[0].fqdn}`">
+            <a target="_blank" :href="`https://${platform.name}`">
               {{ platform.name }}
             </a>
           </p>

@@ -117,18 +117,14 @@
 <script>
     import NProgress from 'nprogress'
     import InfiniteLoading from 'vue-infinite-loading'
-    import LineChart from '../../../components/LineChart'
-    import AdminPage from '../../../components/AdminPage';
-    import PageHeader from '../../../components/PageHeader'
+    import LineChart from '../../../components/analytics/LineChart'
 
     export default {
         name: 'stats-index',
 
         components: {
           LineChart,
-          InfiniteLoading,
-          AdminPage,
-          PageHeader,
+          InfiniteLoading
         },
 
         data() {
@@ -156,7 +152,7 @@
         methods: {
             fetchStats() {
               this.request()
-                .get('/api/v1/stats')
+                .get('/api/v1/post-stats')
                 .then(response => {
                   this.viewCount = response.data.view_count
                   this.viewTrend = response.data.view_trend

@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Model\Util\Subapp;
 
 class SubappRegister extends Command
 {
@@ -11,7 +12,7 @@ class SubappRegister extends Command
      *
      * @var string
      */
-    protected $signature = 'subapp:register {subapp}';
+    protected $signature = 'subapp:register {title} {--R|remove}';
 
     /**
      * The console command description.
@@ -37,19 +38,24 @@ class SubappRegister extends Command
      */
     public function handle()
     {
-      $subapp = $this->argument('subapp');
+      $title = $this->argument('title');
 
-      $subappId = \App\Subapp::where('name', $subapp)->first();
+      $subapp = Subapp::where('name', $title)->first();
 
-      if ($subappId) {
-        $this->error('subapp exists already');
-        return false;
+      if ($subapp) {
+        if ($is_remove = $this->option('remove')) {
+          $subapp->delete();
+          $this->info('subapp successfully removed');
+        } else {
+          $this->error('subapp exists already');
+          return false;
+        }
+      } else {
+        Subapp::firstOrCreate([
+          'name' => $title
+        ]);
+
+        $this->info('subapp successfully registered');
       }
-
-      \App\Subapp::firstOrCreate([
-        'name' => $subapp
-      ]);
-
-      $this->line('subapp successfully registered');
     }
 }

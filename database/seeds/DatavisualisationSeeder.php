@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-use App\Datavisualisation;
+use App\Model\Data\Datavisualisation;
 
 class DatavisualisationSeeder extends Seeder
 {

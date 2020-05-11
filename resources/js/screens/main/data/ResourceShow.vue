@@ -157,19 +157,15 @@
 <script>
 import moment from "moment"
 import NProgress from "nprogress"
-import PageHeader from "../../../components/PageHeader"
-import PageFooter from "../../../components/PageFooter"
-import TabularPreview from "../../../components/previews/TabularPreview"
-import ChartPreview from "../../../components/previews/ChartPreview"
-import MapPreview from "../../../components/previews/MapPreview"
+import TabularPreview from "../../../components/global/previews/TabularPreview"
+import ChartPreview from "../../../components/global/previews/ChartPreview"
+import MapPreview from "../../../components/global/previews/MapPreview"
 import VueElementLoading from 'vue-element-loading'
 
 export default {
   name: "dataresource-show",
 
   components: {
-    PageHeader,
-    PageFooter,
     TabularPreview,
     ChartPreview,
     MapPreview,

@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Seeder;
 
-use App\Datavisualisation;
-use App\Dataformat;
+use App\Model\Data\Datavisualisation;
+use App\Model\Data\Dataformat;
 
 class DataformatSeeder extends Seeder
 {

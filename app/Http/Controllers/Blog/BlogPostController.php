@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Blog;
 
-use App\User;
-use App\Events\PostViewed;
-use App\Post;
-use App\UserMeta;
+use App\Model\Auth\User;
+use StarfolkSoftware\Analytics\Events\Viewed;
+use App\Model\Blog\Post;
+use App\Model\Auth\UserMeta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Auth;
@@ -51,6 +51,7 @@ class BlogPostController extends Controller
     {
         $posts = Post::published()
                      ->withUserMeta()
+                     ->with('factchecks')
                      ->orderByDesc('published_at')
                      ->get();
 
@@ -71,10 +72,10 @@ class BlogPostController extends Controller
      */
     public function show(Request $request, string $identifier, string $slug = null)
     {
-        $posts = Post::published()->withUserMeta()->get();
+        $posts = Post::published()->withUserMeta()->with('factchecks')->get();
         $post = $posts->firstWhere('slug', $slug);
 
-        $metaData = \App\UserMeta::forCurrentUser()->first();
+        $metaData = UserMeta::forCurrentUser()->first();
         $emailHash = Auth::check() ? md5(trim(Str::lower(request()->user()->email))) : '';
 
         if ($this->isPublished($post)) {
@@ -86,7 +87,7 @@ class BlogPostController extends Controller
 
           $post->append('read_time');
 
-          event(new PostViewed($post));
+          event(new Viewed($post));
 
           return response()->json([
             'post' => $post,

@@ -9,6 +9,10 @@ export const getters = {
     return state.activeDataset
   },
 
+  activeProduct(state) {
+    return state.activeProduct
+  },
+
   isDraft(state) {
     let submittedAt = state.submittedAt
     let approvedAt = state.approvedAt

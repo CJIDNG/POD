@@ -83,16 +83,14 @@
 <script>
 import NProgress from "nprogress";
 import vueHeadful from "vue-headful";
-import PageHeader from "../../../components/PageHeader";
-import PostList from "../../../components/PostList";
-import FeaturedPostList from "../../../components/FeaturedPostList";
+import PostList from "../../../components/blog/PostList";
+import FeaturedPostList from "../../../components/blog/FeaturedPostList";
 
 export default {
   name: "home-screen",
 
   components: {
     FeaturedPostList,
-    PageHeader,
     PostList,
     vueHeadful
   },

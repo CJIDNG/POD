@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Settings;
 
-use App\UserMeta;
+use App\Model\Auth\UserMeta;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;

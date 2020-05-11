@@ -57,16 +57,12 @@
 <script>
 import NProgress from "nprogress";
 import InfiniteLoading from "vue-infinite-loading";
-import AdminPage from '../../../components/AdminPage';
-import PageHeader from "../../../components/PageHeader";
 
 export default {
   name: "users-index",
 
   components: {
-    InfiniteLoading,
-    AdminPage,
-    PageHeader
+    InfiniteLoading
   },
 
   data() {

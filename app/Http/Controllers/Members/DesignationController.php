@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Members;
 
-use App\Designation;
+use App\Model\Members\Designation;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

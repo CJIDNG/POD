@@ -55,6 +55,19 @@ export const actions = {
   deleteDataset(context, payload) {
     context.commit('deleteDataset', payload)
   },
+
+  // for product
+  setActiveProduct(context, payload) {
+    context.commit('setActiveProduct', payload)
+  },
+
+  saveActiveProduct(context, payload) {
+    context.commit('saveActiveProduct', payload)
+  },
+
+  deleteProduct(context, payload) {
+    context.commit('deleteProduct', payload)
+  },
 }
 
 export default {

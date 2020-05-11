@@ -14,7 +14,6 @@
 <script>
 import moment from "moment";
 import NProgress from "nprogress";
-import PageFooter from "../../../components/PageFooter"
 import {
   Statics,
 } from "../../../statics"
@@ -24,7 +23,6 @@ export default {
 
   components: {
     Contact: Statics.Contact,
-    PageFooter,
   },
 
   data() {

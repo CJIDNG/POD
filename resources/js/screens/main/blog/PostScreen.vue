@@ -122,6 +122,12 @@
       </div>
 
       <main role="main" class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 col-md-12">
+        <div v-if="isReady && post.factchecks && post.factchecks.length > 0" class="mb-5 mt-5">
+          <factchecks
+            :factchecks="post.factchecks"
+          />
+        </div>
+
         <div v-if="related.length > 0">
           <h4 class="mb-4 border-bottom pb-2">
             <span class="border-bottom border-dark pb-2">Related</span>
@@ -137,17 +143,17 @@
 
 <script>
 import hljs from "highlight.js";
-import PostList from "../../../components/PostList";
+import PostList from "../../../components/blog/PostList";
+import Factchecks from "../../../components/factchecks/Factchecks"
 import NProgress from "nprogress";
 import vueHeadful from "vue-headful";
 import mediumZoom from "medium-zoom";
-import PageHeader from "../../../components/PageHeader";
 
 export default {
   name: "post-screen",
 
   components: {
-    PageHeader,
+    Factchecks,
     PostList,
     vueHeadful
   },
