@@ -44,7 +44,7 @@ class DatasetController extends \App\Http\Controllers\Controller
       $results['datasets'] = Dataset::forCurrentUser()
         ->draft()
         ->latest()
-        // ->withCount('views')
+        ->withCount('views')
         ->with('user', 'resources')
         ->with('approvedBy')
         ->paginate();
@@ -52,14 +52,14 @@ class DatasetController extends \App\Http\Controllers\Controller
       $results['datasets'] = $isAdminOrDataEditor ? 
         Dataset::submitted()
           ->latest()
-          // ->withCount('views')
+          ->withCount('views')
           ->with('user', 'resources')
           ->with('approvedBy')
           ->paginate() :
         Dataset::forCurrentUser()
           ->submitted()
           ->latest()
-          // ->withCount('views')
+          ->withCount('views')
           ->with('user', 'resources')
           ->with('approvedBy')
           ->paginate();
@@ -67,14 +67,14 @@ class DatasetController extends \App\Http\Controllers\Controller
       $results['datasets'] = $isAdminOrDataEditor ? 
         Dataset::approved()
           ->latest()
-          // ->withCount('views')
+          ->withCount('views')
           ->with('user', 'resources')
           ->with('approvedBy')
           ->paginate() :
         Dataset::forCurrentUser()
           ->approved()
           ->latest()
-          // ->withCount('views')
+          ->withCount('views')
           ->with('user', 'resources')
           ->with('approvedBy')
           ->paginate();
@@ -82,14 +82,14 @@ class DatasetController extends \App\Http\Controllers\Controller
       $results['datasets'] = $isAdminOrDataEditor ? 
         Dataset::published()
           ->latest()
-          // ->withCount('views')
+          ->withCount('views')
           ->with('user', 'resources')
           ->with('approvedBy')
           ->paginate() : 
         Dataset::forCurrentUser()
           ->published()
           ->latest()
-          // ->withCount('views')
+          ->withCount('views')
           ->with('user', 'resources')
           ->with('approvedBy')
           ->paginate();

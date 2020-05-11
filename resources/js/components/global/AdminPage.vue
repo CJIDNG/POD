@@ -7,11 +7,6 @@
       </div>
 
       <ul class="list-unstyled components">
-        <li :class="{'active': $route.path === '/admin'}">
-          <router-link to="/admin">
-            <span>{{ trans.app.home }}</span>
-          </router-link>
-        </li>
         <li :class="{'active': /admin\/stats/.test($route.path)}">
           <router-link to="/admin/stats">
             <span>{{ trans.app.analytics }}</span>
@@ -288,12 +283,12 @@ a:focus {
 }
 
 #sidebar .sidebar-header {
-  padding: 20px;
+  /* padding: 20px; */
   color: #444;
 }
 
 #sidebar ul.components {
-  /* padding: 20px 0; */
+  padding: 20px 0;
   border-bottom: 1px solid #fff;
 }
 

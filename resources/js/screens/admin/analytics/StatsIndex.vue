@@ -158,6 +158,9 @@ export default {
         },
         'Dataset': {
           'class': 'App\\Model\\Data\\Dataset'
+        },
+        'Dataresource': {
+          'class': 'App\\Model\\Data\\Dataresource'
         }
       },
       className: 'App\\Model\\Blog\\Post',
@@ -178,6 +181,10 @@ export default {
 
         case 'App\\Model\\Data\\Dataset':
           url = "/api/v1/datasets"
+          break;
+
+        case 'App\\Model\\Data\\Dataresource':
+          url = "/api/v1/dataresources"
           break;
       
         default:
@@ -243,6 +250,10 @@ export default {
               case 'App\\Model\\Data\\Dataset':
                 this.items.push(...response.data.datasets.data);
                 break;
+
+              case 'App\\Model\\Data\\Dataresource':
+                this.items.push(...response.data.dataresources.data);
+                break;
             
               default:
                 break;
@@ -274,6 +285,10 @@ export default {
 
         case 'App\\Model\\Data\\Dataset':
           isEmpty = _.isEmpty(response.data.datasets.data)
+          break;
+
+        case 'App\\Model\\Data\\Dataresource':
+          isEmpty = _.isEmpty(response.data.dataresources.data)
           break;
       
         default:

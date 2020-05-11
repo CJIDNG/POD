@@ -9,7 +9,7 @@
             <div class="col-md-8">
               <p class="text-muted mb-0">
                 {{ trans.app.published }}
-                {{ moment(item.published_at).format('MMM D, YYYY') }}
+                {{ moment(item.published_at || item.created_at).format('MMM D, YYYY') }}
               </p>
               <h1>{{ item.title || item.name || item.description }}</h1>
             </div>

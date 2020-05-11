@@ -18,7 +18,7 @@ let adminRoutes = [
   {
     path: '/admin',
     name: 'dashboard',
-    component: require('../../screens/admin/dashboard/Index').default,
+    redirect: '/admin/stats',
   },
   ...partner,
   ...platforms,
