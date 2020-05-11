@@ -14,7 +14,7 @@ class CreateFactchecksTable extends Migration
     Schema::create('factchecks', function (Blueprint $table) {
       $table->increments('id');
       $table->string('factcheckable_type');
-      $table->string('factcheckbable_id');
+      $table->string('factcheckable_id');
       $table->text('claim');
       $table->text('conclusion');
       $table->timestamp('submitted_at')->nullable();
