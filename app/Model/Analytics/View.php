@@ -2,35 +2,11 @@
 
 namespace App\Model\Analytics;
 
-use Illuminate\Database\Eloquent\Model;
+use StarfolkSoftware\Analytics\View as AnalyticsView;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 
-class View extends Model
+class View extends AnalyticsView
 {
-    use UsesTenantConnection;
-    
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'views';
-
-    /**
-     * The attributes that aren't mass assignable.
-     *
-     * @var array
-     */
-    protected $guarded = [];
-
-    /**
-     * Get the post relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function post(): BelongsTo
-    {
-        return $this->belongsTo(\App\Model\Blog\Post::class);
-    }
+  use UsesTenantConnection;
 }

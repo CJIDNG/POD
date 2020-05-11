@@ -152,7 +152,7 @@
         methods: {
             fetchStats() {
               this.request()
-                .get('/api/v1/stats')
+                .get('/api/v1/post-stats')
                 .then(response => {
                   this.viewCount = response.data.view_count
                   this.viewTrend = response.data.view_trend

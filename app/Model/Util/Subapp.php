@@ -17,7 +17,6 @@ class Subapp extends Model
   
   public static function getAllProvided() {
     return [
-      'analytics',
       'blog',
       'data',
       'members',

@@ -28,16 +28,6 @@ trait HasApprovalFlow {
   }
 
   /**
-   * Get the visits relationship.
-   *
-   * @return HasMany
-   */
-  public function visits(): HasMany
-  {
-    return $this->hasMany(\App\Model\Analytics\Visit::class);
-  }
-
-  /**
    * Check to see if the post is published.
    *
    * @return bool

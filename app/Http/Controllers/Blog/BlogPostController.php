@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Blog;
 
 use App\Model\Auth\User;
-use App\Events\PostViewed;
+use StarfolkSoftware\Analytics\Events\Viewed;
 use App\Model\Blog\Post;
 use App\Model\Auth\UserMeta;
 use Illuminate\Http\Request;
@@ -87,7 +87,7 @@ class BlogPostController extends Controller
 
           $post->append('read_time');
 
-          event(new PostViewed($post));
+          event(new Viewed($post));
 
           return response()->json([
             'post' => $post,

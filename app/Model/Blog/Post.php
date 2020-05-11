@@ -15,10 +15,11 @@ use Illuminate\Support\Str;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use StarfolkSoftware\Factchecks\Traits\HasFactchecks;
 use App\Traits\HasApprovalFlow;
+use StarfolkSoftware\Analytics\Traits\{HasViews, HasVisits};
 
 class Post extends Model
 {
-  use SoftDeletes, HasApprovalFlow, HasFactchecks, UsesTenantConnection;
+  use SoftDeletes, HasApprovalFlow, HasFactchecks, UsesTenantConnection, HasViews, HasVisits;
 
   /**
    * The table associated with the model.
@@ -145,26 +146,6 @@ class Post extends Model
       'user_id',  // Local key on posts table...
       'id'        // Local key on users table...
     );
-  }
-
-  /**
-   * Get the views relationship.
-   *
-   * @return HasMany
-   */
-  public function views(): HasMany
-  {
-    return $this->hasMany(\App\Model\Analytics\View::class);
-  }
-
-  /**
-   * Get the visits relationship.
-   *
-   * @return HasMany
-   */
-  public function visits(): HasMany
-  {
-    return $this->hasMany(\App\Model\Analytics\Visit::class);
   }
 
   /**

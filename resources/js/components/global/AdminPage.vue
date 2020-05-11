@@ -7,12 +7,7 @@
       </div>
 
       <ul class="list-unstyled components">
-        <li :class="{'active': $route.path === '/admin'}">
-          <router-link to="/admin">
-            <span>{{ trans.app.home }}</span>
-          </router-link>
-        </li>
-        <li v-if="hasSubapp('analytics')" :class="{'active': $route.path === '/admin/stats'}">
+        <li :class="{'active': /admin\/stats/.test($route.path)}">
           <router-link to="/admin/stats">
             <span>{{ trans.app.analytics }}</span>
           </router-link>
@@ -73,11 +68,6 @@
             <span>{{ trans.app.posts_simple }}</span>
           </a>
           <ul class="collapse list-unstyled" id="postSubmenu">
-            <li>
-              <router-link to="/admin/posts/stats">
-                <span>{{ trans.app.stats }}</span>
-              </router-link>
-            </li>
             <li>
               <router-link to="/admin/posts">
                 <span>{{ trans.app.posts_simple }}</span>
@@ -293,12 +283,12 @@ a:focus {
 }
 
 #sidebar .sidebar-header {
-  padding: 20px;
+  /* padding: 20px; */
   color: #444;
 }
 
 #sidebar ul.components {
-  /* padding: 20px 0; */
+  padding: 20px 0;
   border-bottom: 1px solid #fff;
 }
 
