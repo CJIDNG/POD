@@ -30,7 +30,7 @@
           <div class="form-group mb-5">
             <div class="col-lg-12">
               <label>{{ trans.app.type_something_here }}</label>
-              <ckeditor :editor="editor" v-model="form.comment" :config="editorConfig"></ckeditor>
+              <quill-editor :value.sync="form.comment"></quill-editor>
               <div v-if="form.errors.comment" class="invalid-feedback d-block">
                 <strong>{{ form.errors.comment[0] }}</strong>
               </div>
@@ -51,6 +51,7 @@
 <script>
 import $ from "jquery"
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import QuillEditor from "../../../../components/global/basic-editor/QuillEditor"
 
 export default {
   name: "new-comment-modal",
@@ -65,7 +66,7 @@ export default {
   },
 
   components: {
-    
+    QuillEditor,
   },
 
   data() {
@@ -80,18 +81,6 @@ export default {
       },
       trans: JSON.parse(CurrentTenant.translations),
     };
-  },
-
-  created() {
-    
-  },
-
-  mounted() {
-    
-  },
-
-  watch: {
-
   },
 
   methods: {
