@@ -93,7 +93,7 @@ export default {
     },
 
     hasSubapp(subapp) {
-      return CurrentTenant.subapps.includes(subapp);
+      return CurrentTenant.platform.subapps.includes(subapp);
     },
 
     downloadBlob(blob, filename) {
