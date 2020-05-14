@@ -63,7 +63,7 @@ Run the database seeder and you're done
 
 ## Multi-Tenancy
 
-**Husk uses `hyn/multi-tenant` laravel package**
+**POD uses `hyn/multi-tenant` laravel package**
 
 To understand more how husk supports multi tenancy, read the [docs](https://tenancy.dev/docs/hyn/5.4)
 
