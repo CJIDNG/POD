@@ -7,6 +7,17 @@ an open source citizen-oriented solution for tracking government projects.
 # Getting started
 
 ## Installation
+
+
+### JS
+
+Install npm packages
+
+	npm install
+
+Compiler .vue files
+
+	npm run dev
     
 ### Laravel
 
