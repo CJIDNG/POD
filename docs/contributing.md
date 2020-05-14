@@ -48,9 +48,9 @@ for more information. If the bug and/or the reproduction steps can't be easily
 explained with a few words, it can be hepful to create a [reduced test case][].
 
 [Bug reports]: https://github.com/necolas/issue-guidelines/blob/master/CONTRIBUTING.md#bug-reports
-[GitHub issue tracker]: https://github.com/starfolksoftware/husk
+[GitHub issue tracker]: https://github.com/CJIDNG/POD
 [reduced test case]: http://css-tricks.com/reduced-test-cases
-[new issue]: https://github.com/starfolksoftware/husk
+[new issue]: https://github.com/CJIDNG/POD
 
 ## Work on an issue
 
@@ -59,7 +59,7 @@ Ready to work on an issue? The best is to go to our [Github Projects][] board an
 Now that you have picked your issue you don't want anybody else to start working on
 it at the same time, so don't forget to assign it to yourself and move it to "In Progress".
 
-[Github Projects]: https://github.com/starfolksoftware/husk/projects/
+[Github Projects]: https://github.com/CJIDNG/POD/projects/
 
 ## Pull requests
 
@@ -68,7 +68,7 @@ We use the [Git flow][] branching strategy:
 1. Clone the project
 
     ```bash
-    git clone starfolksoftware/husk
+    git clone CJIDNG/POD
     cd husk
     ```
 

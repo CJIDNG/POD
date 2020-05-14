@@ -1,6 +1,6 @@
-# Husk
+# POD
 
-an open source citizen-oriented solution for tracking government projects.
+The PTCIJ Software that houses all its civic tech platforms.
 
 ----------
 
@@ -15,7 +15,7 @@ Install npm packages
 
 	npm install
 
-Compiler .vue files
+Compile .vue files
 
 	npm run dev
     
@@ -26,7 +26,7 @@ Please check the official Laravel installation guide for server requirements bef
 
 Clone the repository
 
-    git clone https://github.com/starfolksoftware/husk.git
+    git clone https://github.com/CJIDNG/POD.git
 
 Switch to the repo folder
 
@@ -47,12 +47,6 @@ add application key to .env file
 Run the database migrations (**Set the database connection in .env before migrating**)
 
     php artisan migrate --seed
-
-Start the local development server
-
-    php -S localhost:8000 -t public
-
-You can now access the server at http://localhost:8000
 
 ## Database seeding
 
@@ -90,8 +84,8 @@ To add/remove a subapp to tenant(website)
 
 # Documentation
 
-Read about the API Documentation [here](https://github.com/starfolksoftware/husk/blob/develop/docs)
+Read about the API Documentation [here](https://github.com/CJIDNG/POD/blob/develop/docs)
 
 # Contributing
 
-Sleeves folded, ready to dive in? Read [this](https://github.com/starfolksoftware/husk/blob/develop/docs/contributing.md)
+Sleeves folded, ready to dive in? Read [this](https://github.com/CJIDNG/POD/blob/develop/docs/contributing.md)
