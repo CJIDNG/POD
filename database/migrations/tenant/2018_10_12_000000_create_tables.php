@@ -45,15 +45,6 @@ class CreateTables extends Migration
       $table->uuid('tag_id');
       $table->unique(['post_id', 'tag_id']);
     });
-
-    Schema::create('views', function (Blueprint $table) {
-      $table->increments('id');
-      $table->uuid('post_id');
-      $table->string('ip')->nullable();
-      $table->string('agent')->nullable();
-      $table->string('referer')->nullable();
-      $table->timestamps();
-    });
   }
 
   /**

@@ -75,6 +75,16 @@ To add/remove a subapp to tenant(website)
 
     php artisan tenant:subapp {domain.com} {subapp} {--R|remove}
 
+Available Subapps
+
+- blog
+- data
+- members
+- partners
+- services
+- products
+- tracker
+
 
 ----------
 
