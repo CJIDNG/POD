@@ -97,6 +97,13 @@
             >
               {{ trans.app.data }}
             </router-link>
+            <a 
+              class="nav-item nav-link" 
+              v-if="/narepng/.test(this.CurrentTenant.platform.name)" 
+              href="https://faacfacts.ptcij.org/"
+              target="_blank">
+              FAAC Facts
+            </a>
             <router-link
               class="nav-item nav-link" 
               to="/members"
