@@ -22,10 +22,6 @@ require('bootstrap')
 
 window.Popper = require('popper.js').default
 
-if (/starfolksoftware/.test(CurrentTenant.platform.name)) {
-  require('../../public/assets/themes/argon/assets/css/argon-design-system.min.css?v=1.2.0')
-}
-
 Vue.mixin(ComponentMixin)
 Vue.mixin(HelperMixin)
 Vue.mixin(RequestMixin)
