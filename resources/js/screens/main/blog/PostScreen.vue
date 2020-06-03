@@ -47,9 +47,9 @@
           <a :href="'/' + canvasPath + '/stats/' + post.id" class="dropdown-item">View stats</a>
         </div>
       </div>
-    </navbar> -->
+    </navbar>-->
 
-    <div v-if="isReady" class="">
+    <div v-if="isReady" class>
       <div class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 col-md-12">
         <h1 class="text-dark font-serif pt-5 mb-4">{{ post.title }}</h1>
 
@@ -123,9 +123,7 @@
 
       <main role="main" class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 col-md-12">
         <div v-if="isReady && post.factchecks && post.factchecks.length > 0" class="mb-5 mt-5">
-          <factchecks
-            :factchecks="post.factchecks"
-          />
+          <factchecks :factchecks="post.factchecks" />
         </div>
 
         <div v-if="related.length > 0">
@@ -158,7 +156,7 @@ export default {
     vueHeadful
   },
 
-  data() {
+  data () {
     return {
       user: null,
       post: null,
@@ -173,11 +171,11 @@ export default {
     };
   },
 
-  created() {
+  created () {
     this.fetchData();
   },
 
-  updated() {
+  updated () {
     document.querySelectorAll(".embedded_image img").forEach(image => {
       mediumZoom(image);
     });
@@ -187,7 +185,7 @@ export default {
   },
 
   watch: {
-    "$route.params.slug": function(slug) {
+    "$route.params.slug": function (slug) {
       this.isReady = false;
       this.related = [];
       this.fetchData();
@@ -195,13 +193,13 @@ export default {
   },
 
   methods: {
-    fetchData() {
+    fetchData () {
       this.request()
         .get(
           "/api/v1/blog/posts/" +
-            this.$route.params.identifier +
-            "/" +
-            this.$route.params.slug
+          this.$route.params.identifier +
+          "/" +
+          this.$route.params.slug
         )
         .then(response => {
           this.user = response.data.user;
@@ -226,7 +224,7 @@ export default {
   },
 
   computed: {
-    postBelongsToAuthUser() {
+    postBelongsToAuthUser () {
       if (CurrentTenant.user) {
         return this.user.id === CurrentTenant.user.id;
       } else {
