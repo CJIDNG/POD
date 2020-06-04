@@ -109,11 +109,11 @@ class DatasetController extends \App\Http\Controllers\Controller
       $filterId = request('filterId');
       switch ($filter) {
         case 'license':
-          $datasets = \App\Datalicense::findOrFail($filterId)->datasets()->published()->latest(); 
+          $datasets = Datalicense::findOrFail($filterId)->datasets()->published()->latest(); 
           break;
 
         case 'topics':
-          $datasets = \App\Datatopic::findOrFail($filterId)->datasets()->published()->latest();
+          $datasets = Datatopic::findOrFail($filterId)->datasets()->published()->latest();
           break;
 
         default:

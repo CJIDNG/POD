@@ -72,7 +72,13 @@
               <li 
                 class="list-group-item"
                 v-for="(topic, index) in topics" :key="index">
-                {{ topic.name }}
+                <input 
+                  type="radio" 
+                  :value="topic.name"
+                  :id="'topic-'+topic.id" 
+                  v-model="filterName" 
+                  @change="setFilter('topics', topic.id)">
+                <label :for="'topic-'+topic.id">{{ topic.name }}</label>
               </li>
             </ul>
           </div>
@@ -84,7 +90,13 @@
               <li 
                 class="list-group-item"
                 v-for="(license, index) in licenses" :key="index">
-                {{ license.name }}
+                <input 
+                  type="radio" 
+                  :value="license.name"
+                  :id="'license-'+license.id" 
+                  v-model="filterName" 
+                  @change="setFilter('license', license.id)">
+                <label :for="'license-'+license.id">{{ license.name }}</label>
               </li>
             </ul>
           </div>
@@ -119,6 +131,7 @@ export default {
       currentFilters: [],
       filter: "",
       filterId: "",
+      filterName: "",
       query: "",
       url: "/api/v1/data",
       from: "",
@@ -129,6 +142,15 @@ export default {
 
   created() {
     this.fetchFilters()
+
+    if(this.$route.params.filter &&
+      this.$route.params.filterId) {
+      this.setFilter(
+        this.$route.params.filter,
+        this.$route.params.filterId
+      )
+    }
+    
   },
 
   watch: {
@@ -229,6 +251,10 @@ export default {
         .catch(() => {
           NProgress.done();
         })
+    },
+    setFilter(filter, filterId) {
+      this.filter = filter
+      this.filterId = filterId
     }
   }
 };
