@@ -8,12 +8,13 @@
     />
     <page-header></page-header>
 
-    <div class="py-4">
-      <div class="col-xl-10 offset-xl-1 px-xl-5 col-md-12">
-
-
-        <div class="jumbotron p-3 p-md-5 bg-transparent text-center">
-          <div class="col-md-8 px-0 mx-auto my-auto">
+    <main class="mt-5 col-md-10 mx-auto">
+      <h3 class="title mb-5">
+        {{ trans.app.datasets }}
+      </h3>
+      <div class="row">
+        <div class="col-md-8">
+          <div class="w-100">
             <input 
               class="form-control" 
               type="text" 
@@ -21,86 +22,76 @@
               aria-label="Search"
               v-model="query"
             >
-          </div><br>
-          <div class="col-md-6 px-0 mx-auto my-auto mt-5">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <select class="form-control" id="filter" v-model="filter">
-                    <option value="">{{ trans.app.filter_by }}</option>
-                    <option value="license">{{ trans.app.licenses }}</option>
-                    <option value="topics">{{ trans.app.topics }}</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <select class="form-control" id="filter-id" v-model="filterId">
-                    <option value="">{{ trans.app.select_a_filter }}</option>
-                    <option 
-                      v-for="(filter, index) in currentFilters" 
-                      :key="index"
-                      :value="filter.id"
-                    >{{filter.name}}</option>
-                  </select>
-                </div>
-              </div>
+          </div>
+          <div
+            v-for="(dataset, $index) in datasets"
+            :key="$index"
+            class="d-flex border-top py-3 align-items-center"
+          >
+            <div class="mr-auto py-1">
+              <p class="mb-1">
+                <router-link
+                  :to="{name: 'data-show', params: { id: dataset.id }}"
+                  class="font-weight-bold text-lg lead text-decoration-none"
+                >{{ dataset.title }}</router-link>
+              </p>
+              <p class="mb-1" v-if="dataset.description">{{ trim(dataset.description, 200) }}</p>
+              <p class="text-muted mb-0">
+                <span>{{ trans.app.author }} {{ dataset.user.name }} |</span> 
+                <span>{{ dataset.resources.length }} {{ trans.app.resources }}</span>
+              </p>
+              <p class="text-muted mb-0">
+                ― {{ trans.app.updated }} {{ moment(dataset.updated_at).locale(CurrentTenant.locale).fromNow() }}
+              </p>
             </div>
           </div>
-          <div class="col-md-6 mx-auto my-auto">
-            <small>showing from {{ from }} to {{ to }} of {{ total }}</small>
+
+          <infinite-loading 
+            :identifier="infiniteId"
+            @infinite="fetchData" 
+            spinner="spiral" 
+            style="position: relative; top: 0">
+            <span slot="no-more"></span>
+            <div slot="no-results" class="text-left">
+              <div class="mt-5">
+                <p class="lead text-center text-muted mt-5 pt-5">
+                  <span>
+                    {{trans.app.you_have_no_results}}
+                  </span>
+                </p>
+              </div>
+            </div>
+          </infinite-loading>
+        </div>
+        <div class="col-md-4">
+          <div class="card mb-5">
+            <div class="card-header bg-danger text-white">
+              {{ trans.app.topics }}
+            </div>
+            <ul class="list-group list-group-flush">
+              <li 
+                class="list-group-item"
+                v-for="(topic, index) in topics" :key="index">
+                {{ topic.name }}
+              </li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-header bg-danger text-white">
+              {{ trans.app.licenses }}
+            </div>
+            <ul class="list-group list-group-flush">
+              <li 
+                class="list-group-item"
+                v-for="(license, index) in licenses" :key="index">
+                {{ license.name }}
+              </li>
+            </ul>
           </div>
         </div>
-
-
-        <main>
-          <div class="mt-2">
-            <div
-              v-for="(dataset, $index) in datasets"
-              :key="$index"
-              class="d-flex border-top py-3 align-items-center"
-            >
-              <div class="mr-auto py-1">
-                <p class="mb-1">
-                  <router-link
-                    :to="{name: 'data-show', params: { id: dataset.id }}"
-                    class="font-weight-bold text-lg lead text-decoration-none"
-                  >{{ dataset.title }}</router-link>
-                </p>
-                <p class="mb-1" v-if="dataset.description">{{ trim(dataset.description, 200) }}</p>
-                <p class="text-muted mb-0">
-                  <span>{{ trans.app.author }} {{ dataset.user.name }} |</span> 
-                  <span>{{ dataset.resources.length }} {{ trans.app.resources }}</span>
-                </p>
-                <p class="text-muted mb-0">
-                  ― {{ trans.app.updated }} {{ moment(dataset.updated_at).locale(CurrentTenant.locale).fromNow() }}
-                </p>
-              </div>
-            </div>
-
-            <infinite-loading 
-              :identifier="infiniteId"
-              @infinite="fetchData" 
-              spinner="spiral" 
-              style="position: relative; top: 0">
-              <span slot="no-more"></span>
-              <div slot="no-results" class="text-left">
-                <div class="mt-5">
-                  <p class="lead text-center text-muted mt-5 pt-5">
-                    <span>
-                      {{trans.app.you_have_no_results}}
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </infinite-loading>
-
-
-          </div>
-        </main>
-
       </div>
-    </div>
+    </main>
+
     <page-footer></page-footer>
   </div>
 </template>
