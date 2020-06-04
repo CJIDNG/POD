@@ -3,28 +3,30 @@
     <page-header></page-header>
 
     <main class="text-center">
-      <div class="jumbotron p-3 p-md-5 bg-primary text-center w-100">
-        <h3 class="title mb-2">
-          Welcome to PTData
-        </h3>
-        <p class="lead">
-          PTData is a data service by Premium Times Centre for Investigative 
-          Journalism. It does some amazing stuffs like curating data across many 
-          fields. You can access highly quality data. This is just an example by the 
-          way. PTData is a data service by Premium Times Centre for Investigative 
-          Journalism. It does some amazing stuffs like curating data across many 
-          fields. You can access highly quality data. This is just an example by the 
-          way.
-        </p>
-        <div class="col-md-6 px-0 mx-auto my-auto">
-          <input 
-            class="form-control" 
-            type="text" 
-            placeholder="Search" 
-            aria-label="Search"
-            v-model="query"
-          >
-        </div><br>
+      <div class="jumbotron p-3 p-md-5 bg-danger text-center w-100">
+        <div class="col-md-8 mx-auto text-white">
+          <h3 class="title mb-2">
+            Welcome to PTData
+          </h3>
+          <p class="lead">
+            PTData is a data service by Premium Times Centre for Investigative 
+            Journalism. It does some amazing stuffs like curating data across many 
+            fields. You can access highly quality data. This is just an example by the 
+            way. PTData is a data service by Premium Times Centre for Investigative 
+            Journalism. It does some amazing stuffs like curating data across many 
+            fields. You can access highly quality data. This is just an example by the 
+            way.
+          </p>
+          <div class="col-md-6 px-0 mx-auto my-auto">
+            <input 
+              class="form-control" 
+              type="text" 
+              placeholder="Search" 
+              aria-label="Search"
+              v-model="query"
+            >
+          </div><br>
+        </div>
       </div>
       
       <div class="row col-xl-10 offset-xl-1 px-xl-5 col-md-12">
@@ -46,7 +48,7 @@
             <div
               v-for="(dataset, $index) in datasets"
               :key="$index"
-              class="col-1 col-md-3"
+              class="col-1 col-md-4"
             >
               <div class="mr-auto py-1">
                 <p class="mb-1">
