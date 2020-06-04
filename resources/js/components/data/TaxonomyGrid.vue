@@ -3,7 +3,7 @@
     <div class="row row-cols-1 row-cols-md-3 row-cols-sm-2">
       <div v-for="(item, index) in availableItems" :key="index">
         <router-link
-          :to="'/'"
+          :to="{ name: 'filtered-data', params: { filter: filter, filterId: item.id, filterName: item.name }}"
           class="text-decoration-none"
         >
           <div class="col mb-4">
@@ -26,6 +26,10 @@ export default {
   props: {
     items: {
       type: Array,
+      required: true
+    },
+    filter: {
+      type: String,
       required: true
     }
   },

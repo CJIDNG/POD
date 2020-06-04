@@ -142,33 +142,27 @@ export default {
 
   created() {
     this.fetchFilters()
+    
+    this.$nextTick(() => {
+      if(this.$route.params.filter &&
+        this.$route.params.filterId) {
+        this.setFilter(
+          this.$route.params.filter,
+          this.$route.params.filterId
+        )
+        this.filterName = this.$route.params.filterName
+      }
 
-    if(this.$route.params.filter &&
-      this.$route.params.filterId) {
-      this.setFilter(
-        this.$route.params.filter,
-        this.$route.params.filterId
-      )
-    }
+      if(this.$route.query.query) {
+        this.setQuery(this.$route.query.query)
+      }
+    })
     
   },
 
   watch: {
     filter: function (val) {
       this.filterId = ""
-      switch (val) {
-        case "license":
-          this.currentFilters = this.licenses
-          break;
-        case "topics":
-          this.currentFilters = this.topics
-          break;
-        case "":
-          this.currentFilters = []
-          break;
-        default:
-          break;
-      }
     },
 
     filterId: function (val) {
@@ -229,6 +223,7 @@ export default {
           NProgress.done();
         });
     },
+
     fetchFilters() {
       // fetch agencies
       this.request()
@@ -252,9 +247,37 @@ export default {
           NProgress.done();
         })
     },
+
     setFilter(filter, filterId) {
       this.filter = filter
       this.filterId = filterId
+
+      if (this.filterId === "") {
+        this.url = "/api/v1/data"
+      } else {
+        this.url = `/api/v1/data?filter=${this.filter}&&filterId=${this.filterId}`
+      }
+
+      this.page = 1;
+      this.datasets = [];
+      this.infiniteId += 1;
+    },
+
+    setQuery(query) {
+      this.query = query
+      if (query === "") {
+        this.url = this.filterId ? 
+          `/api/v1/data?filter=${this.filter}&&filterId=${this.filterId}` :
+          "/api/v1/data"
+      } else {
+        this.url = this.filterId ? 
+          `/api/v1/data?filter=${this.filter}&&filterId=${this.filterId}&&query=${this.query}` :
+          `/api/v1/data?query=${this.query}`
+      }
+
+      this.page = 1;
+      this.datasets = [];
+      this.infiniteId += 1;
     }
   }
 };

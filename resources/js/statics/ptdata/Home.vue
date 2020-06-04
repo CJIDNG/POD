@@ -24,6 +24,7 @@
               placeholder="Search" 
               aria-label="Search"
               v-model="query"
+              v-on:keyup.enter="$router.push({ path: '/data', query: { query: query }})"
             >
           </div><br>
         </div>
@@ -37,6 +38,7 @@
           </h3>
           <taxonomy-grid 
             :items="topics"
+            filter="topics"
           />
         </section>
 
@@ -46,6 +48,7 @@
           </h3>
           <taxonomy-grid 
             :items="licenses"
+            filter="license"
           />
         </section>
 
