@@ -33,10 +33,19 @@
         
         <section class="section text-center w-100 mb-5">
           <h3 class="text-center mb-5">
-            Dataset Topics
+            {{ trans.app.topics }}
           </h3>
           <taxonomy-grid 
             :items="topics"
+          />
+        </section>
+
+        <section class="section text-center w-100 mb-5">
+          <h3 class="text-center mb-5">
+            {{ trans.app.licenses }}
+          </h3>
+          <taxonomy-grid 
+            :items="licenses"
           />
         </section>
 
@@ -92,6 +101,7 @@ export default {
       trans: JSON.parse(CurrentTenant.translations),
       platform: CurrentTenant.platform,
       topics: [],
+      licenses: [],
       datasets: [],
       query: '',
     };
@@ -100,6 +110,7 @@ export default {
   created() {
     this.fetchDataTopics()
     this.fetchFeaturedData()
+    this.fetchDataLicenses()
   },
 
   mounted() {
@@ -113,6 +124,19 @@ export default {
         .get("/api/v1/datatopics?all=1")
         .then(response => {
           this.topics = response.data;
+          NProgress.done();
+        })
+        .catch(() => {
+          NProgress.done();
+        })
+    },
+
+    fetchDataLicenses() {
+      // fetch licenses
+      this.request()
+        .get("/api/v1/datalicenses?all=1")
+        .then(response => {
+          this.licenses = response.data;
           NProgress.done();
         })
         .catch(() => {
