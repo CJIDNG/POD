@@ -3,6 +3,7 @@ import { HCTStatics } from './healthcaretracka'
 import { UdemeStatics } from './udeme'
 import { SpoorStatics } from './spoor'
 import { NAREPStatics } from './narep'
+import { PTDataStatics } from './ptdata'
 
 let Statics
 
@@ -25,6 +26,10 @@ switch (true) {
 
   case /narepng/.test(CurrentTenant.platform.name):
     Statics = NAREPStatics
+    break;
+
+  case /ptdata/.test(CurrentTenant.platform.name):
+    Statics = PTDataStatics
     break;
 
   default:

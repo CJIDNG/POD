@@ -93,9 +93,23 @@
             <router-link
               class="nav-item nav-link" 
               to="/data"
-              v-if="hasSubapp('data')"
+              v-if="hasSubapp('data') && !/ptdata/.test(this.CurrentTenant.platform.name)"
             >
               {{ trans.app.data }}
+            </router-link>
+            <router-link
+              class="nav-item nav-link" 
+              to="/"
+              v-if="/ptdata/.test(this.CurrentTenant.platform.name)"
+            >
+              {{ trans.app.home }}
+            </router-link>
+            <router-link
+              class="nav-item nav-link" 
+              to="/data"
+              v-if="/ptdata/.test(this.CurrentTenant.platform.name)"
+            >
+              {{ trans.app.datasets }}
             </router-link>
             <a 
               class="nav-item nav-link" 
