@@ -109,11 +109,11 @@ class DatasetController extends \App\Http\Controllers\Controller
       $filterId = request('filterId');
       switch ($filter) {
         case 'license':
-          $datasets = \App\Datalicense::findOrFail($filterId)->datasets()->published()->latest(); 
+          $datasets = Datalicense::findOrFail($filterId)->datasets()->published()->latest(); 
           break;
 
         case 'topics':
-          $datasets = \App\Datatopic::findOrFail($filterId)->datasets()->published()->latest();
+          $datasets = Datatopic::findOrFail($filterId)->datasets()->published()->latest();
           break;
 
         default:
@@ -156,6 +156,7 @@ class DatasetController extends \App\Http\Controllers\Controller
       $formats = Dataformat::get(['id', 'name', 'extension']);
 
       if ($this->isNewDataset($id)) {
+        // DB::connection('system')->statement('SET PERSIST information_schema_stats_expiry = 0');
         $statement = DB::connection('tenant')->select("SHOW TABLE STATUS LIKE 'datasets'");
         return response()->json([
           'dataset' => Dataset::make([
