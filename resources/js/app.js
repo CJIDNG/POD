@@ -9,7 +9,7 @@ import HelperMixin from "./mixins/HelperMixin"
 import RequestMixin from "./mixins/RequestMixin"
 import MetaMixin from "./mixins/MetaMixin"
 import VueHolder from 'vue-holderjs'
-
+import VueMeta from 'vue-meta';
 // https://ckeditor.com/blog/best-wysiwyg-editor-for-vue/
 import CKEditor from '@ckeditor/ckeditor5-vue';
 
@@ -36,6 +36,7 @@ Vue.config.productionTip = false
 Vue.use(VueRouter)
 Vue.use(VueHolder)
 Vue.use(CKEditor)
+Vue.use(VueMeta)
 
 const router = new VueRouter({
   routes: Routes,
@@ -63,12 +64,12 @@ const app = new Vue({
     avatar: CurrentTenant.avatar
   },
 
-  mounted() {
+  mounted () {
     this.$root.$on('updateAvatar', this.updateAvatar)
   },
 
   methods: {
-    updateAvatar(url) {
+    updateAvatar (url) {
       this.$root.avatar = url
     }
   }
