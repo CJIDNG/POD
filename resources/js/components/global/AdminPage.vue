@@ -101,6 +101,11 @@
               </router-link>
             </li>
             <li>
+              <router-link to="/admin/data/tags">
+                <span>{{ trans.app.tags }}</span>
+              </router-link>
+            </li>
+            <li>
               <router-link to="/admin/data/formats">
                 <span>{{ trans.app.format }}</span>
               </router-link>
