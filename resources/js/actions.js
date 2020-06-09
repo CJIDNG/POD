@@ -52,6 +52,10 @@ export const actions = {
     context.commit('setDatasetTopics', payload)
   },
 
+  setDatasetTags(context, payload) {
+    context.commit('setDatasetTags', payload)
+  },
+
   deleteDataset(context, payload) {
     context.commit('deleteDataset', payload)
   },

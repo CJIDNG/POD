@@ -140,6 +140,10 @@ export const mutations = {
     state.activeDataset.topics = topics
   },
 
+  setDatasetTags(state, tags) {
+    state.activeDataset.tags = tags
+  },
+
   deleteDataset(state, datasetId) {
     this.$app
       .request()
