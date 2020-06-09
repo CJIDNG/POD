@@ -168,6 +168,14 @@ Route::group(['prefix' => 'v1'], function () {
     Route::delete('/datatopics/{id}', 'DatatopicController@destroy')
       ->middleware(['auth:api', 'permission:delete_datatopics']);
 
+    // Data tags routes...
+    Route::get('/datatags', 'DatatopicController@index');
+    Route::get('/datatags/{id?}', 'DatatopicController@show');
+    Route::post('/datatags/{id}', 'DatatopicController@store')
+      ->middleware(['auth:api', 'permission:create_datatags|update_datatags']);
+    Route::delete('/datatags/{id}', 'DatatopicController@destroy')
+      ->middleware(['auth:api', 'permission:delete_datatags']);
+
     // Media routes...
     Route::post('/resource/uploads', 'DataResourceUploadController@store')
       ->middleware(['auth:api', 'role:Admin|Data Curator|Data Researcher & Editor']);
