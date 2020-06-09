@@ -108,13 +108,18 @@
 import _ from "lodash";
 import { mapState } from "vuex";
 import DatatopicSelect from "../../data/DatatopicSelect";
+import DatatagSelect from "../../data/DatatagSelect";
 import Tooltip from "../../../directives/Tooltip";
 
 export default {
-  name: "datset-settings-modal",
+  name: "dataset-settings-modal",
 
   props: {
     topics: {
+      type: Array,
+      required: true
+    },
+    tags: {
       type: Array,
       required: true
     },
@@ -126,6 +131,7 @@ export default {
 
   components: {
     DatatopicSelect,
+    DatatagSelect
   },
 
   directives: {
@@ -135,6 +141,7 @@ export default {
   data() {
     return {
       allTopics: [],
+      allTags: [],
       allLicenses: [],
       trans: JSON.parse(CurrentTenant.translations)
     };
@@ -144,6 +151,7 @@ export default {
 
   mounted() {
     this.allTopics = this.topics
+    this.allTags = this.tags
     this.allLicenses = this.licenses
   },
 
