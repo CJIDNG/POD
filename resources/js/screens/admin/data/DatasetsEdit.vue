@@ -243,6 +243,20 @@
               <small></small>
             </a>
 
+            <a class="list-group-item list-group-item-action">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ trans.app.tags }}</h5>
+              </div>
+              <p class="mb-1">
+                <span
+                  v-for="(tag, index) in response.tags"
+                  :key="index"
+                  class="badge badge-success mr-1"
+                >{{ tag.name }}</span>
+              </p>
+              <small></small>
+            </a>
+
           </div>
 
 
@@ -256,6 +270,7 @@
         ref="datasetSettingsModal"
         :licenses="licenses"
         :topics="topics"
+        :tags="tags"
       />
 
       <new-resource-modal 
@@ -330,6 +345,7 @@ export default {
       dataset: {},
       response: {},
       topics: [],
+      tags: [],
       licenses: [],
       formats: [],
       id: this.$route.params.id || "create",
@@ -481,6 +497,7 @@ export default {
           vm.response = response.data.dataset
           vm.licenses = response.data.licenses
           vm.topics = response.data.topics
+          vm.tags = response.data.tags
           vm.formats = response.data.formats
           vm.isReady = true
 

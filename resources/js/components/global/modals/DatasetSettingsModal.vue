@@ -91,6 +91,12 @@
               <datatopic-select :topics="topics" :tagged="activeDataset.topics" />
             </div>
           </div>
+          <div class="form-group row">
+            <div class="col-12">
+              <label class="font-weight-bold text-uppercase text-muted small">{{ trans.app.tags }}</label>
+              <datatag-select :tags="tags" :tagged="activeDataset.tags" />
+            </div>
+          </div>
         </div>
         <div class="modal-footer">
           <button

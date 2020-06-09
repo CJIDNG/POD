@@ -20,10 +20,10 @@ class CreateDatatagsTable extends Migration
       $table->timestamps();
     });
 
-    Schema::create('datatag_datatopic', function (Blueprint $table) {
+    Schema::create('dataset_datatag', function (Blueprint $table) {
       $table->bigIncrements('id');
+      $table->unsignedBigInteger('dataset_id');
       $table->unsignedBigInteger('datatag_id');
-      $table->unsignedBigInteger('datatopic_id');
       $table->timestamps();
     });
   }

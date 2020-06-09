@@ -106,6 +106,7 @@ export const mutations = {
     payload.meta.canonical_link = _.get(data, 'meta.canonical_link', '')
 
     payload.topics = _.get(data, 'topics', [])
+    payload.tags = _.get(data, 'tags', [])
     payload.resources = _.get(data, 'resources', [])
     payload.errors = []
     payload.isSaving = false

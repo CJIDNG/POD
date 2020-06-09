@@ -7,7 +7,7 @@
     :multiple="true"
     :taggable="true"
     @input="onChange"
-    @topic="addTag"
+    @tag="addTag"
     label="name"
     track-by="id"
     style="cursor: pointer"
