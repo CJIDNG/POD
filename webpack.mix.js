@@ -1,5 +1,7 @@
 const mix = require('laravel-mix');
-
+const path = require('path')
+const PrerenderSPAPlugin = require('prerender-spa-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -12,13 +14,13 @@ const mix = require('laravel-mix');
  */
 
 mix.options({
-   uglify: {
-      uglifyOptions: {
-         compress: {
-            drop_console: true,
-         }
+  uglify: {
+    uglifyOptions: {
+      compress: {
+        drop_console: true,
       }
-   }
+    }
+  }
 });
 
 mix.setPublicPath('public')
@@ -50,7 +52,31 @@ mix.setPublicPath('public')
           test: /\.worker\.js$/,
           use: { loader: 'worker-loader' }
         }
-      ]
-    }
+      ],
+
+    },
+    plugins: [
+      new HtmlWebpackPlugin({
+        template: path.join(__dirname, './resources/views/layout.blade.php'),
+        inject: false,
+        filename: path.resolve('dist/index.html'),
+      }),
+      new PrerenderSPAPlugin({
+        staticDir: path.join(__dirname, 'dist'),
+        routes: [
+          '/', '/blog'
+        ],
+        indexPath: path.resolve('dist/index.html'),
+        renderer: new PrerenderSPAPlugin.PuppeteerRenderer({
+          inject: {},
+          renderAfterTime: 3000,
+        }),
+        postProcess (renderedRoute) {
+          renderedRoute.html = renderedRoute.html
+            .replace('id="app"', 'id="app" data-server-rendered="true"');
+          return renderedRoute;
+        }
+      })
+    ]
   })
   .version();
