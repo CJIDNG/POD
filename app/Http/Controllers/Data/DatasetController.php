@@ -211,7 +211,7 @@ class DatasetController extends \App\Http\Controllers\Controller
       $licenses = Datalicense::get(['id', 'name']);
       $formats = Dataformat::get(['id', 'name', 'extension']);
 
-      $dataset = Dataset::with()(['resources', 'resources.user', 'resources.format', 'license', 'user', 'topics', 'tags'])->find($id);
+      $dataset = Dataset::with(['resources', 'resources.user', 'resources.format', 'license', 'user', 'topics', 'tags'])->find($id);
 
       event(new Viewed($dataset));
       
