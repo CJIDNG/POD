@@ -25,6 +25,21 @@ export default [
     component: require("../../screens/admin/data/TopicsEdit").default
   },
   {
+    path: "/admin/data/tags",
+    name: "datatags",
+    component: require("../../screens/admin/data/TagsIndex").default
+  },
+  {
+    path: "/admin/data/tags/create",
+    name: "datatags-create",
+    component: require("../../screens/admin/data/TagsEdit").default
+  },
+  {
+    path: "/admin/data/tags/:id/edit",
+    name: "datatags-edit",
+    component: require("../../screens/admin/data/TagsEdit").default
+  },
+  {
     path: "/admin/data/formats",
     name: "formats",
     component: require("../../screens/admin/data/FormatsIndex").default

@@ -63,7 +63,7 @@
             </div>
           </infinite-loading>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 d-none d-md-block">
           <div class="card mb-5">
             <div class="card-header bg-danger text-white">
               {{ trans.app.topics }}

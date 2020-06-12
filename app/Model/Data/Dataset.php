@@ -160,6 +160,10 @@ class Dataset extends Model
     return $this->belongsToMany(Datatopic::class);
   }
 
+  public function tags(): BelongsToMany {
+    return $this->belongsToMany(Datatag::class);
+  }
+
   public function resources(): HasMany {
     return $this->hasMany(Dataresource::class);
   }
