@@ -171,6 +171,14 @@ class DefaultRolesAndPermissions
       'delete_datatopics',
 
       /**
+       * datatags permissions
+       */
+      'create_datatags',
+      'update_datatags',
+      'view_datatags',
+      'delete_datatags',
+
+      /**
        * products permissions
        */
       'create_products',

@@ -96,13 +96,13 @@
           </a>
           <ul class="collapse list-unstyled" id="dataSubmenu">
             <li>
-              <router-link to="/admin/data/stats">
-                <span>{{ trans.app.stats }}</span>
+              <router-link to="/admin/data/topics">
+                <span>{{ trans.app.topics }}</span>
               </router-link>
             </li>
             <li>
-              <router-link to="/admin/data/topics">
-                <span>{{ trans.app.topics }}</span>
+              <router-link to="/admin/data/tags">
+                <span>{{ trans.app.tags }}</span>
               </router-link>
             </li>
             <li>

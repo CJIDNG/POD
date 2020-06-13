@@ -6,14 +6,7 @@
       :image="metaImageUrl"
       :url="metaUrl"
     />
-    <page-header>
-      <template slot="action">
-        <router-link
-          :to="{ name: 'data' }"
-          class="btn btn-sm btn-outline-success font-weight-bold my-auto"
-        >{{ trans.app.datasets }}</router-link>
-      </template>
-    </page-header>
+    <page-header></page-header>
 
     <main class="py-4">
       <div v-if="isReady" class="col-xl-8 offset-xl-2 px-xl-5 col-md-12">

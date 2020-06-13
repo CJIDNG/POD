@@ -5,33 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="">
 
-    <meta property="fb:app_id" content="123456789">
-    <meta property="og:url" content="">
-    <meta property="og:type" content="">
-    <meta property="og:title" content="">
-    <meta property="og:image" content="">
-    <meta property="og:image:alt" content="">
-    <meta property="og:description" content="">
-    <meta property="og:site_name" content="">
-    <meta property="og:locale" content="en_US">
-    <meta property="article:author" content="">
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="{{ $meta['title'] }}">
+    <meta name="description" content="{{ $meta['summary'] ?? $meta['summaryFromBody'] }}">
 
-    <meta name="twitter:card" content="">
-    <meta name="twitter:site" content="">
-    <meta name="twitter:creator" content="">
-    <meta name="twitter:url" content="">
-    <meta name="twitter:title" content="">
-    <meta name="twitter:description" content="">
-    <meta name="twitter:image" content="">
-    <meta name="twitter:image:alt" content="">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ 'https://' . $currentTenant['hostname']['fqdn'] . $_SERVER['REQUEST_URI'] }}">
+    <meta property="og:title" content="{{ $meta['title'] }}">
+    <meta property="og:description" content="{{ $meta['summary'] ?? $meta['summaryFromBody'] }}">
+    <meta property="og:image" content="{{ 'https://' . $currentTenant['hostname']['fqdn'] . $meta['image'] }}">
 
-    <link rel="author" href="">
-    <link rel="publisher" href="">
-    <meta itemprop="name" content="">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="">
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ 'https://' . $currentTenant['hostname']['fqdn'] . $_SERVER['REQUEST_URI'] }}">
+    <meta property="twitter:title" content="{{ $meta['title'] }}">
+    <meta property="twitter:description" content="{{ $meta['summary'] ?? $meta['summaryFromBody'] }}">
+    <meta property="twitter:image" content="{{ 'https://' . $currentTenant['hostname']['fqdn'] . $meta['image'] }}">
 
     <meta name="google" content="notranslate">
 

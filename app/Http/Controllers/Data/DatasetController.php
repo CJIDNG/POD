@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Data;
 use App\Model\Data\{
   Dataset,
   Datatopic,
+  Datatag,
   Datalicense,
   Dataformat,
 };
@@ -109,11 +110,15 @@ class DatasetController extends \App\Http\Controllers\Controller
       $filterId = request('filterId');
       switch ($filter) {
         case 'license':
-          $datasets = \App\Datalicense::findOrFail($filterId)->datasets()->published()->latest(); 
+          $datasets = Datalicense::findOrFail($filterId)->datasets()->published()->latest(); 
           break;
 
         case 'topics':
-          $datasets = \App\Datatopic::findOrFail($filterId)->datasets()->published()->latest();
+          $datasets = Datatopic::findOrFail($filterId)->datasets()->published()->latest();
+          break;
+
+        case 'tags':
+          $datasets = Datatag::findOrFail($filterId)->datasets()->published()->latest();
           break;
 
         default:
@@ -152,10 +157,12 @@ class DatasetController extends \App\Http\Controllers\Controller
 
     if ($containsId || $this->isNewDataset($id)) {
       $topics = Datatopic::get(['id', 'name']);
+      $tags = Datatag::get(['id', 'name']);
       $licenses = Datalicense::get(['id', 'name']);
       $formats = Dataformat::get(['id', 'name', 'extension']);
 
       if ($this->isNewDataset($id)) {
+        // DB::connection('system')->statement('SET PERSIST information_schema_stats_expiry = 0');
         $statement = DB::connection('tenant')->select("SHOW TABLE STATUS LIKE 'datasets'");
         return response()->json([
           'dataset' => Dataset::make([
@@ -170,14 +177,15 @@ class DatasetController extends \App\Http\Controllers\Controller
         ], 200);
       } else {
         $dataset = $isAdminOrDataEditor ? 
-          Dataset::with('topics')->with(['resources', 'resources.user', 'resources.format', 'license', 'user'])->find($id) :
-          Dataset::forCurrentUser()->with('topics')->with(['resources', 'resources.user', 'resources.format', 'license', 'user'])->find($id);
+          Dataset::with(['resources', 'resources.user', 'resources.format', 'license', 'user', 'topics', 'tags'])->find($id) :
+          Dataset::forCurrentUser()->with(['resources', 'resources.user', 'resources.format', 'license', 'user', 'topics', 'tags'])->find($id);
 
         event(new Viewed($dataset));
 
         return response()->json([
           'dataset' => $dataset,
           'topics' => $topics,
+          'tags' => $tags,
           'licenses' => $licenses,
           'formats' => $formats
         ], 200); 
@@ -199,16 +207,18 @@ class DatasetController extends \App\Http\Controllers\Controller
 
     if ($containsId || $this->isNewDataset($id)) {
       $topics = Datatopic::get(['id', 'name']);
+      $tags = Datatag::get(['id', 'name']);
       $licenses = Datalicense::get(['id', 'name']);
       $formats = Dataformat::get(['id', 'name', 'extension']);
 
-      $dataset = Dataset::with('topics')->with(['resources', 'resources.user', 'resources.format', 'license', 'user'])->find($id);
+      $dataset = Dataset::with(['resources', 'resources.user', 'resources.format', 'license', 'user', 'topics', 'tags'])->find($id);
 
       event(new Viewed($dataset));
       
       return response()->json([
         'dataset' => $dataset,
         'topics' => $topics,
+        'tags' => $tags,
         'licenses' => $licenses,
         'formats' => $formats
       ], 200); 
@@ -259,6 +269,10 @@ class DatasetController extends \App\Http\Controllers\Controller
 
     $dataset->topics()->sync(
       $this->syncTopics(request('topics'))
+    );
+
+    $dataset->tags()->sync(
+      $this->syncTags(request('tags'))
     );
 
     return response()->json($dataset->refresh());
@@ -315,6 +329,35 @@ class DatasetController extends \App\Http\Controllers\Controller
         }
 
         return $topic->id;
+      })->toArray();
+    } else {
+      return [];
+    }
+  }
+
+  /**
+   * Attach or create a given tag.
+   *
+   * @param $incomingTag
+   * @return array
+   * @throws Exception
+   */
+  private function syncTags($incomingTag): array
+  {
+    if ($incomingTag) {
+      $tags = Datatag::get(['id', 'name']);
+
+      return collect($incomingTag)->map(function ($incomingTag) use ($tags) {
+        $tag = $tags->find($incomingTag['id']);
+
+        if (! $tag) {
+          $tag = Datatag::create([
+            'id' => NULL,
+            'name' => $incomingTag['name']
+          ]);
+        }
+
+        return $tag->id;
       })->toArray();
     } else {
       return [];

@@ -13,5 +13,8 @@
 
 Auth::routes();
 
+// blog post show route
+Route::get('/blog/{identifier}/{slug}', 'Controller')->name('blog-show');
+
 // Catch-all routes...
 Route::get('/{view?}', 'Controller')->where('view', '(.*)')->name('tenant');
