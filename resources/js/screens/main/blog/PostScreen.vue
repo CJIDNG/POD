@@ -177,6 +177,14 @@ export default {
     this.fetchData();
   },
 
+  // Server-side only
+  // This will be called by the server renderer automatically
+  serverPrefetch () {
+    // return the Promise from the action
+    // so that the component waits before rendering
+    return this.fetchData()
+  },
+
   updated() {
     document.querySelectorAll(".embedded_image img").forEach(image => {
       mediumZoom(image);

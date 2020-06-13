@@ -7,9 +7,13 @@ import { mutations } from './mutations'
 
 Vue.use(Vuex)
 
-export const store = new Vuex.Store({
-  state: state,
-  mutations: mutations,
-  actions: actions,
-  getters: getters,
-})
+export function createStore() {
+  const store = new Vuex.Store({
+    state: state,
+    mutations: mutations,
+    actions: actions,
+    getters: getters,
+  })
+
+  return store
+}
