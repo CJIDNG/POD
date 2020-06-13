@@ -12,14 +12,14 @@
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ 'https://' . $currentTenant['hostname']['fqdn'] }}">
+    <meta property="og:url" content="{{ 'https://' . $currentTenant['hostname']['fqdn'] . $_SERVER['REQUEST_URI'] }}">
     <meta property="og:title" content="{{ $meta['title'] }}">
     <meta property="og:description" content="{{ $meta['summary'] ?? $meta['summaryFromBody'] }}">
     <meta property="og:image" content="{{ 'https://' . $currentTenant['hostname']['fqdn'] . $meta['image'] }}">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="{{ 'https://' . $currentTenant['hostname']['fqdn'] }}">
+    <meta property="twitter:url" content="{{ 'https://' . $currentTenant['hostname']['fqdn'] . $_SERVER['REQUEST_URI'] }}">
     <meta property="twitter:title" content="{{ $meta['title'] }}">
     <meta property="twitter:description" content="{{ $meta['summary'] ?? $meta['summaryFromBody'] }}">
     <meta property="twitter:image" content="{{ 'https://' . $currentTenant['hostname']['fqdn'] . $meta['image'] }}">
