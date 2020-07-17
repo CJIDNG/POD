@@ -54,6 +54,7 @@
         "@ckeditor/ckeditor5-vue": "^1.0.1",
         "@types/leaflet": "^1.5.12",
         "bootstrap-icons": "^1.0.0-alpha2",
+        "bootstrap-vue": "^2.15.0",
         "datatables.net-bs4": "^1.10.20",
         "datatables.net-fixedheader-bs4": "^3.1.6",
         "datatables.net-responsive-bs4": "^2.2.3",

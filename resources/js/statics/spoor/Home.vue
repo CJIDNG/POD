@@ -1,157 +1,105 @@
 <template>
   <div>
     <page-header></page-header>
-
-    <main class="text-center">
-      <header class="masthead">
-        <div class="container h-100">
-          <div class="row h-100">
-            <div class="col-lg-7 my-auto">
-              <div class="header-content mx-auto">
-                <h1>
-                  SpoorAfrica.org
-                  <br />
-                  <small>
-                    A response to the most pervasive existential
-                    crises facing the nation: conflict and Terrorism.
-                  </small>
-                </h1>
-              </div>
-            </div>
-            <div class="col-lg-5 my-auto">
-              <div class="device-container">
-                <div class="device-mockup imac white">
-                  <div class="device">
-                    <div class="screen">
-                      <img src="/images/spoor/boko_haram_1.jpg" class="img-fluid" alt />
-                    </div>
-                    <div class="button"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
+    <div v-for="(post, index) in featuredPost" :key="index">
+      <router-link
+        :to="{ name: 'blog-post', params: { identifier: publicIdentifier(post), slug: post.slug } }"
+      >
+        <div class="banner-image-container">
+          <div
+            class="banner-image"
+            :style="{ height:'500px', background:
+            post.featured_image ? `url(${post.featured_image})` : 'grey', backgroundRepeat:'no-repeat', backgroundSize:'cover'}"
+          >
+            <span class="banner-desc">
+              <h3>{{ post.title }}</h3>
+              <small>
+                <b-icon-clock></b-icon-clock>
+                {{ moment(post.published_at).format('LL')}}
+              </small>
+            </span>
           </div>
         </div>
-      </header>
-
-      <section class="features" id="features">
-        <div class="container">
-          <div class="section-heading text-center">
-            <h2>What we do</h2>
-            <p class="text-muted">An initiative of PTCIJ</p>
-            <hr />
-          </div>
+      </router-link>
+    </div>
+    <div class="row">
+      <section class="col-sm-9 col-xs-6">
+        <div class="featured-posts">
+          <h4 class="text-uppercase font-weight-bold">Featured Research</h4>
           <div class="row">
-            <div class="col-lg-4 my-auto">
-              <div class="device-container">
-                <div class="device-mockup imac white">
-                  <div class="device">
-                    <div class="screen">
-                      <!-- Demo image for screen mockup, you can put an image here, some HTML, an animation, video, or anything else! -->
-                      <img src="/images/spoor/logo.png" class="img-fluid" alt />
-                    </div>
-                    <div class="button">
-                      <!-- You can hook the "home button" to some JavaScript events or just remove it -->
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-8 my-auto">
-              <div class="container-fluid">
-                <div class="row">
-                  <div class="col-lg-6">
-                    <div class="feature-item">
-                      <i class="icon-book-open text-primary"></i>
-                      <h3>Research</h3>
-                      <p class="text-muted">Systematic study and investigation into the elements</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-6">
-                    <div class="feature-item">
-                      <i class="icon-docs text-primary"></i>
-                      <h3>Policy Briefs</h3>
-                      <p class="text-muted">
-                        Concise summary of issues, options to deal with and
-                        recommendations on the best option.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-lg-6">
-                    <div class="feature-item">
-                      <i class="icon-graph text-primary"></i>
-                      <h3>Analytics</h3>
-                      <p
-                        class="text-muted"
-                      >Trends and Insights derived from data generated from research</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-6">
-                    <div class="feature-item">
-                      <i class="icon-chart text-primary"></i>
-                      <h3>Data</h3>
-                      <p class="text-muted">
-                        Collection, indexing and subsequent presentation of information
-                        in machine downloadable formats
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+            <div v-for="(post, index) in posts" :key="index" class="col-sm-4 col-xs-2">
+              <div class="featured-post mb-4">
+                <router-link
+                  :to="{ name: 'blog-post', params: { identifier: publicIdentifier(post), slug: post.slug } }"
+                >
+                  <img
+                    v-if="post.featured_image"
+                    :src="post.featured_image"
+                    class="card-img-top"
+                    :alt="post.featured_image_caption"
+                  />
+                  <img class="img-fluid" v-else v-holder="'img=500x250?auto=yes&theme=thumb'" />
+                </router-link>
 
-      <section class="cta text-white">
-        <div class="cta-content">
-          <div class="container"></div>
-        </div>
-        <div class="overlay"></div>
-      </section>
-
-      <section>
-        <div class="container">
-          <div class="card-deck">
-            <div v-for="(post, index) in posts" :key="index" class="card">
-              <router-link
-                :to="{ name: 'blog-post', params: { identifier: publicIdentifier(post), slug: post.slug } }"
-              >
-                <img
-                  v-if="post.featured_image"
-                  :src="post.featured_image"
-                  class="card-img-top"
-                  :alt="post.featured_image_caption"
-                />
-                <img class="img-fluid" v-else v-holder="'img=500x250?auto=yes&theme=thumb'" />
-              </router-link>
-              <div class="card-body">
-                <h5 class="card-title">
+                <h5 class="mt-2 mb-0">
                   <router-link
                     :to="{ name: 'blog-post', params: { identifier: publicIdentifier(post), slug: post.slug } }"
                   >{{ post.title }}</router-link>
                 </h5>
-                <p class="card-text" v-html="post.description"></p>
-                <p class="card-text">
-                  <small
-                    class="text-muted"
-                  >{{ moment(post.published_at).locale(CurrentTenant.locale).fromNow() }}</small>
-                </p>
+                <span class="post-time">
+                  <b-icon-clock></b-icon-clock>
+                  {{ moment(post.published_at).format('LL')}}
+                </span>
+                <p
+                  class="mb-1"
+                  v-if="post.summary ||post.meta.description"
+                >{{ trim(post.summary || post.meta.description, 50) }}</p>
               </div>
             </div>
           </div>
         </div>
+        <div class="featured-topics">
+          <div class="row">
+            <div
+              v-for="(data, index) in topicPosts"
+              :key="index"
+              class="col-sm-4 col-xs-3 topics-list mt-3 mb-3"
+            >
+              <h5 class="title">{{data.topic.name}}</h5>
+              <div v-for="(data, index) in data.posts" :key="index">
+                <router-link
+                  class="topics-link"
+                  :to="{ name: 'blog-post', params: { identifier: publicIdentifier(data), slug: data.slug } }"
+                >{{data.title}}</router-link>
+              </div>
+              <router-link
+                class="text-capitalize mt-4"
+                :to="{name: 'blog-topic-posts', params: { slug: data.topic.slug }}"
+              >All {{data.topic.name}}</router-link>
+            </div>
+          </div>
+        </div>
       </section>
-    </main>
+      <section class="col-sm-3 col-xs-2">
+        <div class="featured-resources">
+          <h4 class="text-uppercase font-weight-bold mb-3">Featured Resources</h4>
+          <div v-for="(dataset, index) in datasets" :key="index">
+            <h5 class="font-weight-bold mb-2">{{dataset.title}}</h5>
+            <div v-for="(data, index) in dataset.resources" :key="index">
+              <p>
+                <router-link :to="{name: 'data-show', params: { id: data.id }}">{{ data.title }}</router-link>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   </div>
 </template>
 
 <script>
 import moment from "moment";
 import NProgress from "nprogress";
-
 export default {
   name: "contact-index",
 
@@ -161,20 +109,26 @@ export default {
 
   data () {
     return {
+      featuredPost: [],
+      datasets: [],
+      topics: [],
       posts: [],
+      topicPosts: [],
       trans: JSON.parse(CurrentTenant.translations),
-      platform: CurrentTenant.platform
+      platform: CurrentTenant.platform,
     };
   },
 
   created () {
     this.fetchLatestPosts()
+    this.fetchTopicPosts()
+    this.fetchDatasets()
   },
 
   mounted () {
+    this.fetchAllTopics()
     NProgress.done()
   },
-
   methods: {
     fetchLatestPosts () {
       this.request()
@@ -184,72 +138,101 @@ export default {
           }
         })
         .then(response => {
-          this.posts = response.data.posts.splice(0, 3)
+          this.featuredPost = response.data.posts.slice(0, 1)
+          this.posts = response.data.posts.slice(1, 5)
           NProgress.done()
         })
         .catch(error => {
           NProgress.done()
         });
     },
+    async fetchAllTopics () {
+      await this.request()
+        .get("/api/v1/blog/topics/")
+        .then(response => {
+          this.topics = response.data
+          NProgress.done()
+        })
+        .catch(error => {
+          NProgress.done()
+        });
+    },
+    async fetchTopicPosts () {
+      await this.fetchAllTopics()
+      const topics = JSON.parse(JSON.stringify(this.topics))
+      const topicPostsArray = []
+      topics.map((items) => {
+        this.request()
+          .get("/api/v1/blog/topics/" + items.slug)
+          .then(response => {
+            topicPostsArray.push(response.data)
+            NProgress.done()
+          })
+          .catch(error => {
+            NProgress.done()
+          });
+      })
+      this.topicPosts = topicPostsArray;
+    },
+    async fetchDatasets () {
+      await this.request()
+        .get("/api/v1/data")
+        .then(response => {
+          this.datasets = response.data.data.slice(0, 9)
+          NProgress.done()
+        })
+        .catch(error => {
+          NProgress.done()
+        });
+    }
   }
+
 };
 </script>
 
 <style scoped>
 @import url("/device-mockups/device-mockups.min.css");
 @import url("/css/simple-line-icons.css");
-header.masthead {
+.featured-posts,
+.featured-topics,
+.featured-resources {
+  padding: 0 3rem;
+}
+.featured-posts h3 {
+  font-weight: bold;
+  padding-bottom: 1.5rem;
+}
+.featured-posts .card-img-top {
+  height: 150px;
+  border-radius: 0;
+}
+.featured-posts .post-time {
+  font-size: 0.8rem;
+  color: gray;
+}
+
+.banner-image-container {
   position: relative;
-  width: 100%;
-  padding-top: 150px;
-  padding-bottom: 100px;
-  color: white;
-  background: url("/images/narep/bg-pattern.png"), #eb5757;
-  background: url("/images/narep/bg-pattern.png"),
-    linear-gradient(to left, #eb5757, #000000);
 }
-
-header.masthead .header-content {
-  max-width: 500px;
-  margin-bottom: 100px;
-  text-align: center;
+.banner-desc {
+  background: rgba(255, 255, 255, 0.6);
+  position: absolute;
+  top: 60%;
+  padding: 10px 15px;
 }
-
-header.masthead .header-content h1 {
-  font-size: 30px;
+.topics-list .title {
+  text-transform: uppercase;
 }
-
-header.masthead .device-container {
-  max-width: 325px;
-  margin-right: auto;
-  margin-left: auto;
+.topics-list .topics-link {
+  font-weight: bolder;
 }
-
-header.masthead .device-container .screen img {
-  border-radius: 3px;
+.topics-list .topics-link:hover {
+  color: #2c7a0d;
+  text-decoration: none;
+  font-weight: bolder;
 }
-
-@media (min-width: 992px) {
-  header.masthead {
-    height: 100vh;
-    min-height: 775px;
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-  header.masthead .header-content {
-    margin-bottom: 0;
-    text-align: left;
-  }
-  header.masthead .header-content h1 {
-    font-size: 50px;
-  }
-  header.masthead .device-container {
-    max-width: 325px;
-  }
-}
-
 section {
-  padding: 100px 0;
+  padding: 50px 0;
 }
 
 section h2 {
@@ -278,7 +261,6 @@ section.download .badges .badge-link:last-child {
 section.download .badges .badge-link img {
   height: 60px;
 }
-
 @media (min-width: 768px) {
   section.download .badges .badge-link {
     display: inline-block;
@@ -424,5 +406,8 @@ section.contact ul.list-social li.social-google-plus a {
 
 section.contact ul.list-social li.social-google-plus a:hover {
   background-color: #d73925;
+}
+#carousel-1.carousel-inner.carousel-item {
+  display: none;
 }
 </style>

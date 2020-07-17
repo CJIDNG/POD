@@ -170,6 +170,11 @@ import moment from "moment";
 import NProgress from "nprogress";
 export default {
   name: "contact-index",
+
+  components: {
+
+  },
+
   data () {
     return {
       posts: [],
