@@ -365,6 +365,12 @@ export default {
       resource_id: 'create',
     };
   },
+  
+  watch: {
+    "dataset.description": function(val) {
+      this.update()
+    },
+  },
 
   beforeRouteEnter(to, from, next) {
     next(vm => {
