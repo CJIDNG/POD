@@ -11,9 +11,7 @@
 |
 */
 
-Auth::routes([
-  //'register' => false
-]);
+Auth::routes();
 
 // blog post show route
 Route::get('/blog/{identifier}/{slug}', 'Controller')->name('blog-show');
