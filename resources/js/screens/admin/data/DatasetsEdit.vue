@@ -131,18 +131,9 @@
 
       <main class="py-4" v-if="isReady">
         <div class="col-xl-8 offset-xl-2 px-xl-5 col-md-12">
-          <div class="form-group row my-3">
-            <textarea-autosize
-              :placeholder="trans.app.title"
-              class="form-control-lg form-control border-0 font-serif bg-transparent"
-              @input.native="update"
-              rows="1"
-              v-model="dataset.title"
-              :disabled="!canEdit"
-            />
-          </div>
+          <h1 class="my-3">{{ dataset.title }}</h1>
 
-          <quill-editor :value.sync="dataset.description" :readOnly="!canEdit"></quill-editor>
+          <div class="content-body mt-4 pb-3" v-html="dataset.description"></div>
 
           <h3>{{ trans.app.data_and_resources }}</h3>
 
@@ -333,7 +324,6 @@ import VueTextAreaAutosize from "vue-textarea-autosize";
 import PublishDatasetModal from "../../../components/global/modals/PublishDatasetModal";
 import DatasetSettingsModal from "../../../components/global/modals/DatasetSettingsModal";
 import NewResourceModal from "../../../components/global/modals/NewResourceModal";
-import QuillEditor from "../../../components/global/basic-editor/QuillEditor"
 
 Vue.use(VueTextAreaAutosize);
 
@@ -347,8 +337,7 @@ export default {
     ApproveModal,
     SubmitModal,
     DatasetSeoModal,
-    DatasetSettingsModal,
-    QuillEditor
+    DatasetSettingsModal
   },
 
   data() {
@@ -364,12 +353,6 @@ export default {
       trans: JSON.parse(CurrentTenant.translations),
       resource_id: 'create',
     };
-  },
-  
-  watch: {
-    "dataset.description": function(val) {
-      this.update()
-    },
   },
 
   beforeRouteEnter(to, from, next) {
