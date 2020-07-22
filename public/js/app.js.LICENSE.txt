@@ -32,14 +32,6 @@
  */
 
 /*!
- * BootstrapVue Icons, generated from Bootstrap Icons 1.0.0-alpha4
- *
- * @link https://icons.getbootstrap.com/
- * @license MIT
- * https://github.com/twbs/icons/blob/master/LICENSE.md
- */
-
-/*!
  * Chart.js v2.9.3
  * https://www.chartjs.org
  * (c) 2019 Chart.js Contributors
@@ -168,17 +160,6 @@
  * vue-textarea-autosize v1.1.1 
  * (c) 2019 Saymon
  * Released under the MIT License.
- */
-
-/*! 
-  * portal-vue © Thorsten Lünborg, 2019 
-  * 
-  * Version: 2.1.7
-  * 
-  * LICENCE: MIT 
-  * 
-  * https://github.com/linusborg/portal-vue
-  * 
  */
 
 /*! @preserve
