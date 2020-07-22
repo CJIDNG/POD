@@ -134,7 +134,7 @@ import Tooltip from "../../../directives/Tooltip";
 export default {
   name: "seo-modal",
 
-  data() {
+  data () {
     return {
       trans: JSON.parse(CurrentTenant.translations)
     };
@@ -147,16 +147,16 @@ export default {
   },
 
   methods: {
-    update: _.debounce(function(e) {
+    update: _.debounce(function (e) {
       this.$parent.$parent.save();
     }, 3000),
 
-    syncDescription() {
+    syncDescription () {
       this.activePost.meta.description = this.activePost.summary;
       this.$parent.$parent.save();
     },
 
-    syncTitle() {
+    syncTitle () {
       this.activePost.meta.title = this.activePost.title;
       this.$parent.$parent.save();
     }

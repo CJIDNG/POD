@@ -1,5 +1,7 @@
 const mix = require('laravel-mix');
-
+const path = require('path')
+// const PrerenderSPAPlugin = require('prerender-spa-plugin')
+// const HtmlWebpackPlugin = require('html-webpack-plugin');
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -12,13 +14,13 @@ const mix = require('laravel-mix');
  */
 
 mix.options({
-   uglify: {
-      uglifyOptions: {
-         compress: {
-            drop_console: true,
-         }
+  uglify: {
+    uglifyOptions: {
+      compress: {
+        drop_console: true,
       }
-   }
+    }
+  }
 });
 
 mix.setPublicPath('public')
@@ -50,7 +52,8 @@ mix.setPublicPath('public')
           test: /\.worker\.js$/,
           use: { loader: 'worker-loader' }
         }
-      ]
-    }
+      ],
+
+    },
   })
   .version();

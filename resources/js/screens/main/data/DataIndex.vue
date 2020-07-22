@@ -9,19 +9,17 @@
     <page-header></page-header>
 
     <main class="mt-5 col-md-10 mx-auto">
-      <h3 class="title mb-5">
-        {{ trans.app.datasets }}
-      </h3>
+      <h3 class="title mb-5">{{ trans.app.datasets }}</h3>
       <div class="row">
         <div class="col-md-8">
           <div class="w-100">
-            <input 
-              class="form-control" 
-              type="text" 
-              placeholder="Search" 
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Search"
               aria-label="Search"
               v-model="query"
-            >
+            />
           </div>
           <div
             v-for="(dataset, $index) in datasets"
@@ -37,27 +35,26 @@
               </p>
               <p class="mb-1" v-if="dataset.description">{{ trim(dataset.description, 200) }}</p>
               <p class="text-muted mb-0">
-                <span>{{ trans.app.author }} {{ dataset.user.name }} |</span> 
+                <span>{{ trans.app.author }} {{ dataset.user.name }} |</span>
                 <span>{{ dataset.resources.length }} {{ trans.app.resources }}</span>
               </p>
-              <p class="text-muted mb-0">
-                ― {{ trans.app.updated }} {{ moment(dataset.updated_at).locale(CurrentTenant.locale).fromNow() }}
-              </p>
+              <p
+                class="text-muted mb-0"
+              >― {{ trans.app.updated }} {{ moment(dataset.updated_at).locale(CurrentTenant.locale).fromNow() }}</p>
             </div>
           </div>
 
-          <infinite-loading 
+          <infinite-loading
             :identifier="infiniteId"
-            @infinite="fetchData" 
-            spinner="spiral" 
-            style="position: relative; top: 0">
+            @infinite="fetchData"
+            spinner="spiral"
+            style="position: relative; top: 0"
+          >
             <span slot="no-more"></span>
             <div slot="no-results" class="text-left">
               <div class="mt-5">
                 <p class="lead text-center text-muted mt-5 pt-5">
-                  <span>
-                    {{trans.app.you_have_no_results}}
-                  </span>
+                  <span>{{trans.app.you_have_no_results}}</span>
                 </p>
               </div>
             </div>
@@ -65,37 +62,31 @@
         </div>
         <div class="col-md-4 d-none d-md-block">
           <div class="card mb-5">
-            <div class="card-header bg-danger text-white">
-              {{ trans.app.topics }}
-            </div>
+            <div class="card-header bg-danger text-white">{{ trans.app.topics }}</div>
             <ul class="list-group list-group-flush">
-              <li 
-                class="list-group-item"
-                v-for="(topic, index) in topics" :key="index">
-                <input 
-                  type="radio" 
+              <li class="list-group-item" v-for="(topic, index) in topics" :key="index">
+                <input
+                  type="radio"
                   :value="topic.name"
-                  :id="'topic-'+topic.id" 
-                  v-model="filterName" 
-                  @change="setFilter('topics', topic.id)">
+                  :id="'topic-'+topic.id"
+                  v-model="filterName"
+                  @change="setFilter('topics', topic.id)"
+                />
                 <label :for="'topic-'+topic.id">{{ topic.name }}</label>
               </li>
             </ul>
           </div>
           <div class="card">
-            <div class="card-header bg-danger text-white">
-              {{ trans.app.licenses }}
-            </div>
+            <div class="card-header bg-danger text-white">{{ trans.app.licenses }}</div>
             <ul class="list-group list-group-flush">
-              <li 
-                class="list-group-item"
-                v-for="(license, index) in licenses" :key="index">
-                <input 
-                  type="radio" 
+              <li class="list-group-item" v-for="(license, index) in licenses" :key="index">
+                <input
+                  type="radio"
                   :value="license.name"
-                  :id="'license-'+license.id" 
-                  v-model="filterName" 
-                  @change="setFilter('license', license.id)">
+                  :id="'license-'+license.id"
+                  v-model="filterName"
+                  @change="setFilter('license', license.id)"
+                />
                 <label :for="'license-'+license.id">{{ license.name }}</label>
               </li>
             </ul>
@@ -120,7 +111,7 @@ export default {
     InfiniteLoading
   },
 
-  data() {
+  data () {
     return {
       page: 1,
       datasets: [],
@@ -140,11 +131,11 @@ export default {
     };
   },
 
-  created() {
+  created () {
     this.fetchFilters()
-    
+
     this.$nextTick(() => {
-      if(this.$route.params.filter &&
+      if (this.$route.params.filter &&
         this.$route.params.filterId) {
         this.setFilter(
           this.$route.params.filter,
@@ -153,11 +144,11 @@ export default {
         this.filterName = this.$route.params.filterName
       }
 
-      if(this.$route.query.query) {
+      if (this.$route.query.query) {
         this.setQuery(this.$route.query.query)
       }
     })
-    
+
   },
 
   watch: {
@@ -179,11 +170,11 @@ export default {
 
     query: function (val) {
       if (val === "") {
-        this.url = this.filterId ? 
+        this.url = this.filterId ?
           `/api/v1/data?filter=${this.filter}&&filterId=${this.filterId}` :
           "/api/v1/data"
       } else {
-        this.url = this.filterId ? 
+        this.url = this.filterId ?
           `/api/v1/data?filter=${this.filter}&&filterId=${this.filterId}&&query=${this.query}` :
           `/api/v1/data?query=${this.query}`
       }
@@ -195,7 +186,7 @@ export default {
   },
 
   methods: {
-    fetchData($state) {
+    fetchData ($state) {
       this.request()
         .get(this.url, {
           params: {
@@ -224,7 +215,7 @@ export default {
         });
     },
 
-    fetchFilters() {
+    fetchFilters () {
       // fetch agencies
       this.request()
         .get("/api/v1/datalicenses?all=1")
@@ -248,7 +239,7 @@ export default {
         })
     },
 
-    setFilter(filter, filterId) {
+    setFilter (filter, filterId) {
       this.filter = filter
       this.filterId = filterId
 
@@ -263,14 +254,14 @@ export default {
       this.infiniteId += 1;
     },
 
-    setQuery(query) {
+    setQuery (query) {
       this.query = query
       if (query === "") {
-        this.url = this.filterId ? 
+        this.url = this.filterId ?
           `/api/v1/data?filter=${this.filter}&&filterId=${this.filterId}` :
           "/api/v1/data"
       } else {
-        this.url = this.filterId ? 
+        this.url = this.filterId ?
           `/api/v1/data?filter=${this.filter}&&filterId=${this.filterId}&&query=${this.query}` :
           `/api/v1/data?query=${this.query}`
       }
