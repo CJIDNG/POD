@@ -31,11 +31,12 @@ class Controller extends BaseController
 
       if ($identifier) {
         $post = Post::where('slug', $slug)->with('user')->first();
-        $meta['title'] = $post->title;
-        $meta['summary'] = $post->summary;
-        $meta['summaryFromBody'] = substr(strip_tags($post->body), 200);
-        $meta['image'] = $post->featured_image;
-        $meta['author'] = $post->user->name;
+        $meta['title'] = $post->title ?? '';
+        $meta['summary'] = $post->summary ?? '';
+        $body = $post->body ?? '';
+        $meta['summaryFromBody'] = substr(strip_tags($body), 200);
+        $meta['image'] = $post->featured_image ?? '';
+        $meta['author'] = $post->user->name ?? '';
       }
 
       $currentTenant = new CurrentTenant();
