@@ -8,7 +8,7 @@
         :to="{name: 'home'}"
         class="btn btn-sm btn-outline-secondary"
       >Go home</router-link>
-    </navbar>-->
+    </navbar> -->
 
     <page-header></page-header>
 
@@ -20,6 +20,7 @@
           <h4 class="my-4 border-bottom mt-5 pb-2">
             <span class="border-bottom border-dark pb-2">{{ trans.app.all_posts }}</span>
           </h4>
+
           <post-list :posts="posts"></post-list>
         </main>
       </div>
@@ -41,7 +42,7 @@ export default {
     vueHeadful
   },
 
-  data () {
+  data() {
     return {
       posts: [],
       topic: null,
@@ -50,12 +51,12 @@ export default {
     };
   },
 
-  mounted () {
+  mounted() {
     this.fetchData();
   },
 
   methods: {
-    fetchData () {
+    fetchData() {
       this.request()
         .get("/api/v1/blog/topics/" + this.$route.params.slug)
         .then(response => {

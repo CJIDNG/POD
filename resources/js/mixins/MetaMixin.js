@@ -4,8 +4,8 @@ export default {
   components: {
     vueHeadful
   },
-
-  data () {
+  
+  data() {
     return {
       metaTitle: window.CurrentTenant.platform.name,
       metaDescription: window.CurrentTenant.platform.description,
@@ -15,19 +15,19 @@ export default {
   },
 
   methods: {
-    setMetaTitle (title) {
+    setMetaTitle(title) {
       this.metaTitle = title
     },
 
-    setMetaDescription (description) {
+    setMetaDescription(description) {
       this.metaDescription = description
     },
 
-    setMetaUrl (metaUrl) {
+    setMetaUrl(metaUrl) {
       this.metaUrl = metaUrl
     },
 
-    setMetaImageUrl (metaImageUrl) {
+    setMetaImageUrl(metaImageUrl) {
       this.metaImageUrl = `https://${window.CurrentTenant.platform.name}${metaImageUrl}`
     }
   }

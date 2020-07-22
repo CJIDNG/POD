@@ -10,7 +10,7 @@
         :to="{name: 'home'}"
         class="btn btn-sm btn-outline-secondary"
       >Go home</router-link>
-    </navbar>-->
+    </navbar> -->
 
     <div v-if="isReady" class="pt-5">
       <div class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 col-md-12 mt-3">
@@ -42,7 +42,7 @@ export default {
     vueHeadful
   },
 
-  data () {
+  data() {
     return {
       posts: [],
       tag: null,
@@ -50,12 +50,12 @@ export default {
     };
   },
 
-  mounted () {
+  mounted() {
     this.fetchData();
   },
 
   methods: {
-    fetchData () {
+    fetchData() {
       this.request()
         .get("/api/v1/blog/tags/" + this.$route.params.slug)
         .then(response => {
