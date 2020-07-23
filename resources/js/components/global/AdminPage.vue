@@ -58,7 +58,10 @@
             </li>
           </ul>
         </li>
-        <li class="dropdown" v-if="hasSubapp('blog')" :class="{'active': /admin\/posts/.test($route.path)}">
+        <li
+          class="dropdown" 
+          v-if="hasSubapp('blog')" 
+          :class="{'active': /admin\/posts/.test($route.path)}">
           <a
             href="#postSubmenu"
             data-toggle="collapse"

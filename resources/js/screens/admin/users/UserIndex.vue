@@ -31,7 +31,7 @@
                 </p>
               </div>
               <div class="ml-auto">
-                <span class="text-muted mr-3">{{ user.roles[0].name }}</span>
+                <span class="text-muted mr-3">{{ user.roles[0] ? user.roles[0].name : 'User' }}</span>
                 <span class="text-muted mr-3">{{ user.posts_count }} {{ trans.app.posts }}</span>
                 <span
                   class="d-none d-md-inline-block"
