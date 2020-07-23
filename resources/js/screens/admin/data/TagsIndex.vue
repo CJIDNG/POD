@@ -4,6 +4,7 @@
       <page-header>
         <template slot="action">
           <router-link
+            v-permission="['create_datatags']"
             :to="{ name: 'datatags-create' }"
             class="btn btn-sm btn-outline-success font-weight-bold my-auto"
           >{{ trans.app.new_tag }}</router-link>
