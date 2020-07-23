@@ -138,6 +138,10 @@
           </ul>
         </li>
         <li
+          v-permission="[
+            'create_trackers', 'update_trackers', 'view_trackers', 'delete_trackers',
+            'create_tracker_items', 'update_tracker_items', 'view_tracker_items', 'delete_tracker_items'
+          ]"
           v-if="hasSubapp('tracker')"
           class="dropdown" 
           :class="{'active': /admin\/trackers/.test($route.path) || /admin\/trackerItems/.test($route.path)}">
@@ -150,19 +154,24 @@
             <span>{{ trans.app.trackers }}</span>
           </a>
           <ul class="collapse list-unstyled" id="trackersSubmenu">
-            <li>
+            <li v-permission="['create_trackers', 'update_trackers', 'view_trackers', 'delete_trackers']">
               <router-link to="/admin/trackers">
                 <span>{{ trans.app.trackers }}</span>
               </router-link>
             </li>
-            <li>
+            <li v-permission="['create_tracker_items', 'update_tracker_items', 'view_tracker_items', 'delete_tracker_items']">
               <router-link :to="{ name: 'trackerItems-select' }">
                 <span>{{ trans.app.tracker_items }}</span>
               </router-link>
             </li>
           </ul>
         </li>
-        <li class="dropdown" 
+        <li 
+          v-permission="[
+            'view_users', 'view_own_users', 'create_users', 'update_users', 'update_own_users', 'delete_users', 'delete_own_users', 'change_users_password', 'change_users_own_password',
+            'create_roles', 'update_roles', 'view_roles', 'delete_roles'
+          ]"
+          class="dropdown" 
           :class="{'active': /admin\/users/.test($route.path) || /admin\/roles/.test($route.path)}">
           <a
             href="#usersSubmenu"
@@ -173,12 +182,12 @@
             <span>{{ trans.app.users }}</span>
           </a>
           <ul class="collapse list-unstyled" id="usersSubmenu">
-            <li>
+            <li v-permission="['create_roles', 'update_roles', 'view_roles', 'delete_roles']">
               <router-link to="/admin/roles">
                 <span>{{ trans.app.roles }}</span>
               </router-link>
             </li>
-            <li>
+            <li v-permission="['view_users', 'view_own_users', 'create_users', 'update_users', 'update_own_users', 'delete_users', 'delete_own_users', 'change_users_password', 'change_users_own_password']">
               <router-link to="/admin/users">
                 <span>{{ trans.app.users }}</span>
               </router-link>

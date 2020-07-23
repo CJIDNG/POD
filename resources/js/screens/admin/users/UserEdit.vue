@@ -14,6 +14,7 @@
         <template slot="action">
           <a
             href="#"
+            v-permission="['update_users', 'update_own_users']"
             class="btn btn-sm btn-outline-success font-weight-bold my-auto"
             :class="{ disabled: form.name === '' }"
             @click="saveUser"
@@ -52,6 +53,7 @@
               >{{ trans.app.new_user }}</router-link> -->
               <a
                 href="#"
+                v-permission="['delete_users', 'delete_own_users']"
                 class="dropdown-item text-danger"
                 @click="showDeleteModal"
               >{{ trans.app.delete }}</a>
