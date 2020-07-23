@@ -4,6 +4,7 @@
       <page-header>
         <template v-if="trackerId !== 'select'" slot="action">
           <router-link
+            v-permission="['create_tracker_items']"
             :to="{ name: 'trackerItems-create', params: { trackerId: trackerId } }"
             class="btn btn-sm btn-outline-success font-weight-bold my-auto"
           >{{ trans.app.new_tracker_item }}</router-link>
