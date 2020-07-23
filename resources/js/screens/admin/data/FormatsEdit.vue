@@ -14,6 +14,7 @@
         <template slot="action">
           <a
             href="#"
+            v-permission="['update_dataformats']"
             class="btn btn-sm btn-outline-success font-weight-bold my-auto"
             :class="{ disabled: form.name === '' }"
             @click="saveFormat"
@@ -48,6 +49,7 @@
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
               <a
                 href="#"
+                v-permission="['delete_dataformats']"
                 class="dropdown-item text-danger"
                 @click="showDeleteModal"
               >{{ trans.app.delete }}</a>
