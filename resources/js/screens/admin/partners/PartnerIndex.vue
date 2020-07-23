@@ -4,6 +4,7 @@
       <page-header>
         <template slot="action">
           <router-link
+            v-permission="['create_partners']"
             :to="{ name: 'partners-create' }"
             class="btn btn-sm btn-outline-success font-weight-bold my-auto"
           >{{ trans.app.new_partner }}</router-link>

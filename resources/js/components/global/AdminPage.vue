@@ -7,12 +7,20 @@
       </div>
 
       <ul class="list-unstyled components">
-        <li :class="{'active': /admin\/stats/.test($route.path)}">
+        <li v-if="isAdmin" :class="{'active': /admin\/stats/.test($route.path)}">
           <router-link to="/admin/stats">
             <span>{{ trans.app.analytics }}</span>
           </router-link>
         </li>
-        <li class="dropdown" :class="{'active': /admin\/partners/.test($route.path) || 
+        <li 
+          v-permission="[
+            'create_partners', 'update_partners', 'view_partners', 'delete_partners',
+            'create_designations', 'update_designations', 'view_designations', 'delete_designations',
+            'create_members', 'update_members', 'view_members', 'delete_members',
+            'create_services', 'update_services', 'view_services', 'delete_services',
+            'create_products', 'update_products', 'view_products', 'delete_products'
+          ]"
+          class="dropdown" :class="{'active': /admin\/partners/.test($route.path) || 
           /admin\/platforms/.test($route.path) || 
           /admin\/designations/.test($route.path) || 
           /admin\/members/.test($route.path) ||
@@ -26,32 +34,42 @@
             <span>{{ trans.app.platforms }}</span>
           </a>
           <ul class="collapse list-unstyled" id="platformSubmenu">
-            <li>
+            <li v-if="isAdmin">
               <router-link :to="`/admin/platforms/${CurrentTenant.platform.id}/edit`">
                 <span>{{ trans.app.platforms }}</span>
               </router-link>
             </li>
-            <li v-if="hasSubapp('partners')">
+            <li 
+              v-permission="['create_partners', 'update_partners', 'view_partners', 'delete_partners']"
+              v-if="hasSubapp('partners')">
               <router-link to="/admin/partners">
                 <span>{{ trans.app.partners }}</span>
               </router-link>
             </li>
-            <li v-if="hasSubapp('members')">
+            <li 
+              v-permission="['create_designations', 'update_designations', 'view_designations', 'delete_designations',]"
+              v-if="hasSubapp('members')">
               <router-link to="/admin/designations">
                 <span>{{ trans.app.designations }}</span>
               </router-link>
             </li>
-            <li v-if="hasSubapp('members')">
+            <li 
+              v-permission="['create_members', 'update_members', 'view_members', 'delete_members']"
+              v-if="hasSubapp('members')">
               <router-link to="/admin/members">
                 <span>{{ trans.app.members }}</span>
               </router-link>
             </li>
-            <li v-if="hasSubapp('services')">
+            <li 
+              v-permission="['create_services', 'update_services', 'view_services', 'delete_services']"
+              v-if="hasSubapp('services')">
               <router-link to="/admin/services">
                 <span>{{ trans.app.services }}</span>
               </router-link>
             </li>
-            <li v-if="hasSubapp('products')">
+            <li 
+              v-permission="['create_products', 'update_products', 'view_products', 'delete_products']"
+              v-if="hasSubapp('products')">
               <router-link to="/admin/products">
                 <span>{{ trans.app.products }}</span>
               </router-link>
