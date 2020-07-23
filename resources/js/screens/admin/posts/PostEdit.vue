@@ -26,6 +26,7 @@
         <template slot="action">
           <a
             v-if="isDraft"
+            v-permission="['update_posts', 'update_own_posts']"
             href="#"
             class="btn btn-sm btn-outline-success font-weight-bold my-auto"
             @click="showSubmitModal"
@@ -35,7 +36,8 @@
           </a>
 
           <a
-            v-if="isSubmitted && (isEditor || isAdmin)"
+            v-if="isSubmitted"
+            v-permission="['approve_posts']"
             href="#"
             class="btn btn-sm btn-outline-success font-weight-bold my-auto"
             @click="showApproveModal"
@@ -46,6 +48,7 @@
 
           <a
             v-if="isApproved"
+            v-permission="['publish_posts']"
             href="#"
             class="btn btn-sm btn-outline-success font-weight-bold my-auto"
             @click="showPublishModal"
@@ -96,30 +99,35 @@
               <div v-if="isPublished" class="dropdown-divider"></div>
               <a
                 v-if="canEdit"
+                v-permission="['update_posts', 'update_own_posts']"
                 href="#"
                 class="dropdown-item"
                 @click="showSettingsModal"
               >{{ trans.app.general_settings }}</a>
               <a
                 v-if="canEdit"
+                v-permission="['update_posts', 'update_own_posts']"
                 href="#"
                 class="dropdown-item"
                 @click="showFeaturedImageModal"
               >{{ trans.app.featured_image }}</a>
               <a
                 v-if="canEdit"
+                v-permission="['update_posts', 'update_own_posts']"
                 href="#"
                 class="dropdown-item"
                 @click="showSeoModal"
               >{{ trans.app.seo_settings }}</a>
               <a
                 v-if="canConvertToDraft"
+                v-permission="['update_posts', 'update_own_posts']"
                 href="#"
                 class="dropdown-item"
                 @click.prevent="convertToDraft"
               >{{ trans.app.convert_to_draft }}</a>
               <a
                 v-if="canDelete"
+                v-permission="['delete_posts', 'delete_own_posts']"
                 href="#"
                 class="dropdown-item text-danger"
                 @click="showDeleteModal"

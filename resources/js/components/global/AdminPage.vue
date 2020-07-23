@@ -58,7 +58,8 @@
             </li>
           </ul>
         </li>
-        <li
+        <li 
+          v-permission="['create_posts', 'update_posts', 'update_own_posts', 'view_posts', 'delete_posts', 'delete_own_posts', 'approve_posts', 'publish_posts']"
           class="dropdown" 
           v-if="hasSubapp('blog')" 
           :class="{'active': /admin\/posts/.test($route.path)}">

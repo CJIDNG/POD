@@ -13,12 +13,18 @@ import $ from 'jquery'
  */
 
 function hasPermissions(permissions) {
-  permissions.forEach(permission => {
-    if (CurrentTenant.user.permissions.includes(permission)) 
-      return true
-  })
+  let permitted = false
 
-  return false
+  for(let i = 0; i < permissions.length; i++) {
+    let permission = permissions[i]
+
+    if (CurrentTenant.user.permissions.includes(permission)) {
+      permitted = true
+      break;
+    }
+  }
+
+  return permitted
 }
 
 const Permission = {
@@ -29,6 +35,14 @@ const Permission = {
       $(el).hide()
     }
   },
+
+  componentUpdated(el, binding) {
+    let permissions = binding.value
+
+    if (Array.isArray(permissions) && !hasPermissions(permissions)) {
+      $(el).hide()
+    }
+  }
 }
 
 export default Permission
