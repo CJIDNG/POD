@@ -7,12 +7,20 @@
       </div>
 
       <ul class="list-unstyled components">
-        <li :class="{'active': /admin\/stats/.test($route.path)}">
+        <li v-if="isAdmin" :class="{'active': /admin\/stats/.test($route.path)}">
           <router-link to="/admin/stats">
             <span>{{ trans.app.analytics }}</span>
           </router-link>
         </li>
-        <li class="dropdown" :class="{'active': /admin\/partners/.test($route.path) || 
+        <li 
+          v-permission="[
+            'create_partners', 'update_partners', 'view_partners', 'delete_partners',
+            'create_designations', 'update_designations', 'view_designations', 'delete_designations',
+            'create_members', 'update_members', 'view_members', 'delete_members',
+            'create_services', 'update_services', 'view_services', 'delete_services',
+            'create_products', 'update_products', 'view_products', 'delete_products'
+          ]"
+          class="dropdown" :class="{'active': /admin\/partners/.test($route.path) || 
           /admin\/platforms/.test($route.path) || 
           /admin\/designations/.test($route.path) || 
           /admin\/members/.test($route.path) ||
@@ -26,39 +34,53 @@
             <span>{{ trans.app.platforms }}</span>
           </a>
           <ul class="collapse list-unstyled" id="platformSubmenu">
-            <li>
+            <li v-if="isAdmin">
               <router-link :to="`/admin/platforms/${CurrentTenant.platform.id}/edit`">
                 <span>{{ trans.app.platforms }}</span>
               </router-link>
             </li>
-            <li v-if="hasSubapp('partners')">
+            <li 
+              v-permission="['create_partners', 'update_partners', 'view_partners', 'delete_partners']"
+              v-if="hasSubapp('partners')">
               <router-link to="/admin/partners">
                 <span>{{ trans.app.partners }}</span>
               </router-link>
             </li>
-            <li v-if="hasSubapp('members')">
+            <li 
+              v-permission="['create_designations', 'update_designations', 'view_designations', 'delete_designations',]"
+              v-if="hasSubapp('members')">
               <router-link to="/admin/designations">
                 <span>{{ trans.app.designations }}</span>
               </router-link>
             </li>
-            <li v-if="hasSubapp('members')">
+            <li 
+              v-permission="['create_members', 'update_members', 'view_members', 'delete_members']"
+              v-if="hasSubapp('members')">
               <router-link to="/admin/members">
                 <span>{{ trans.app.members }}</span>
               </router-link>
             </li>
-            <li v-if="hasSubapp('services')">
+            <li 
+              v-permission="['create_services', 'update_services', 'view_services', 'delete_services']"
+              v-if="hasSubapp('services')">
               <router-link to="/admin/services">
                 <span>{{ trans.app.services }}</span>
               </router-link>
             </li>
-            <li v-if="hasSubapp('products')">
+            <li 
+              v-permission="['create_products', 'update_products', 'view_products', 'delete_products']"
+              v-if="hasSubapp('products')">
               <router-link to="/admin/products">
                 <span>{{ trans.app.products }}</span>
               </router-link>
             </li>
           </ul>
         </li>
-        <li class="dropdown" v-if="hasSubapp('blog')" :class="{'active': /admin\/posts/.test($route.path)}">
+        <li 
+          v-permission="['create_posts', 'update_posts', 'update_own_posts', 'view_posts', 'delete_posts', 'delete_own_posts', 'approve_posts', 'publish_posts']"
+          class="dropdown" 
+          v-if="hasSubapp('blog')" 
+          :class="{'active': /admin\/posts/.test($route.path)}">
           <a
             href="#postSubmenu"
             data-toggle="collapse"
@@ -85,7 +107,18 @@
             </li>
           </ul>
         </li>
-        <li class="dropdown" v-if="hasSubapp('data')" :class="{'active': /admin\/data/.test($route.path)}">
+        <li 
+          v-permission="[
+            'create_datasets', 'update_datasets', 'update_own_datasets', 'view_datasets', 'view_own_datasets', 'delete_datasets', 'delete_own_datasets', 'approve_datasets', 'publish_datasets',
+            'create_datatopics', 'update_datatopics', 'view_datatopics', 'delete_datatopics',
+            'create_datatags', 'update_datatags', 'view_datatags', 'delete_datatags',
+            'create_dataformats', 'update_dataformats', 'view_dataformats', 'delete_dataformats',
+            'create_datalicenses', 'update_datalicenses', 'view_datalicenses', 'delete_datalicenses',
+            'create_datasets', 'update_datasets', 'update_own_datasets', 'view_datasets', 'view_own_datasets', 'delete_datasets', 'delete_own_datasets', 'approve_datasets', 'publish_datasets'
+          ]"
+          class="dropdown" 
+          v-if="hasSubapp('data')" 
+          :class="{'active': /admin\/data/.test($route.path)}">
           <a
             href="#dataSubmenu"
             data-toggle="collapse"
@@ -95,27 +128,27 @@
             <span>{{ trans.app.data }}</span>
           </a>
           <ul class="collapse list-unstyled" id="dataSubmenu">
-            <li>
+            <li v-permission="['create_datatopics', 'update_datatopics', 'view_datatopics', 'delete_datatopics']">
               <router-link to="/admin/data/topics">
                 <span>{{ trans.app.topics }}</span>
               </router-link>
             </li>
-            <li>
+            <li v-permission="['create_datatags', 'update_datatags', 'view_datatags', 'delete_datatags']">
               <router-link to="/admin/data/tags">
                 <span>{{ trans.app.tags }}</span>
               </router-link>
             </li>
-            <li>
+            <li v-permission="['create_dataformats', 'update_dataformats', 'view_dataformats', 'delete_dataformats']">
               <router-link to="/admin/data/formats">
                 <span>{{ trans.app.format }}</span>
               </router-link>
             </li>
-            <li>
+            <li v-permission="['create_datalicenses', 'update_datalicenses', 'view_datalicenses', 'delete_datalicenses']">
               <router-link to="/admin/data/licenses">
                 <span>{{ trans.app.license }}</span>
               </router-link>
             </li>
-            <li>
+            <li v-permission="['create_datasets', 'update_datasets', 'update_own_datasets', 'view_datasets', 'view_own_datasets', 'delete_datasets', 'delete_own_datasets', 'approve_datasets', 'publish_datasets']">
               <router-link to="/admin/data/datasets">
                 <span>{{ trans.app.dataset }}</span>
               </router-link>
@@ -123,6 +156,10 @@
           </ul>
         </li>
         <li
+          v-permission="[
+            'create_trackers', 'update_trackers', 'view_trackers', 'delete_trackers',
+            'create_tracker_items', 'update_tracker_items', 'view_tracker_items', 'delete_tracker_items'
+          ]"
           v-if="hasSubapp('tracker')"
           class="dropdown" 
           :class="{'active': /admin\/trackers/.test($route.path) || /admin\/trackerItems/.test($route.path)}">
@@ -135,19 +172,24 @@
             <span>{{ trans.app.trackers }}</span>
           </a>
           <ul class="collapse list-unstyled" id="trackersSubmenu">
-            <li>
+            <li v-permission="['create_trackers', 'update_trackers', 'view_trackers', 'delete_trackers']">
               <router-link to="/admin/trackers">
                 <span>{{ trans.app.trackers }}</span>
               </router-link>
             </li>
-            <li>
+            <li v-permission="['create_tracker_items', 'update_tracker_items', 'view_tracker_items', 'delete_tracker_items']">
               <router-link :to="{ name: 'trackerItems-select' }">
                 <span>{{ trans.app.tracker_items }}</span>
               </router-link>
             </li>
           </ul>
         </li>
-        <li class="dropdown" 
+        <li 
+          v-permission="[
+            'view_users', 'view_own_users', 'create_users', 'update_users', 'update_own_users', 'delete_users', 'delete_own_users', 'change_users_password', 'change_users_own_password',
+            'create_roles', 'update_roles', 'view_roles', 'delete_roles'
+          ]"
+          class="dropdown" 
           :class="{'active': /admin\/users/.test($route.path) || /admin\/roles/.test($route.path)}">
           <a
             href="#usersSubmenu"
@@ -158,12 +200,12 @@
             <span>{{ trans.app.users }}</span>
           </a>
           <ul class="collapse list-unstyled" id="usersSubmenu">
-            <li>
+            <li v-permission="['create_roles', 'update_roles', 'view_roles', 'delete_roles']">
               <router-link to="/admin/roles">
                 <span>{{ trans.app.roles }}</span>
               </router-link>
             </li>
-            <li>
+            <li v-permission="['view_users', 'view_own_users', 'create_users', 'update_users', 'update_own_users', 'delete_users', 'delete_own_users', 'change_users_password', 'change_users_own_password']">
               <router-link to="/admin/users">
                 <span>{{ trans.app.users }}</span>
               </router-link>

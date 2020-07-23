@@ -7,6 +7,11 @@ export default {
       return window.CurrentTenant;
     },
 
+    isCustomRole() {
+      return this.CurrentTenant.user && 
+        this.CurrentTenant.user.roles.length > 0;
+    },
+
     isAdmin() {
       return this.CurrentTenant.user && this.CurrentTenant.user.roles.includes("Admin");
     },

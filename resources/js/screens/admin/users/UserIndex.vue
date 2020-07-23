@@ -4,6 +4,7 @@
       <page-header>
         <template slot="action">
           <router-link
+            v-permission="['create_users']"
             :to="{ name: 'users-create' }"
             class="btn btn-sm btn-outline-success font-weight-bold my-auto"
           >{{ trans.app.new_user }}</router-link>
@@ -31,7 +32,7 @@
                 </p>
               </div>
               <div class="ml-auto">
-                <span class="text-muted mr-3">{{ user.roles[0].name }}</span>
+                <span class="text-muted mr-3">{{ user.roles[0] ? user.roles[0].name : 'User' }}</span>
                 <span class="text-muted mr-3">{{ user.posts_count }} {{ trans.app.posts }}</span>
                 <span
                   class="d-none d-md-inline-block"

@@ -1,15 +1,5 @@
 export default [
   {
-    path: "/admin/data/stats",
-    name: "dataset-stats",
-    component: require("../../screens/admin/data/StatsIndex").default
-  },
-  {
-    path: "/admin/data/stats/:id",
-    name: "dataset-stats-show",
-    component: require("../../screens/admin/data/StatsShow").default
-  },
-  {
     path: "/admin/data/topics",
     name: "datatopics",
     component: require("../../screens/admin/data/TopicsIndex").default

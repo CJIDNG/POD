@@ -172,8 +172,8 @@
               <br />
               {{ user.email }}
             </h6>
-            <div v-if="isAdmin" class="dropdown-divider"></div>
-            <router-link v-if="isAdmin" to="/admin" class="dropdown-item">
+            <div v-if="isCustomRole" class="dropdown-divider"></div>
+            <router-link v-if="isCustomRole" to="/admin" class="dropdown-item">
               <span>{{ trans.app.admin }}</span>
             </router-link>
             <div class="dropdown-divider"></div>

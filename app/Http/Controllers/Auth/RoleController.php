@@ -87,7 +87,7 @@ class RoleController extends \App\Http\Controllers\Controller
 
     // $role->fill($data);
     // $role->save();
-    $role = Role::firstOrCreate(['name' => $data['name']]);
+    $role = Role::firstOrCreate(['guard_name' => 'web', 'name' => $data['name']]);
 
     // admin role has everything
     if($role->name === 'Admin') {

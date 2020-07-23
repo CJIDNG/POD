@@ -26,6 +26,7 @@
         <template slot="action">
           <a
             v-if="isDraft"
+            v-permission="['update_products']"
             href="#"
             class="btn btn-sm btn-outline-success font-weight-bold my-auto"
             @click="showSubmitModal"
@@ -35,7 +36,8 @@
           </a>
 
           <a
-            v-if="isSubmitted && (isDataEditor || isAdmin)"
+            v-if="isSubmitted"
+            v-permission="['update_products']"
             href="#"
             class="btn btn-sm btn-outline-success font-weight-bold my-auto"
             @click="showApproveModal"
@@ -46,6 +48,7 @@
 
           <a
             v-if="isApproved"
+            v-permission="['update_products']"
             href="#"
             class="btn btn-sm btn-outline-success font-weight-bold my-auto"
             @click="showPublishModal"
@@ -56,6 +59,7 @@
 
           <a
             v-if="isPublished"
+            v-permission="['update_products']"
             href="#"
             class="btn btn-sm btn-outline-success font-weight-bold my-auto"
             @click="save"
@@ -90,30 +94,35 @@
             <div class="dropdown-menu dropdown-menu-right">
               <a
                 v-if="canEdit"
+                v-permission="['update_products']"
                 href="#"
                 class="dropdown-item"
                 @click="showNewFeatureModal"
               >{{ trans.app.new_feature }}</a>
               <a
                 v-if="canEdit"
+                v-permission="['update_products']"
                 href="#"
                 class="dropdown-item"
                 @click="showNewMarketingModal"
               >{{ trans.app.new_marketing }}</a>
               <a
                 v-if="canEdit"
+                v-permission="['update_products']"
                 href="#"
                 class="dropdown-item"
                 @click="showLogoUploadModal"
               >{{ trans.app.upload_logo }}</a>
               <a
                 v-if="canConvertToDraft"
+                v-permission="['update_products']"
                 href="#"
                 class="dropdown-item"
                 @click.prevent="convertToDraft"
               >{{ trans.app.convert_to_draft }}</a>
               <a
                 v-if="canDelete"
+                v-permission="['delete_products']"
                 href="#"
                 class="dropdown-item text-danger"
                 @click="showDeleteModal"

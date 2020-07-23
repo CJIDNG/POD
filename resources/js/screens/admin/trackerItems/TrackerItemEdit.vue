@@ -14,6 +14,7 @@
         <template slot="action">
           <a
             href="#"
+            v-permission="['update_tracker_items']"
             class="btn btn-sm btn-outline-success font-weight-bold my-auto mr-3"
             @click="saveTrackedItem"
             :aria-label="trans.app.save"
@@ -22,6 +23,7 @@
           <a
             v-if="!form.confirmed"
             href="#"
+            v-permission="['update_tracker_items']"
             class="btn btn-sm btn-outline-success font-weight-bold my-auto"
             @click="() => {form.confirmed = true; saveTrackedItem()}"
             :aria-label="trans.app.verify"
@@ -55,6 +57,7 @@
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
               <a
                 href="#"
+                v-permission="['delete_tracker_items']"
                 class="dropdown-item text-danger"
                 @click="showDeleteModal"
               >{{ trans.app.delete }}</a>

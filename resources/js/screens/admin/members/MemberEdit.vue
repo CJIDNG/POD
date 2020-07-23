@@ -14,6 +14,7 @@
         <template slot="action">
           <a
             href="#"
+            v-permission="['update_members']"
             class="btn btn-sm btn-outline-success font-weight-bold my-auto"
             :class="{ disabled: form.name === '' }"
             @click="saveMember"
@@ -48,11 +49,13 @@
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
               <a
                 href="#"
+                v-permission="['update_members']"
                 class="dropdown-item"
                 @click="showImageUploadModal"
               >{{ trans.app.upload_thumbnail }}</a>
               <a
                 href="#"
+                v-permission="['delete_members']"
                 class="dropdown-item text-danger"
                 @click="showDeleteModal"
               >{{ trans.app.delete }}</a>
