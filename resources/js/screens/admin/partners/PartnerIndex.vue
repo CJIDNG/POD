@@ -81,9 +81,7 @@ export default {
   },
 
   created() {
-    if (!this.isAdmin) {
-      this.$router.push({ name: "home" });
-    }
+    
   },
 
   methods: {
