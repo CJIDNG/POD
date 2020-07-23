@@ -89,7 +89,11 @@
             </li>
           </ul>
         </li>
-        <li class="dropdown" v-if="hasSubapp('data')" :class="{'active': /admin\/data/.test($route.path)}">
+        <li 
+          v-permission="['create_datasets', 'update_datasets', 'update_own_datasets', 'view_datasets', 'view_own_datasets', 'delete_datasets', 'delete_own_datasets', 'approve_datasets', 'publish_datasets']"
+          class="dropdown" 
+          v-if="hasSubapp('data')" 
+          :class="{'active': /admin\/data/.test($route.path)}">
           <a
             href="#dataSubmenu"
             data-toggle="collapse"
