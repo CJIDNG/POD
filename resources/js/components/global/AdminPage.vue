@@ -90,7 +90,14 @@
           </ul>
         </li>
         <li 
-          v-permission="['create_datasets', 'update_datasets', 'update_own_datasets', 'view_datasets', 'view_own_datasets', 'delete_datasets', 'delete_own_datasets', 'approve_datasets', 'publish_datasets']"
+          v-permission="[
+            'create_datasets', 'update_datasets', 'update_own_datasets', 'view_datasets', 'view_own_datasets', 'delete_datasets', 'delete_own_datasets', 'approve_datasets', 'publish_datasets',
+            'create_datatopics', 'update_datatopics', 'view_datatopics', 'delete_datatopics',
+            'create_datatags', 'update_datatags', 'view_datatags', 'delete_datatags',
+            'create_dataformats', 'update_dataformats', 'view_dataformats', 'delete_dataformats',
+            'create_datalicenses', 'update_datalicenses', 'view_datalicenses', 'delete_datalicenses',
+            'create_datasets', 'update_datasets', 'update_own_datasets', 'view_datasets', 'view_own_datasets', 'delete_datasets', 'delete_own_datasets', 'approve_datasets', 'publish_datasets'
+          ]"
           class="dropdown" 
           v-if="hasSubapp('data')" 
           :class="{'active': /admin\/data/.test($route.path)}">
@@ -103,27 +110,27 @@
             <span>{{ trans.app.data }}</span>
           </a>
           <ul class="collapse list-unstyled" id="dataSubmenu">
-            <li>
+            <li v-permission="['create_datatopics', 'update_datatopics', 'view_datatopics', 'delete_datatopics']">
               <router-link to="/admin/data/topics">
                 <span>{{ trans.app.topics }}</span>
               </router-link>
             </li>
-            <li>
+            <li v-permission="['create_datatags', 'update_datatags', 'view_datatags', 'delete_datatags']">
               <router-link to="/admin/data/tags">
                 <span>{{ trans.app.tags }}</span>
               </router-link>
             </li>
-            <li>
+            <li v-permission="['create_dataformats', 'update_dataformats', 'view_dataformats', 'delete_dataformats']">
               <router-link to="/admin/data/formats">
                 <span>{{ trans.app.format }}</span>
               </router-link>
             </li>
-            <li>
+            <li v-permission="['create_datalicenses', 'update_datalicenses', 'view_datalicenses', 'delete_datalicenses']">
               <router-link to="/admin/data/licenses">
                 <span>{{ trans.app.license }}</span>
               </router-link>
             </li>
-            <li>
+            <li v-permission="['create_datasets', 'update_datasets', 'update_own_datasets', 'view_datasets', 'view_own_datasets', 'delete_datasets', 'delete_own_datasets', 'approve_datasets', 'publish_datasets']">
               <router-link to="/admin/data/datasets">
                 <span>{{ trans.app.dataset }}</span>
               </router-link>
