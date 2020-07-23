@@ -14,6 +14,7 @@
         <template slot="action">
           <a
             href="#"
+            v-permission="['update_datatopics']"
             class="btn btn-sm btn-outline-success font-weight-bold my-auto"
             :class="{ disabled: form.name === '' }"
             @click="saveTopic"
@@ -48,6 +49,7 @@
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
               <a
                 href="#"
+                v-permission="['delete_datatopics']"
                 class="dropdown-item text-danger"
                 @click="showDeleteModal"
               >{{ trans.app.delete }}</a>
