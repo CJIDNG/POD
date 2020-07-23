@@ -4,6 +4,7 @@
       <page-header>
         <template slot="action">
           <router-link
+            v-permission="['create_products']"
             :to="{ name: 'products-create' }"
             class="btn btn-sm btn-outline-success font-weight-bold my-auto"
           >{{ trans.app.new_product }}</router-link>

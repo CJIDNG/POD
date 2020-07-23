@@ -26,6 +26,7 @@
         <template slot="action">
           <a
             v-if="isDraft"
+            v-permission="['update_datasets', 'update_own_datasets']"
             href="#"
             class="btn btn-sm btn-outline-success font-weight-bold my-auto"
             @click="showSubmitModal"
@@ -35,7 +36,8 @@
           </a>
 
           <a
-            v-if="isSubmitted && (isDataEditor || isAdmin)"
+            v-if="isSubmitted"
+            v-permission="['approve_datasets']"
             href="#"
             class="btn btn-sm btn-outline-success font-weight-bold my-auto"
             @click="showApproveModal"
@@ -46,6 +48,7 @@
 
           <a
             v-if="isApproved"
+            v-permission="['publish_datasets']"
             href="#"
             class="btn btn-sm btn-outline-success font-weight-bold my-auto"
             @click="showPublishModal"
@@ -96,30 +99,35 @@
               <div v-if="isPublished" class="dropdown-divider"></div>
               <a
                 v-if="canEdit"
+                v-permission="['update_datasets', 'update_own_datasets']"
                 href="#"
                 class="dropdown-item"
                 @click="showSettingsModal"
               >{{ trans.app.general_settings }}</a>
               <a
                 v-if="canEdit"
+                v-permission="['update_datasets', 'update_own_datasets']"
                 href="#"
                 class="dropdown-item"
                 @click="showNewResourceModal()"
               >{{ trans.app.new_resource }}</a>
               <a
                 v-if="canEdit"
+                v-permission="['update_datasets', 'update_own_datasets']"
                 href="#"
                 class="dropdown-item"
                 @click="showDatasetSeoModal"
               >{{ trans.app.seo_settings }}</a>
               <a
                 v-if="canConvertToDraft"
+                v-permission="['update_datasets', 'update_own_datasets']"
                 href="#"
                 class="dropdown-item"
                 @click.prevent="convertToDraft"
               >{{ trans.app.convert_to_draft }}</a>
               <a
                 v-if="canDelete"
+                v-permission="['delete_datasets', 'delete_own_datasets']"
                 href="#"
                 class="dropdown-item text-danger"
                 @click="showDeleteModal"
@@ -131,9 +139,18 @@
 
       <main class="py-4" v-if="isReady">
         <div class="col-xl-8 offset-xl-2 px-xl-5 col-md-12">
-          <h1 class="my-3">{{ dataset.title }}</h1>
+          <div class="form-group row my-3">
+            <textarea-autosize
+              :placeholder="trans.app.title"
+              class="form-control-lg form-control border-0 font-serif bg-transparent"
+              @input.native="update"
+              rows="1"
+              v-model="dataset.title"
+              :disabled="!canEdit"
+            />
+          </div>
 
-          <div class="content-body mt-4 pb-3" v-html="dataset.description"></div>
+          <quill-editor :value.sync="dataset.description" :readOnly="!canEdit"></quill-editor>
 
           <h3>{{ trans.app.data_and_resources }}</h3>
 
@@ -324,6 +341,7 @@ import VueTextAreaAutosize from "vue-textarea-autosize";
 import PublishDatasetModal from "../../../components/global/modals/PublishDatasetModal";
 import DatasetSettingsModal from "../../../components/global/modals/DatasetSettingsModal";
 import NewResourceModal from "../../../components/global/modals/NewResourceModal";
+import QuillEditor from "../../../components/global/basic-editor/QuillEditor"
 
 Vue.use(VueTextAreaAutosize);
 
@@ -337,7 +355,8 @@ export default {
     ApproveModal,
     SubmitModal,
     DatasetSeoModal,
-    DatasetSettingsModal
+    DatasetSettingsModal,
+    QuillEditor,
   },
 
   data() {

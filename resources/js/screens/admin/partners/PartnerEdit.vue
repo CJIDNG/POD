@@ -14,6 +14,7 @@
         <template slot="action">
           <a
             href="#"
+            v-permission="['update_partners']"
             class="btn btn-sm btn-outline-success font-weight-bold my-auto"
             :class="{ disabled: form.name === '' }"
             @click="savePartner"
@@ -53,6 +54,7 @@
               >{{ trans.app.upload_logo }}</a>
               <a
                 href="#"
+                v-permission="['delete_partners']"
                 class="dropdown-item text-danger"
                 @click="showDeleteModal"
               >{{ trans.app.delete }}</a>
