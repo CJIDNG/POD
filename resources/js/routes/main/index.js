@@ -43,6 +43,11 @@ let mainRoutes = [
     component: require('../../screens/main/settings/SettingsShow').default,
   },
   {
+    path: '/faac-facts',
+    name: 'faac-facts',
+    component: require('../../statics/narep/faac-facts/Home.vue').default,
+  },
+  {
     path: '*',
     name: 'catch-all',
     redirect: '/',

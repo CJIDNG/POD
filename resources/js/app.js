@@ -66,12 +66,12 @@ const app = new Vue({
     avatar: CurrentTenant.avatar
   },
 
-  mounted() {
+  mounted () {
     this.$root.$on('updateAvatar', this.updateAvatar)
   },
 
   methods: {
-    updateAvatar(url) {
+    updateAvatar (url) {
       this.$root.avatar = url
     }
   }
