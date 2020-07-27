@@ -4,7 +4,6 @@ import member from './member'
 import product from './product'
 import trackerItem from './trackerItem'
 import { hasSubapp } from './../../util/has-subapp'
-
 let mainRoutes = [
   {
     path: '/',
@@ -40,6 +39,11 @@ let mainRoutes = [
     path: '/settings',
     name: 'main-settings-show',
     component: require('../../screens/main/settings/SettingsShow').default,
+  },
+  {
+    path: '/faac-facts',
+    name: 'faac-facts',
+    component: require('../../statics/narep/faac-facts/Home.vue').default,
   },
   {
     path: '*',
