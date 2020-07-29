@@ -3,6 +3,8 @@ import data from './data'
 import member from './member'
 import product from './product'
 import trackerItem from './trackerItem'
+import faacFacts from '../faac-facts/faac-facts'
+
 import { hasSubapp } from './../../util/has-subapp'
 let mainRoutes = [
   {
@@ -41,16 +43,12 @@ let mainRoutes = [
     component: require('../../screens/main/settings/SettingsShow').default,
   },
   {
-    path: '/faac-facts',
-    name: 'faac-facts',
-    component: require('../../statics/narep/faac-facts/Home.vue').default,
-  },
-  {
     path: '*',
     name: 'catch-all',
     redirect: '/',
   },
 ]
+mainRoutes.push(...faacFacts)
 
 if (hasSubapp('blog')) {
   mainRoutes.push(...blog)

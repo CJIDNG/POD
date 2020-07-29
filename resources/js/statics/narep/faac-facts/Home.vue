@@ -1,17 +1,8 @@
 <template>
   <div>
+    <PageHeader />
     <div class="wrapper">
-      <div class="landing-header" :style="{ backgroundImage: `url(${backgroundUrl})` }">
-        <div class="container">
-          <div class="motto">
-            <h1 class="title-uppercase">FAAC Figures</h1>
-            <h3>
-              Demystifying the figures behind
-              <br />monthly allocations!
-            </h3>
-          </div>
-        </div>
-      </div>
+      <PageBanner />
       <div class="main">
         <div class="section text-center landing-section">
           <div class="container">
@@ -40,72 +31,43 @@
         <div class="section section-dark text-center landing-section">
           <div class="container">
             <h2>Overview of FAAC Disbursement (2007 - 2018)</h2>
-            <TableauHolder />
+            <TableauHolder :url="url" />
           </div>
         </div>
-        <div class="section landing-section">
-          <div class="container">
-            <div class="row d-flex justify-content-center">
-              <div class="col-md-8 col-md-offset-2">
-                <h2 class="text-center">Make a Request</h2>
-                <br />
-                <h5>
-                  If you can't find what you need, please reach out to
-                  <a
-                    href="mailto:akintunde@ptcij.org?subject=I NEED HELP WITH FAAC DATA"
-                  >
-                    Akintunde
-                    Babatunde.
-                  </a>
-                </h5>
-              </div>
-            </div>
-          </div>
-        </div>
+        <PageCTA />
+        <PageFooter />
       </div>
     </div>
-    <footer class="footer-demo section-dark">
-      <div class="container d-flex justify-content-center">
-        <nav class="pull-left">
-          <ul>
-            <li>
-              <a href="https://ptcij.org">PTCIJ</a>
-            </li>
-
-            <li>
-              <a
-                href="https://www.premiumtimesng.com/tag/federation-accounts-allocation-committee"
-              >FAAC Stories</a>
-            </li>
-            <li>
-              <router-link
-                to="/"
-              >{{ CurrentTenant.platform.display_name || CurrentTenant.platform.name || CurrentTenant.hostname.fqdn }}</router-link>
-            </li>
-          </ul>
-        </nav>
-        <div class="copyright pull-right">&copy; 2019, made for you by PTCIJ</div>
-      </div>
-    </footer>
   </div>
 </template>
 <script>
 import TableauHolder from './TableauHolder'
-import backgroundUrl from '../../../../../public/images/narep/paper_img/nigeria_FAAC.png'
+import PageHeader from './components/PageHeader'
+import PageFooter from './components/PageFooter'
+import PageCTA from './components/PageCTA'
+import PageBanner from './components/PageBanner'
 export default {
   name: 'faac-facts',
   data () {
     return {
-      backgroundUrl
+      url: "https://public.tableau.com/views/2007-2008FAACAllocation/Dashboard1?:embed=y&:showVizHome=no&:host_url=https%3A%2F%2Fpublic.tableau.com%2F&:embed_code_version=3&:tabs=no&:toolbar=yes&:animate_transition=yes&:display_static_image=no&:display_spinner=no&:display_overlay=yes&:display_count=yes&publish=yes&:loadOrderID=0"
     }
   },
   components: {
-    TableauHolder
+    TableauHolder,
+    PageFooter,
+    PageCTA,
+    PageBanner,
+    PageHeader
   }
 }
 </script>
 <style lang="scss" scoped>
 @import "../../../../../resources/sass/ct-paper.scss";
 @import "../../../../../resources/sass/examples.scss";
-@import "../../../../../resources/sass/demo.scss";
+.wrapper {
+  color: #66615b;
+  font-size: 16px;
+  font-family: "Montserrat", "Helvetica", Arial, sans-serif;
+}
 </style>
