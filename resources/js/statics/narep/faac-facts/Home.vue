@@ -21,6 +21,7 @@
                 <h5>
                   The legislation backing the FAAC can be found
                   <a
+                    target="_blank"
                     href="http://lawnigeria.com/LawsoftheFederation/ALLOCATION-OF-REVENUE-%28FEDERATION-ACCOUNT,-ETC.%29-ACT.html"
                   >here</a>.
                 </h5>
@@ -41,7 +42,7 @@
   </div>
 </template>
 <script>
-import TableauHolder from './TableauHolder'
+import TableauHolder from './components/TableauHolder'
 import PageHeader from './components/PageHeader'
 import PageFooter from './components/PageFooter'
 import PageCTA from './components/PageCTA'
