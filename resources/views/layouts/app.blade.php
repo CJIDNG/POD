@@ -53,7 +53,9 @@
                 {{ app(\Hyn\Tenancy\Environment::class)->hostname()->fqdn }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px">
+                    <path fill="#607D8B" d="M6 22H42V26H6zM6 10H42V14H6zM6 34H42V38H6z" />
+                  </svg>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
