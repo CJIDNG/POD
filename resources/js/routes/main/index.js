@@ -3,8 +3,9 @@ import data from './data'
 import member from './member'
 import product from './product'
 import trackerItem from './trackerItem'
-import { hasSubapp } from './../../util/has-subapp'
+import faacFacts from '../faac-facts/faac-facts'
 
+import { hasSubapp } from './../../util/has-subapp'
 let mainRoutes = [
   {
     path: '/',
@@ -47,6 +48,7 @@ let mainRoutes = [
     redirect: '/',
   },
 ]
+mainRoutes.push(...faacFacts)
 
 if (hasSubapp('blog')) {
   mainRoutes.push(...blog)

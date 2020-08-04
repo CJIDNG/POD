@@ -1,14 +1,22 @@
 <template>
   <div class="shadow">
     <div class="col-xl-10 offset-xl-1 px-xl-5 col-md-12">
-      <nav 
-        class="navbar navbar-expand-lg ">
+      <nav class="navbar navbar-expand-lg">
         <button v-if="isAdminPage" type="button" id="sidebarCollapse" class="btn btn-icon">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px">
             <path fill="#607D8B" d="M6 22H42V26H6zM6 10H42V14H6zM6 34H42V38H6z" />
           </svg>
         </button>
-        <button v-else class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <button
+          v-else
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px">
             <path fill="#607D8B" d="M6 22H42V26H6zM6 10H42V14H6zM6 34H42V38H6z" />
           </svg>
@@ -31,115 +39,84 @@
 
         <div v-if="!isAdminPage" class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav ml-auto">
-            <router-link
-              class="nav-item nav-link" 
-              to="/blog"
-              v-if="hasSubapp('blog')"
-            >
-              {{ 
-                /spoor/.test(this.CurrentTenant.platform.name) ?
-                'Reasearch' :
-                trans.app.blog
+            <router-link class="nav-item nav-link" to="/blog" v-if="hasSubapp('blog')">
+              {{
+              /spoor/.test(this.CurrentTenant.platform.name) ?
+              'Reasearch' :
+              trans.app.blog
               }}
             </router-link>
             <li v-if="hasSubapp('products')" class="nav-item dropdown">
-              <a 
-                class="nav-link dropdown-toggle" 
-                href="#" id="productDropdown" 
-                role="button" 
-                data-toggle="dropdown" 
-                aria-haspopup="true" 
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="productDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
                 aria-expanded="false"
-              >
-                {{ trans.app.products }}
-              </a>
-              <div 
-                class="dropdown-menu" 
-                aria-labelledby="productDropdown"
-              >
-                <router-link 
+              >{{ trans.app.products }}</a>
+              <div class="dropdown-menu" aria-labelledby="productDropdown">
+                <router-link
                   v-for="(product, index) in products"
                   :key="index"
-                  class="dropdown-item" 
-                  :to="{name: 'products-show', params: { id: product.id }}">
-                  {{ product.name }}
-                </router-link>
+                  class="dropdown-item"
+                  :to="{name: 'products-show', params: { id: product.id }}"
+                >{{ product.name }}</router-link>
               </div>
             </li>
             <li v-if="hasSubapp('tracker')" class="nav-item dropdown">
-              <a 
-                class="nav-link dropdown-toggle" 
-                href="#" id="trackerDropdown" 
-                role="button" 
-                data-toggle="dropdown" 
-                aria-haspopup="true" 
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="trackerDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
                 aria-expanded="false"
-              >
-                {{ trans.app.trackers }}
-              </a>
-              <div 
-                class="dropdown-menu" 
-                aria-labelledby="trackerDropdown"
-              >
-                <router-link 
+              >{{ trans.app.trackers }}</a>
+              <div class="dropdown-menu" aria-labelledby="trackerDropdown">
+                <router-link
                   v-for="(tracker, index) in trackers"
                   :key="index"
-                  class="dropdown-item" 
-                  :to="{name: 'trackerItems-main', params: { trackerId: tracker.id }}">
-                  {{ tracker.name }}
-                </router-link>
+                  class="dropdown-item"
+                  :to="{name: 'trackerItems-main', params: { trackerId: tracker.id }}"
+                >{{ tracker.name }}</router-link>
               </div>
             </li>
             <router-link
-              class="nav-item nav-link" 
+              class="nav-item nav-link"
               to="/data"
               v-if="hasSubapp('data') && !/ptdata/.test(this.CurrentTenant.platform.name)"
-            >
-              {{ trans.app.data }}
-            </router-link>
+            >{{ trans.app.data }}</router-link>
             <router-link
-              class="nav-item nav-link" 
+              class="nav-item nav-link"
               to="/"
               v-if="/ptdata/.test(this.CurrentTenant.platform.name)"
-            >
-              {{ trans.app.home }}
-            </router-link>
+            >{{ trans.app.home }}</router-link>
             <router-link
-              class="nav-item nav-link" 
+              class="nav-item nav-link"
               to="/data"
               v-if="/ptdata/.test(this.CurrentTenant.platform.name)"
-            >
-              {{ trans.app.datasets }}
-            </router-link>
-            <a 
-              class="nav-item nav-link" 
-              v-if="/narepng/.test(this.CurrentTenant.platform.name)" 
-              href="https://faacfacts.ptcij.org/"
-              target="_blank">
-              FAAC Facts
-            </a>
+            >{{ trans.app.datasets }}</router-link>
             <router-link
-              class="nav-item nav-link" 
+              class="nav-link"
+              to="/faac-facts"
+              v-if="/narepng/.test(this.CurrentTenant.platform.name)"
+            >FAAC Facts</router-link>
+
+            <router-link
+              class="nav-item nav-link"
               to="/members"
               v-if="hasSubapp('members')"
-            >
-              {{ trans.app.members }}
-            </router-link>
-            <router-link
-              class="nav-item nav-link" 
-              to="/about"
-            >
-              {{ trans.app.about }}
-            </router-link>
-            <router-link
-              class="nav-item nav-link" 
-              to="/contact"
-            >
-              {{ trans.app.contact }}
-            </router-link>
-            <a v-if="!CurrentTenant.user" class="nav-item nav-link" href="/login">
-              {{ trans.app.login }}
-            </a>
+            >{{ trans.app.members }}</router-link>
+            <router-link class="nav-item nav-link" to="/about">{{ trans.app.about }}</router-link>
+            <router-link class="nav-item nav-link" to="/contact">{{ trans.app.contact }}</router-link>
+            <a
+              v-if="!CurrentTenant.user"
+              class="nav-item nav-link"
+              href="/login"
+            >{{ trans.app.login }}</a>
           </div>
         </div>
 
@@ -195,7 +172,7 @@ import { EventBus } from "../../bus";
 export default {
   name: "page-header",
 
-  data() {
+  data () {
     return {
       user: CurrentTenant.user,
       avatar: this.$root.avatar,
@@ -206,20 +183,20 @@ export default {
     };
   },
 
-  mounted() {
-    $("#sidebarCollapse").on("click", function() {
+  mounted () {
+    $("#sidebarCollapse").on("click", function () {
       EventBus.$emit("sidebar-collapse-clicked");
     });
   },
 
   watch: {
-    "$root.avatar": function(url) {
+    "$root.avatar": function (url) {
       this.avatar = url;
     }
   },
 
   methods: {
-    sessionLogout() {
+    sessionLogout () {
       this.logout();
     }
   }
