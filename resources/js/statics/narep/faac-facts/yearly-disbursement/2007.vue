@@ -16,11 +16,13 @@
   </div>
 </template>
 <script>
+import NProgress from "nprogress"
 import TableauHolder from '../components/TableauHolder'
 import PageHeader from '../components/PageHeader'
 import PageFooter from '../components/PageFooter'
 import PageCTA from '../components/PageCTA'
 import PageBanner from '../components/PageBanner'
+
 export default {
   name: 'yearly-disbursement-2007',
   data () {
@@ -34,6 +36,9 @@ export default {
     PageCTA,
     PageBanner,
     PageHeader
+  },
+  mounted () {
+    NProgress.done()
   }
 }
 </script>

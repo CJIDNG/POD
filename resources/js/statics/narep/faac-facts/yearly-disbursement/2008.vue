@@ -16,6 +16,7 @@
   </div>
 </template>
 <script>
+import NProgress from "nprogress"
 import TableauHolder from '../components/TableauHolder'
 import PageHeader from '../components/PageHeader'
 import PageFooter from '../components/PageFooter'
@@ -34,6 +35,9 @@ export default {
     PageCTA,
     PageBanner,
     PageHeader
+  },
+  mounted () {
+    NProgress.done()
   }
 }
 </script>

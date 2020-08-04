@@ -5,10 +5,21 @@
 <script>
 export default {
   name: 'TableauHolder',
+  data () {
+    return {
+      viz: null
+    }
+  },
   props: {
     url: {
       type: String,
       required: true
+    }
+  },
+  watch: {
+    url: function (val) {
+      this.viz = null
+      this.initViz()
     }
   },
   methods: {
@@ -25,9 +36,7 @@ export default {
     }
   },
   mounted () {
-    window.addEventListener('load', () => {
-      this.initViz()
-    })
+    this.initViz()
   }
 }
 </script>
