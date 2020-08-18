@@ -47,9 +47,9 @@
           <a :href="'/' + canvasPath + '/stats/' + post.id" class="dropdown-item">View stats</a>
         </div>
       </div>
-    </navbar> -->
+    </navbar>-->
 
-    <div v-if="isReady" class="">
+    <div v-if="isReady" class>
       <div class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 col-md-12">
         <h1 class="text-dark font-serif pt-5 mb-4">{{ post.title }}</h1>
 
@@ -123,9 +123,7 @@
 
       <main role="main" class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 col-md-12">
         <div v-if="isReady && post.factchecks && post.factchecks.length > 0" class="mb-5 mt-5">
-          <factchecks
-            :factchecks="post.factchecks"
-          />
+          <factchecks :factchecks="post.factchecks" />
         </div>
 
         <div v-if="related.length > 0">
@@ -135,8 +133,30 @@
 
           <post-list :posts="related"></post-list>
         </div>
+        <font-awesome-icon
+          :icon="['fab', 'facebook-f']"
+          class="mr-3 share-icons"
+          @click="facebookShare(post.title)"
+        />
+        <font-awesome-icon
+          :icon="['fab', 'twitter']"
+          class="mr-3 share-icons"
+          @click="twitterShare(post.title)"
+        />
+        <font-awesome-icon
+          :icon="['fab', 'telegram']"
+          class="mr-3 share-icons"
+          @click="telegramShare(post.title)"
+        />
+        <font-awesome-icon
+          :icon="['fab', 'linkedin']"
+          class="mr-3 share-icons"
+          @click="linkedinShare(post.title)"
+        />
+        <hr />
       </main>
     </div>
+
     <page-footer></page-footer>
   </div>
 </template>
@@ -158,7 +178,7 @@ export default {
     vueHeadful
   },
 
-  data() {
+  data () {
     return {
       user: null,
       post: null,
@@ -169,15 +189,16 @@ export default {
       meta: null,
       related: [],
       isReady: false,
-      trans: JSON.parse(CurrentTenant.translations)
+      trans: JSON.parse(CurrentTenant.translations),
+      postUrl: window.location.toString()
     };
   },
 
-  created() {
+  created () {
     this.fetchData();
   },
 
-  updated() {
+  updated () {
     document.querySelectorAll(".embedded_image img").forEach(image => {
       mediumZoom(image);
     });
@@ -187,7 +208,7 @@ export default {
   },
 
   watch: {
-    "$route.params.slug": function(slug) {
+    "$route.params.slug": function (slug) {
       this.isReady = false;
       this.related = [];
       this.fetchData();
@@ -195,13 +216,13 @@ export default {
   },
 
   methods: {
-    fetchData() {
+    fetchData () {
       this.request()
         .get(
           "/api/v1/blog/posts/" +
-            this.$route.params.identifier +
-            "/" +
-            this.$route.params.slug
+          this.$route.params.identifier +
+          "/" +
+          this.$route.params.slug
         )
         .then(response => {
           this.user = response.data.user;
@@ -222,11 +243,28 @@ export default {
 
           NProgress.done();
         });
-    }
+    },
+    facebookShare (title) {
+      const url = encodeURI(`https://www.facebook.com/sharer.php?href=${this.postUrl}&quote=${title}`);
+      return window.open(url, '_blank');
+    },
+    twitterShare (title) {
+      const url = encodeURI(`https://twitter.com/intent/tweet?text=${title}\n${this.postUrl}`);
+      return window.open(url, '_blank');
+    },
+    telegramShare (title) {
+      const url = encodeURI(`https://t.me/share/url?url=${this.postUrl}&text=${title}`);
+      return window.open(url, '_blank');
+    },
+    linkedinShare (title) {
+      const url = encodeURI(`https://www.linkedin.com/sharing/share-offsite/?url=${this.postUrl}`);
+      return window.open(url, '_blank');
+    },
+
   },
 
   computed: {
-    postBelongsToAuthUser() {
+    postBelongsToAuthUser () {
       if (CurrentTenant.user) {
         return this.user.id === CurrentTenant.user.id;
       } else {
@@ -240,6 +278,11 @@ export default {
 <style lang="scss">
 @import "../../../../sass/studio/variables";
 
+.share-icons {
+  cursor: pointer;
+  font-size: 21px;
+  color: #808080;
+}
 .post-content::first-letter {
   font-size: 52px;
   line-height: 0;

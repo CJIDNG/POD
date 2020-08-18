@@ -2,6 +2,10 @@ import Vue from 'vue'
 import Routes from './routes'
 import { store } from './store'
 import NProgress from 'nprogress'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fab } from '@fortawesome/free-brands-svg-icons'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import VueRouter from 'vue-router'
 import moment from 'moment-timezone'
 import ComponentMixin from "./mixins/ComponentMixin"
@@ -27,6 +31,9 @@ Vue.mixin(ComponentMixin)
 Vue.mixin(HelperMixin)
 Vue.mixin(RequestMixin)
 Vue.mixin(MetaMixin)
+
+library.add(fab, fas);
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.directive('permission', Permission)
 
