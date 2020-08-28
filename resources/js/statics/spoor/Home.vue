@@ -66,9 +66,8 @@
               class="col-sm-4 col-xs-3 topics-list mt-3 mb-3"
             >
               <h5 class="title">{{data.topic.name}}</h5>
-              <div v-for="(data, index) in data.posts" :key="index">
+              <div v-for="(data, index) in data.posts" :key="index" class="topics-link">
                 <router-link
-                  class="topics-link"
                   :to="{ name: 'blog-post', params: { identifier: publicIdentifier(data), slug: data.slug } }"
                 >{{data.title}}</router-link>
               </div>
@@ -224,9 +223,13 @@ export default {
   text-transform: uppercase;
 }
 .topics-list .topics-link {
+  margin-bottom: 10px;
+  line-height: 20px;
+}
+.topics-list .topics-link a {
   font-weight: bolder;
 }
-.topics-list .topics-link:hover {
+.topics-list .topics-link:hover a {
   color: #2c7a0d;
   text-decoration: none;
   font-weight: bolder;

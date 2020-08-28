@@ -51,18 +51,18 @@
                 aria-expanded="false"
               >Yearly Disbursements</a>
               <div class="dropdown-menu" aria-labelledby="yearlyDisbursementsDropdown">
-                <router-link class="dropdown-item" to="/faac-facts/13-percent-derivation/2007">2007</router-link>
-                <router-link class="dropdown-item" to="/faac-facts/13-percent-derivation/2008">2008</router-link>
-                <router-link class="dropdown-item" to="/faac-facts/13-percent-derivation/2009">2009</router-link>
-                <router-link class="dropdown-item" to="/faac-facts/13-percent-derivation/2010">2010</router-link>
-                <router-link class="dropdown-item" to="/faac-facts/13-percent-derivation/2011">2011</router-link>
-                <router-link class="dropdown-item" to="/faac-facts/13-percent-derivation/2012">2012</router-link>
-                <router-link class="dropdown-item" to="/faac-facts/13-percent-derivation/2013">2013</router-link>
-                <router-link class="dropdown-item" to="/faac-facts/13-percent-derivation/2014">2014</router-link>
-                <router-link class="dropdown-item" to="/faac-facts/13-percent-derivation/2015">2015</router-link>
-                <router-link class="dropdown-item" to="/faac-facts/13-percent-derivation/2016">2016</router-link>
-                <router-link class="dropdown-item" to="/faac-facts/13-percent-derivation/2017">2017</router-link>
-                <router-link class="dropdown-item" to="/faac-facts/13-percent-derivation/2018">2018</router-link>
+                <router-link class="dropdown-item" to="/faac-facts/yearly-disbursement/2007">2007</router-link>
+                <router-link class="dropdown-item" to="/faac-facts/yearly-disbursement/2008">2008</router-link>
+                <router-link class="dropdown-item" to="/faac-facts/yearly-disbursement/2009">2009</router-link>
+                <router-link class="dropdown-item" to="/faac-facts/yearly-disbursement/2010">2010</router-link>
+                <router-link class="dropdown-item" to="/faac-facts/yearly-disbursement/2011">2011</router-link>
+                <router-link class="dropdown-item" to="/faac-facts/yearly-disbursement/2012">2012</router-link>
+                <router-link class="dropdown-item" to="/faac-facts/yearly-disbursement/2013">2013</router-link>
+                <router-link class="dropdown-item" to="/faac-facts/yearly-disbursement/2014">2014</router-link>
+                <router-link class="dropdown-item" to="/faac-facts/yearly-disbursement/2015">2015</router-link>
+                <router-link class="dropdown-item" to="/faac-facts/yearly-disbursement/2016">2016</router-link>
+                <router-link class="dropdown-item" to="/faac-facts/yearly-disbursement/2017">2017</router-link>
+                <router-link class="dropdown-item" to="/faac-facts/yearly-disbursement/2018">2018</router-link>
               </div>
             </li>
           </div>
