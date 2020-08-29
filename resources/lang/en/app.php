@@ -247,6 +247,7 @@ return [
   'license' => 'License',
   'licenses' => 'Licenses',
   'lifetime_summary' => 'Lifetime Summary',
+  'local_governments' => 'Local Governments',
   'lookup' => 'Lookup',
   'map' => 'Map',
   'marketing' => 'Marketing',

@@ -16,6 +16,7 @@ class TenantDatabaseSeeder extends Seeder
     $this->call(DatalicenseSeeder::class);
     $this->call(DatavisualisationSeeder::class);
     $this->call(DataformatSeeder::class);
+    $this->call(LocationSeeder::class);
 
     // $platformName = session()->get('platform_name');
 

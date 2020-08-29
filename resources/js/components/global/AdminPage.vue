@@ -54,7 +54,7 @@
               </li>
               <li
                 v-permission="[
-                  'view_states', 'create_states', 'update_users', 'delete_states', 'view_local_governments', 'create_local_governments', 'update_local_governments', 'delete_local_goverments'
+                  'view_states', 'create_states', 'update_states', 'delete_states', 'view_local_governments', 'create_local_governments', 'update_local_governments', 'delete_local_goverments'
                 ]"
                 class="nav-item"
               >

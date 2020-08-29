@@ -185,6 +185,18 @@ class DefaultRolesAndPermissions
       'update_products',
       'view_products',
       'delete_products',
+
+      /**
+       * Location permissions
+       */
+      'view_states', 
+      'create_states', 
+      'update_users', 
+      'delete_states', 
+      'view_local_governments', 
+      'create_local_governments', 
+      'update_local_governments', 
+      'delete_local_goverments',
     ];
   }
 

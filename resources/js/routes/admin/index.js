@@ -12,6 +12,7 @@ import settings from './settings'
 import tracker from './tracker'
 import trackerItem from './trackerItem'
 import users from './users'
+import location from './location'
 import { hasSubapp } from './../../util/has-subapp'
 
 let adminRoutes = [
@@ -26,6 +27,7 @@ let adminRoutes = [
   ...users,
   ...settings,
   ...analytics,
+  ...location,
 ]
 
 if (hasSubapp('data')) {
