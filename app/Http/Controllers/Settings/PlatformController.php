@@ -53,6 +53,8 @@ class PlatformController extends \App\Http\Controllers\Controller
         'physical_address' => request('physical_address'),
         'email' => request('email'),
         'phone_number' => request('phone_number'),
+        'terms' => request('terms'),
+        'privacy_policy' => request('privacy_policy'),
         'twitter_url' => request('twitter_url'),
         'facebook_url' => request('facebook_url'),
         'instagram_url' => request('instagram_url'),
