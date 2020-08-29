@@ -12,17 +12,17 @@
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ 'https://' . $currentTenant['hostname']['fqdn'] . $_SERVER['REQUEST_URI'] }}">
+    <meta property="og:url" content="{{ 'https://' . env('APP_URL') . $_SERVER['REQUEST_URI'] }}">
     <meta property="og:title" content="{{ $meta['title'] }}">
     <meta property="og:description" content="{{ $meta['summary'] ?? $meta['summaryFromBody'] }}">
-    <meta property="og:image" content="{{ 'https://' . $currentTenant['hostname']['fqdn'] . $meta['image'] }}">
+    <meta property="og:image" content="{{ 'https://' . env('APP_URL') . $meta['image'] }}">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="{{ 'https://' . $currentTenant['hostname']['fqdn'] . $_SERVER['REQUEST_URI'] }}">
+    <meta property="twitter:url" content="{{ 'https://' . env('APP_URL') . $_SERVER['REQUEST_URI'] }}">
     <meta property="twitter:title" content="{{ $meta['title'] }}">
     <meta property="twitter:description" content="{{ $meta['summary'] ?? $meta['summaryFromBody'] }}">
-    <meta property="twitter:image" content="{{ 'https://' . $currentTenant['hostname']['fqdn'] . $meta['image'] }}">
+    <meta property="twitter:image" content="{{ 'https://' . env('APP_URL') . $meta['image'] }}">
 
     <meta name="google" content="notranslate">
 
@@ -33,20 +33,16 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Karla|Merriweather:400,700,900">
 
-    @if($currentTenant['darkMode'])
-        <link rel="stylesheet" id="baseStylesheet" type="text/css" href="{{ mix('css/app-dark.css') }}">
-        <link rel="stylesheet" id="highlightStylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/sunburst.min.css">
-    @else
-        <link rel="stylesheet" id="baseStylesheet" type="text/css" href="{{ mix('css/app.css') }}">
-        <link rel="stylesheet" id="highlightStylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/github.min.css">
-    @endif
+    <link rel="stylesheet" id="baseStylesheet" type="text/css" href="{{ mix('css/app.css') }}">
+    <link rel="stylesheet" id="highlightStylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/github.min.css">
 
     <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js"></script>
     <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
     <link rel="shortcut icon" href="{{ mix('favicon.ico') }}">
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
-    <script type="text/javascript" src="https://public.tableau.com/javascripts/api/tableau-2.min.js"></script>
+
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
 </head>
 <body>
 <div id="app">

@@ -18,14 +18,16 @@ import Permission from './directives/Permission'
 // https://ckeditor.com/blog/best-wysiwyg-editor-for-vue/
 import CKEditor from '@ckeditor/ckeditor5-vue';
 
-// import VueFormGenerator from 'vue-form-generator'
-// import 'vue-form-generator/dist/vfg.css'
-
-// Vue.use(VueFormGenerator)
-
+/** Core */
+window.$ = require('jquery')
 require('bootstrap')
-
 window.Popper = require('popper.js').default
+
+/**
+* Vendor JS
+**/
+window.Cookies = require('./argon/js-cookie/js.cookie.js')
+require('./argon/argon.min.js')
 
 Vue.mixin(ComponentMixin)
 Vue.mixin(HelperMixin)
@@ -51,6 +53,9 @@ const router = new VueRouter({
   routes: Routes,
   mode: 'history',
   base: CurrentTenant.path,
+  scrollBehavior (to, from, savedPosition) {
+    return { x: 0, y: 0 }
+  },
 })
 
 NProgress.configure({
