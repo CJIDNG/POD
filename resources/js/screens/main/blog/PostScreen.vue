@@ -126,6 +126,30 @@
           <factchecks :factchecks="post.factchecks" />
         </div>
 
+        <div>
+          <font-awesome-icon
+            :icon="['fab', 'facebook-f']"
+            class="mr-3 share-icons"
+            @click="facebookShare(post.title)"
+          />
+          <font-awesome-icon
+            :icon="['fab', 'twitter']"
+            class="mr-3 share-icons"
+            @click="twitterShare(post.title)"
+          />
+          <font-awesome-icon
+            :icon="['fab', 'telegram']"
+            class="mr-3 share-icons"
+            @click="telegramShare(post.title)"
+          />
+          <font-awesome-icon
+            :icon="['fab', 'linkedin']"
+            class="mr-3 share-icons"
+            @click="linkedinShare(post.title)"
+          />
+          <hr />
+        </div>
+
         <div v-if="related.length > 0">
           <h4 class="mb-4 border-bottom pb-2">
             <span class="border-bottom border-dark pb-2">Related</span>
@@ -133,27 +157,6 @@
 
           <post-list :posts="related"></post-list>
         </div>
-        <font-awesome-icon
-          :icon="['fab', 'facebook-f']"
-          class="mr-3 share-icons"
-          @click="facebookShare(post.title)"
-        />
-        <font-awesome-icon
-          :icon="['fab', 'twitter']"
-          class="mr-3 share-icons"
-          @click="twitterShare(post.title)"
-        />
-        <font-awesome-icon
-          :icon="['fab', 'telegram']"
-          class="mr-3 share-icons"
-          @click="telegramShare(post.title)"
-        />
-        <font-awesome-icon
-          :icon="['fab', 'linkedin']"
-          class="mr-3 share-icons"
-          @click="linkedinShare(post.title)"
-        />
-        <hr />
       </main>
     </div>
 

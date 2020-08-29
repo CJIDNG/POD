@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-horizontal navbar-expand-lg navbar-dark bg-primary">
+  <nav class="navbar navbar-horizontal navbar-expand-lg navbar-light">
     <div class="container">
       <router-link to="/" class="navbar-brand mr-lg-3">
         {{ platform.name || platform.display_name }}
