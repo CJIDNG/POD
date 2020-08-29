@@ -305,6 +305,11 @@ export default {
   },
 
   mounted() {
+    this.$nextTick(() => {
+      this.handleEditorValue();
+      this.isReady = true
+    })
+
     this.editor = this.createEditor();
 
     if (this.readOnly) {
@@ -587,13 +592,13 @@ export default {
 </script>
 
 <style lang="scss">
-// @import "../../../../../resources/sass/variables";
+@import "../../../../../resources/sass/variables";
 @import "~quill/dist/quill.bubble.css";
 
 .ql-container {
   font-size: 1.1rem;
   line-height: 2;
-  // font-family: $font-family-serif, serif;
+  font-family: $font-family-serif, serif;
   margin: 0;
   height: 100%;
   position: relative;
@@ -601,7 +606,7 @@ export default {
 }
 
 .ql-editor {
-  // font-family: $font-family-serif, serif;
+  font-family: $font-family-serif, serif;
   font-size: 1.1rem;
   line-height: 2;
   padding: 20px;
@@ -635,7 +640,7 @@ h3 {
   font-style: italic;
   font-size: 28px;
   border: none !important;
-  // color: $gray-500;
+  color: $gray-500;
   padding-left: 1.5em !important;
   line-height: 1.5;
 }
@@ -652,10 +657,10 @@ div.embedded_image > img {
 
 div.embedded_image > p {
   text-align: center;
-  // color: $gray-500;
+  color: $gray-500;
   margin-top: 0.5em;
   font-size: 0.9rem;
-  // font-family: $font-family-sans-serif, sans-serif;
+  font-family: $font-family-sans-serif, sans-serif;
 }
 
 div.ql-embed-content {
@@ -668,7 +673,7 @@ div.ql-embed-content {
 div.embedded_image:hover img,
 div.ql-embed-content:hover {
   cursor: pointer !important;
-  // box-shadow: 0 0 0 3px $green;
+  box-shadow: 0 0 0 3px $green;
 }
 
 div.embedded_image[data-layout="wide"] img {
@@ -695,7 +700,7 @@ div.embedded_image[data-layout="wide"] {
 }
 
 .ql-editor pre.ql-syntax {
-  // border-radius: $border-radius;
+  border-radius: $border-radius;
   padding: 1em;
   margin-top: 2em;
 }
