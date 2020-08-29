@@ -1,171 +1,186 @@
 <template>
   <admin-page>
-    <template slot="main">
-      <page-header>
-        <template slot="status">
-          <ul class="navbar-nav mr-auto flex-row float-right">
-            <li class="text-muted font-weight-bold">
-              <span v-if="form.isSaving">{{ trans.app.saving }}</span>
-              <span v-if="form.hasSuccess" class="text-success">{{ trans.app.saved }}</span>
-            </li>
-          </ul>
-        </template>
+    <template slot="status">
+      <span v-if="form.isSaving">{{ trans.app.saving }}</span>
+      <span v-if="form.hasSuccess">{{ trans.app.saved }}</span>
+    </template>
 
-        <template slot="action">
+    <template slot="action">
+      <a
+        href="#"
+        v-permission="['update_users', 'update_own_users']"
+        class="btn btn-sm btn-danger font-weight-bold my-auto"
+        :class="{ disabled: form.name === '' }"
+        @click="saveUser"
+        :aria-label="trans.app.save"
+      >{{ trans.app.save }}</a>
+    </template>
+
+    <template slot="menu">
+      <div class="dropdown" v-if="id !== 'create'">
+        <a
+          id="navbarDropdown"
+          class="nav-link pr-0"
+          href="#"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="25"
+            class="icon-dots-horizontal"
+          >
+            <path
+              class="primary"
+              fill-rule="evenodd"
+              d="M5 14a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"
+            />
+          </svg>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+          <!-- <router-link
+            :to="{ name: 'users-create' }"
+            class="dropdown-item"
+          >{{ trans.app.new_user }}</router-link> -->
           <a
             href="#"
-            v-permission="['update_users', 'update_own_users']"
-            class="btn btn-sm btn-outline-success font-weight-bold my-auto"
-            :class="{ disabled: form.name === '' }"
-            @click="saveUser"
-            :aria-label="trans.app.save"
-          >{{ trans.app.save }}</a>
-        </template>
-
-        <template slot="menu">
-          <div class="dropdown" v-if="id !== 'create'">
-            <a
-              id="navbarDropdown"
-              class="nav-link pr-0"
-              href="#"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="25"
-                class="icon-dots-horizontal"
-              >
-                <path
-                  class="primary"
-                  fill-rule="evenodd"
-                  d="M5 14a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"
+            v-permission="['delete_users', 'delete_own_users']"
+            class="dropdown-item text-danger"
+            @click="showDeleteModal"
+          >{{ trans.app.delete }}</a>
+        </div>
+      </div>
+    </template>
+    <template slot="page-title">
+      {{ trans.app.users }}
+    </template>
+    <template slot="breadcrumb">
+      <breadcrumb :links="breadcrumbLinks" />
+    </template>
+    <template slot="main">
+      <div class="col">
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <div class="col-lg-12">
+                <input
+                  type="text"
+                  name="name"
+                  autofocus
+                  autocomplete="off"
+                  v-model="form.name"
+                  title="Name"
+                  @keyup.enter="saveUser"
+                  class="form-control"
+                  :placeholder="trans.app.give_your_user_a_name"
                 />
-              </svg>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-              <!-- <router-link
-                :to="{ name: 'users-create' }"
-                class="dropdown-item"
-              >{{ trans.app.new_user }}</router-link> -->
-              <a
-                href="#"
-                v-permission="['delete_users', 'delete_own_users']"
-                class="dropdown-item text-danger"
-                @click="showDeleteModal"
-              >{{ trans.app.delete }}</a>
-            </div>
-          </div>
-        </template>
-      </page-header>
 
-      <main v-if="isReady" class="py-4" v-cloak>
-        <div class="col-xl-8 offset-xl-2 px-xl-5 col-md-12 mt-5">
-          <div class="form-group mb-5">
-            <div class="col-lg-12">
-              <input
-                type="text"
-                name="name"
-                autofocus
-                autocomplete="off"
-                v-model="form.name"
-                title="Name"
-                @keyup.enter="saveUser"
-                class="form-control-lg form-control border-0 px-0 bg-transparent"
-                :placeholder="trans.app.give_your_user_a_name"
-              />
-
-              <div v-if="form.errors.name" class="invalid-feedback d-block">
-                <strong>{{ form.errors.name[0] }}</strong>
-              </div>
-            </div>
-            <div class="col-lg-12">
-              <input
-                type="text"
-                name="email"
-                autofocus
-                autocomplete="off"
-                v-model="form.email"
-                title="Email"
-                @keyup.enter="saveUser"
-                class="form-control-lg form-control border-0 px-0 bg-transparent"
-                :placeholder="trans.app.give_your_user_an_email"
-                :disabled="id !== 'create'"
-              />
-
-              <div v-if="form.errors.email" class="invalid-feedback d-block">
-                <strong>{{ form.errors.email[0] }}</strong>
-              </div>
-            </div>
-            <div class="col-lg-12">
-              <select
-                name="role"
-                v-model="form.role"
-                title="Role"
-                @keyup.enter="saveUser"
-                multiple
-                class="form-control-lg form-control border-0 px-0 bg-transparent"
-                :placeholder="trans.app.give_your_user_a_role"
-              >
-                <option value disabled>Select role</option>
-                <option 
-                  v-for="(role, index) in roles" 
-                  :value="role"
-                  :key="index"
-                >{{role}}</option>
-              </select>
-
-              <div v-if="form.errors.role" class="invalid-feedback d-block">
-                <strong>{{ form.errors.roles[0] }}</strong>
-              </div>
-            </div>
-            <div class="col-lg-12">
-              <input
-                type="text"
-                name="password"
-                autofocus
-                autocomplete="off"
-                v-model="form.password"
-                title="Email"
-                @keyup.enter="saveUser"
-                class="form-control-lg form-control border-0 px-0 bg-transparent"
-                :placeholder="id === 'create' ? trans.app.give_your_user_an_password : trans.app.change_user_password"
-              />
-
-              <div v-if="form.errors.password" class="invalid-feedback d-block">
-                <strong>{{ form.errors.password[0] }}</strong>
-              </div>
-            </div>
-            <div class="col-lg-12">
-              <input
-                type="text"
-                name="password_confirmation"
-                autofocus
-                autocomplete="off"
-                v-model="form.password_confirmation"
-                title="Email"
-                @keyup.enter="saveUser"
-                class="form-control-lg form-control border-0 px-0 bg-transparent"
-                :placeholder="trans.app.give_your_user_an_password_confirmation"
-              />
-
-              <div v-if="form.errors.password_confirmation" class="invalid-feedback d-block">
-                <strong>{{ form.errors.password_confirmation[0] }}</strong>
+                <div v-if="form.errors.name" class="invalid-feedback d-block">
+                  <strong>{{ form.errors.name[0] }}</strong>
+                </div>
               </div>
             </div>
           </div>
-          <div class="form-group">
-            <div class="col-lg-12">
-              <div v-if="form.errors.server" class="invalid-feedback d-block">
-                <strong>{{ form.errors.server[0] }}</strong>
+          <div class="col">
+            <div class="form-group">
+              <div class="col-lg-12">
+                <input
+                  type="text"
+                  name="email"
+                  autofocus
+                  autocomplete="off"
+                  v-model="form.email"
+                  title="Email"
+                  @keyup.enter="saveUser"
+                  class="form-control"
+                  :placeholder="trans.app.give_your_user_an_email"
+                  :disabled="id !== 'create'"
+                />
+
+                <div v-if="form.errors.email" class="invalid-feedback d-block">
+                  <strong>{{ form.errors.email[0] }}</strong>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </main>
+        <div class="col-lg-12">
+          <select
+            name="role"
+            v-model="form.role"
+            title="Role"
+            @keyup.enter="saveUser"
+            multiple
+            class="form-control mb-4"
+            :placeholder="trans.app.give_your_user_a_role"
+          >
+            <option value disabled>Select role</option>
+            <option 
+              v-for="(role, index) in roles" 
+              :value="role"
+              :key="index"
+            >{{role}}</option>
+          </select>
+
+          <div v-if="form.errors.role" class="invalid-feedback d-block">
+            <strong>{{ form.errors.roles[0] }}</strong>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <div class="col-lg-12">
+                <input
+                  type="text"
+                  name="password"
+                  autofocus
+                  autocomplete="off"
+                  v-model="form.password"
+                  title="Email"
+                  @keyup.enter="saveUser"
+                  class="form-control"
+                  :placeholder="id === 'create' ? trans.app.give_your_user_an_password : trans.app.change_user_password"
+                />
+
+                <div v-if="form.errors.password" class="invalid-feedback d-block">
+                  <strong>{{ form.errors.password[0] }}</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <div class="col-lg-12">
+                <input
+                  type="text"
+                  name="password_confirmation"
+                  autofocus
+                  autocomplete="off"
+                  v-model="form.password_confirmation"
+                  title="Email"
+                  @keyup.enter="saveUser"
+                  class="form-control"
+                  :placeholder="trans.app.give_your_user_an_password_confirmation"
+                />
+
+                <div v-if="form.errors.password_confirmation" class="invalid-feedback d-block">
+                  <strong>{{ form.errors.password_confirmation[0] }}</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-lg-12">
+            <div v-if="form.errors.server" class="invalid-feedback d-block">
+              <strong>{{ form.errors.server[0] }}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <delete-modal
         ref="deleteModal"
@@ -206,7 +221,17 @@ export default {
       },
       isReady: false,
       trans: JSON.parse(CurrentTenant.translations),
-      roles: []
+      roles: [],
+      breadcrumbLinks: [
+        {
+          title: 'All Users',
+          url: '/admin/users',
+        },
+        {
+          title: 'User',
+          url: '#',
+        }
+      ]
     };
   },
 

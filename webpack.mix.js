@@ -24,10 +24,7 @@ mix.options({
 mix.setPublicPath('public')
   .setResourceRoot('../')
   .js('resources/js/app.js', 'public/js')
-  // .js('resources/js/studio/app.js', 'public/studio/js')
   .sass('resources/sass/app.scss', 'public/css')
-  .sass('resources/sass/app-dark.scss', 'public/css')
-  // .sass('resources/sass/studio/app.scss', 'public/studio/css')
   .copy('resources/favicon.ico', 'public')
   .webpackConfig({
     module: {

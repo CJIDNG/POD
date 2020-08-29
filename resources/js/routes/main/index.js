@@ -1,7 +1,5 @@
 import blog from './blog'
 import data from './data'
-import member from './member'
-import product from './product'
 import trackerItem from './trackerItem'
 import faacFacts from '../faac-facts/faac-facts'
 
@@ -56,14 +54,6 @@ if (hasSubapp('blog')) {
 
 if (hasSubapp('data')) {
   mainRoutes.push(...data)
-}
-
-if (hasSubapp('members')) {
-  mainRoutes.push(...member)
-}
-
-if (hasSubapp('products')) {
-  mainRoutes.push(...product)
 }
 
 if (hasSubapp('tracker')) {

@@ -1,244 +1,241 @@
 <template>
   <admin-page>
-    <template slot="main">
-      <page-header>
-        <template slot="status">
-          <ul class="navbar-nav mr-auto flex-row float-right">
-            <li class="text-muted font-weight-bold">
-              <span v-if="form.isSaving">{{ trans.app.saving }}</span>
-              <span v-if="form.hasSuccess" class="text-success">{{ trans.app.saved }}</span>
-            </li>
-          </ul>
-        </template>
+    <template slot="status">
+      <span v-if="form.isSaving">{{ trans.app.saving }}</span>
+      <span v-if="form.hasSuccess">{{ trans.app.saved }}</span>
+    </template>
 
-        <template slot="action">
+    <template slot="action">
+      <a
+        href="#"
+        v-permission="['update_trackers']"
+        class="btn btn-sm btn-danger font-weight-bold my-auto"
+        :class="{ disabled: form.name === '' }"
+        @click="saveTracker"
+        :aria-label="trans.app.save"
+      >{{ trans.app.save }}</a>
+    </template>
+
+    <template slot="menu">
+      <div class="dropdown" v-if="id !== 'create'">
+        <a
+          id="navbarDropdown"
+          class="nav-link pr-0"
+          href="#"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="25"
+            class="icon-dots-horizontal"
+          >
+            <path
+              class="primary"
+              fill-rule="evenodd"
+              d="M5 14a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"
+            />
+          </svg>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
           <a
             href="#"
-            v-permission="['update_trackers']"
-            class="btn btn-sm btn-outline-success font-weight-bold my-auto"
-            :class="{ disabled: form.name === '' }"
-            @click="saveTracker"
-            :aria-label="trans.app.save"
-          >{{ trans.app.save }}</a>
-        </template>
+            v-permission="['delete_trackers']"
+            class="dropdown-item text-danger"
+            @click="showDeleteModal"
+          >{{ trans.app.delete }}</a>
+        </div>
+      </div>
+    </template>
+    <template slot="page-title">
+      {{ trans.app.trackers }}
+    </template>
+    <template slot="breadcrumb">
+      <breadcrumb :links="breadcrumbLinks" />
+    </template>
+    <template slot="main">
+      <div class="col">
+        <div class="form-group mb-5">
+          <div class="col-lg-12">
+            <input
+              type="text"
+              name="name"
+              autofocus
+              autocomplete="off"
+              v-model="form.name"
+              title="Name"
+              @keyup.enter="saveTracker"
+              class="form-control-lg form-control border-0 px-0 bg-transparent"
+              :placeholder="trans.app.give_your_tracker_a_name"
+            />
 
-        <template slot="menu">
-          <div class="dropdown" v-if="id !== 'create'">
-            <a
-              id="navbarDropdown"
-              class="nav-link pr-0"
-              href="#"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
+            <div v-if="form.errors.name" class="invalid-feedback d-block">
+              <strong>{{ form.errors.name[0] }}</strong>
+            </div>
+          </div>
+
+          <div class="col-lg-12">
+            <label class="display-6">{{ trans.app.give_your_tracker_a_description }}</label>
+            <ckeditor :editor="editor" v-model="form.description" :config="editorConfig"></ckeditor>
+            <div v-if="form.errors.description" class="invalid-feedback d-block">
+              <strong>{{ form.errors.description[0] }}</strong>
+            </div>
+          </div>
+
+          <div class="col-lg-12">
+            <select
+              name="has_location"
+              v-model="form.has_location"
+              title="Has Location"
+              @keyup.enter="saveTracker"
+              class="form-control-lg form-control border-0 px-0 bg-transparent"
+              :placeholder="trans.app.give_your_tracker_has_location"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="25"
-                class="icon-dots-horizontal"
-              >
-                <path
-                  class="primary"
-                  fill-rule="evenodd"
-                  d="M5 14a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"
-                />
-              </svg>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-              <a
-                href="#"
-                v-permission="['delete_trackers']"
-                class="dropdown-item text-danger"
-                @click="showDeleteModal"
-              >{{ trans.app.delete }}</a>
-            </div>
-          </div>
-        </template>
-      </page-header>
+              <option value disabled>{{trans.app.give_your_tracker_has_location}}</option>
+              <option 
+                value="1"
+              >{{ trans.app.true }}</option>
+              <option 
+                value="0"
+              >{{ trans.app.false }}</option>
+            </select>
 
-      <main v-if="isReady" class="py-4" v-cloak>
-        <div class="col-xl-8 offset-xl-2 px-xl-5 col-md-12 mt-5">
-          <div class="form-group mb-5">
-            <div class="col-lg-12">
-              <input
-                type="text"
-                name="name"
-                autofocus
-                autocomplete="off"
-                v-model="form.name"
-                title="Name"
-                @keyup.enter="saveTracker"
-                class="form-control-lg form-control border-0 px-0 bg-transparent"
-                :placeholder="trans.app.give_your_tracker_a_name"
-              />
-
-              <div v-if="form.errors.name" class="invalid-feedback d-block">
-                <strong>{{ form.errors.name[0] }}</strong>
-              </div>
-            </div>
-
-            <div class="col-lg-12">
-              <label class="display-6">{{ trans.app.give_your_tracker_a_description }}</label>
-              <ckeditor :editor="editor" v-model="form.description" :config="editorConfig"></ckeditor>
-              <div v-if="form.errors.description" class="invalid-feedback d-block">
-                <strong>{{ form.errors.description[0] }}</strong>
-              </div>
-            </div>
-
-            <div class="col-lg-12">
-              <select
-                name="has_location"
-                v-model="form.has_location"
-                title="Has Location"
-                @keyup.enter="saveTracker"
-                class="form-control-lg form-control border-0 px-0 bg-transparent"
-                :placeholder="trans.app.give_your_tracker_has_location"
-              >
-                <option value disabled>{{trans.app.give_your_tracker_has_location}}</option>
-                <option 
-                  value="1"
-                >{{ trans.app.true }}</option>
-                <option 
-                  value="0"
-                >{{ trans.app.false }}</option>
-              </select>
-
-              <div v-if="form.errors.has_location" class="invalid-feedback d-block">
-                <strong>{{ form.errors.has_location[0] }}</strong>
-              </div>
-            </div>
-
-            <div class="col-lg-12">
-              <select
-                name="has_user_reporting"
-                v-model="form.has_user_reporting"
-                title="Has User Reporting"
-                @keyup.enter="saveTracker"
-                class="form-control-lg form-control border-0 px-0 bg-transparent"
-                :placeholder="trans.app.give_your_tracker_has_user_reporting"
-              >
-                <option value disabled>{{trans.app.give_your_tracker_has_user_reporting}}</option>
-                <option 
-                  value="1"
-                >{{ trans.app.true }}</option>
-                <option 
-                  value="0"
-                >{{ trans.app.false }}</option>
-              </select>
-
-              <div v-if="form.errors.has_user_reporting" class="invalid-feedback d-block">
-                <strong>{{ form.errors.has_user_reporting[0] }}</strong>
-              </div>
-            </div>
-
-            <div class="col-lg-12">
-              <select
-                name="has_bot"
-                v-model="form.has_bot"
-                title="Has Bot"
-                @keyup.enter="saveTracker"
-                class="form-control-lg form-control border-0 px-0 bg-transparent"
-                :placeholder="trans.app.give_your_tracker_has_bot"
-              >
-                <option value disabled>{{trans.app.give_your_tracker_has_bot}}</option>
-                <option 
-                  value="1"
-                >{{ trans.app.true }}</option>
-                <option 
-                  value="0"
-                >{{ trans.app.false }}</option>
-              </select>
-
-              <div v-if="form.errors.has_bot" class="invalid-feedback d-block">
-                <strong>{{ form.errors.has_bot[0] }}</strong>
-              </div>
-            </div>
-
-            <div class="col-lg-12">
-              <input
-                type="text"
-                name="bot_name"
-                autofocus
-                autocomplete="off"
-                v-model="form.bot_name"
-                title="Bot name"
-                @keyup.enter="saveTracker"
-                class="form-control-lg form-control border-0 px-0 bg-transparent"
-                :placeholder="trans.app.give_your_tracker_bot_a_name"
-              />
-
-              <div v-if="form.errors.bot_name" class="invalid-feedback d-block">
-                <strong>{{ form.errors.bot_name[0] }}</strong>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="form-group">
-            <h1>
-              {{trans.app.fields}} 
-              <button
-                class="btn btn-info btn-sm"
-                @click="showNewFieldModal"
-              >
-                {{ trans.app.add_field }}
-              </button>
-              <hr>
-            </h1>
-            <div class="row">
-              <div class="col">
-                <table class="table table-hover">
-                  <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Type</th>
-                      <th scope="col">Label</th>
-                      <th scope="col">Model</th>
-                      <th scope="col"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(field, index) in form.fields" :key="index">
-                      <th scope="row">{{ index + 1 }}</th>
-                      <td>{{ field.type }}</td>
-                      <td>{{ field.label }}</td>
-                      <td>{{ field.model }}</td>
-                      <td>
-                        <button
-                          class="btn btn-danger btn-sm"
-                          @click="removeField(index)"
-                        >
-                          {{ trans.app.delete }}
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+            <div v-if="form.errors.has_location" class="invalid-feedback d-block">
+              <strong>{{ form.errors.has_location[0] }}</strong>
             </div>
           </div>
 
-          <div class="form-group">
-            <div class="col-lg-12">
-              <div v-if="form.errors.fields" class="invalid-feedback d-block">
-                <strong>{{ form.errors.fields[0] }}</strong>
-              </div>
-              <div v-if="form.errors.server" class="invalid-feedback d-block">
-                <strong>{{ form.errors.server[0] }}</strong>
-              </div>
+          <div class="col-lg-12">
+            <select
+              name="has_user_reporting"
+              v-model="form.has_user_reporting"
+              title="Has User Reporting"
+              @keyup.enter="saveTracker"
+              class="form-control-lg form-control border-0 px-0 bg-transparent"
+              :placeholder="trans.app.give_your_tracker_has_user_reporting"
+            >
+              <option value disabled>{{trans.app.give_your_tracker_has_user_reporting}}</option>
+              <option 
+                value="1"
+              >{{ trans.app.true }}</option>
+              <option 
+                value="0"
+              >{{ trans.app.false }}</option>
+            </select>
+
+            <div v-if="form.errors.has_user_reporting" class="invalid-feedback d-block">
+              <strong>{{ form.errors.has_user_reporting[0] }}</strong>
             </div>
           </div>
 
-          <div class="panel panel-default">
-            <div class="panel-heading">Fields Schema</div>
-            <div class="panel-body">
-              <pre v-if="form" v-html="prettyJSON(form.fields)"></pre>
+          <div class="col-lg-12">
+            <select
+              name="has_bot"
+              v-model="form.has_bot"
+              title="Has Bot"
+              @keyup.enter="saveTracker"
+              class="form-control-lg form-control border-0 px-0 bg-transparent"
+              :placeholder="trans.app.give_your_tracker_has_bot"
+            >
+              <option value disabled>{{trans.app.give_your_tracker_has_bot}}</option>
+              <option 
+                value="1"
+              >{{ trans.app.true }}</option>
+              <option 
+                value="0"
+              >{{ trans.app.false }}</option>
+            </select>
+
+            <div v-if="form.errors.has_bot" class="invalid-feedback d-block">
+              <strong>{{ form.errors.has_bot[0] }}</strong>
+            </div>
+          </div>
+
+          <div class="col-lg-12">
+            <input
+              type="text"
+              name="bot_name"
+              autofocus
+              autocomplete="off"
+              v-model="form.bot_name"
+              title="Bot name"
+              @keyup.enter="saveTracker"
+              class="form-control-lg form-control border-0 px-0 bg-transparent"
+              :placeholder="trans.app.give_your_tracker_bot_a_name"
+            />
+
+            <div v-if="form.errors.bot_name" class="invalid-feedback d-block">
+              <strong>{{ form.errors.bot_name[0] }}</strong>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="form-group">
+          <h1>
+            {{trans.app.fields}} 
+            <button
+              class="btn btn-info btn-sm"
+              @click="showNewFieldModal"
+            >
+              {{ trans.app.add_field }}
+            </button>
+            <hr>
+          </h1>
+          <div class="row">
+            <div class="col">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Label</th>
+                    <th scope="col">Model</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(field, index) in form.fields" :key="index">
+                    <th scope="row">{{ index + 1 }}</th>
+                    <td>{{ field.type }}</td>
+                    <td>{{ field.label }}</td>
+                    <td>{{ field.model }}</td>
+                    <td>
+                      <button
+                        class="btn btn-danger btn-sm"
+                        @click="removeField(index)"
+                      >
+                        {{ trans.app.delete }}
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
-      </main>
+
+        <div class="form-group">
+          <div class="col-lg-12">
+            <div v-if="form.errors.fields" class="invalid-feedback d-block">
+              <strong>{{ form.errors.fields[0] }}</strong>
+            </div>
+            <div v-if="form.errors.server" class="invalid-feedback d-block">
+              <strong>{{ form.errors.server[0] }}</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading">Fields Schema</div>
+          <div class="panel-body">
+            <pre v-if="form" v-html="prettyJSON(form.fields)"></pre>
+          </div>
+        </div>
+      </div>
 
       <delete-modal
         ref="deleteModal"
@@ -291,7 +288,13 @@ export default {
         hasSuccess: false
       },
       isReady: false,
-      trans: JSON.parse(CurrentTenant.translations)
+      trans: JSON.parse(CurrentTenant.translations),
+      breadcrumbLinks: [
+        {
+          title: 'All Trackers',
+          url: '/admin/trackers',
+        }
+      ]
     };
   },
 

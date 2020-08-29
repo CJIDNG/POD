@@ -1,110 +1,109 @@
 <template>
   <admin-page>
-    <template slot="main">
-      <page-header>
-        <template slot="status">
-          <ul class="navbar-nav mr-auto flex-row float-right">
-            <li class="text-muted font-weight-bold">
-              <span v-if="form.isSaving">{{ trans.app.saving }}</span>
-              <span v-if="form.hasSuccess" class="text-success">{{ trans.app.saved }}</span>
-            </li>
-          </ul>
-        </template>
+    <template slot="status">
+      <span v-if="form.isSaving">{{ trans.app.saving }}</span>
+      <span v-if="form.hasSuccess">{{ trans.app.saved }}</span>
+    </template>
 
-        <template slot="action">
+    <template slot="action">
+      <a
+        href="#"
+        v-permission="['update_dataformats']"
+        class="btn btn-sm btn-danger font-weight-bold my-auto"
+        :class="{ disabled: form.name === '' }"
+        @click="saveFormat"
+        :aria-label="trans.app.save"
+      >{{ trans.app.save }}</a>
+    </template>
+
+    <template slot="menu">
+      <div class="dropdown" v-if="id !== 'create'">
+        <a
+          id="navbarDropdown"
+          class="nav-link pr-0"
+          href="#"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="25"
+            class="icon-dots-horizontal"
+          >
+            <path
+              class="primary"
+              fill-rule="evenodd"
+              d="M5 14a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"
+            />
+          </svg>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
           <a
             href="#"
-            v-permission="['update_dataformats']"
-            class="btn btn-sm btn-outline-success font-weight-bold my-auto"
-            :class="{ disabled: form.name === '' }"
-            @click="saveFormat"
-            :aria-label="trans.app.save"
-          >{{ trans.app.save }}</a>
-        </template>
+            v-permission="['delete_dataformats']"
+            class="dropdown-item text-danger"
+            @click="showDeleteModal"
+          >{{ trans.app.delete }}</a>
+        </div>
+      </div>
+    </template>
+    <template slot="page-title">
+      {{ trans.app.formats }}
+    </template>
+    <template slot="breadcrumb">
+      <breadcrumb :links="breadcrumbLinks" />
+    </template>
+    <template slot="main">
+      <div class="col">
+        <div class="form-group mb-5">
+          <div class="col-lg-12">
+            <input
+              type="text"
+              name="name"
+              autofocus
+              autocomplete="off"
+              v-model="form.name"
+              title="Name"
+              @keyup.enter="saveFormat"
+              class="form-control"
+              :placeholder="trans.app.give_your_format_a_name"
+              disabled
+            />
 
-        <template slot="menu">
-          <div class="dropdown" v-if="id !== 'create'">
-            <a
-              id="navbarDropdown"
-              class="nav-link pr-0"
-              href="#"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="25"
-                class="icon-dots-horizontal"
-              >
-                <path
-                  class="primary"
-                  fill-rule="evenodd"
-                  d="M5 14a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"
-                />
-              </svg>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-              <a
-                href="#"
-                v-permission="['delete_dataformats']"
-                class="dropdown-item text-danger"
-                @click="showDeleteModal"
-              >{{ trans.app.delete }}</a>
+            <div v-if="form.errors.name" class="invalid-feedback d-block">
+              <strong>{{ form.errors.name[0] }}</strong>
             </div>
           </div>
-        </template>
-      </page-header>
+          <div class="col-lg-12">
+            <input
+              type="text"
+              name="extension"
+              autofocus
+              autocomplete="off"
+              v-model="form.extension"
+              title="Extension"
+              @keyup.enter="saveFormat"
+              class="form-control-lg form-control border-0 px-0 bg-transparent"
+              :placeholder="trans.app.give_your_format_an_extension"
+              disabled
+            />
 
-      <main v-if="isReady" class="py-4" v-cloak>
-        <div class="col-xl-8 offset-xl-2 px-xl-5 col-md-12 mt-5">
-          <div class="form-group mb-5">
-            <div class="col-lg-12">
-              <input
-                type="text"
-                name="name"
-                autofocus
-                autocomplete="off"
-                v-model="form.name"
-                title="Name"
-                @keyup.enter="saveFormat"
-                class="form-control-lg form-control border-0 px-0 bg-transparent"
-                :placeholder="trans.app.give_your_format_a_name"
-              />
-
-              <div v-if="form.errors.name" class="invalid-feedback d-block">
-                <strong>{{ form.errors.name[0] }}</strong>
-              </div>
-            </div>
-            <div class="col-lg-12">
-              <input
-                type="text"
-                name="extension"
-                autofocus
-                autocomplete="off"
-                v-model="form.extension"
-                title="Extension"
-                @keyup.enter="saveFormat"
-                class="form-control-lg form-control border-0 px-0 bg-transparent"
-                :placeholder="trans.app.give_your_format_an_extension"
-              />
-
-              <div v-if="form.errors.extension" class="invalid-feedback d-block">
-                <strong>{{ form.errors.extension[0] }}</strong>
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="col-lg-12">
-              <div v-if="form.errors.server" class="invalid-feedback d-block">
-                <strong>{{ form.errors.server[0] }}</strong>
-              </div>
+            <div v-if="form.errors.extension" class="invalid-feedback d-block">
+              <strong>{{ form.errors.extension[0] }}</strong>
             </div>
           </div>
         </div>
-      </main>
+        <div class="form-group">
+          <div class="col-lg-12">
+            <div v-if="form.errors.server" class="invalid-feedback d-block">
+              <strong>{{ form.errors.server[0] }}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <delete-modal
         ref="deleteModal"
@@ -141,7 +140,17 @@ export default {
         hasSuccess: false
       },
       isReady: false,
-      trans: JSON.parse(CurrentTenant.translations)
+      trans: JSON.parse(CurrentTenant.translations),
+      breadcrumbLinks: [
+        {
+          title: 'All Formats',
+          url: '/admin/data/formats',
+        },
+        {
+          title: 'Format',
+          url: '#',
+        }
+      ]
     };
   },
 

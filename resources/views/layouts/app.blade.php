@@ -36,7 +36,7 @@
 
     <meta name="google" content="notranslate">
 
-    <title>{{ app(\Hyn\Tenancy\Environment::class)->hostname()->fqdn }}</title>
+    <title>{{ env('APP_NAME') }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -44,64 +44,71 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                {{ app(\Hyn\Tenancy\Environment::class)->hostname()->fqdn }}
+
+        <!-- <nav class="navbar navbar-horizontal navbar-expand-lg navbar-dark bg-primary">
+          <div class="container">
+            <router-link to="/" class="navbar-brand mr-lg-3">
+              <img class="navbar-brand-dark" src="/assets/svg/light.svg" alt="menuimage" />
+              <img class="navbar-brand-light" src="/assets/svg/dark.svg" alt="menuimage" />
+            </router-link>
+            <div class="d-flex align-items-center">
+              @guest
+                <a class="btn btn-md btn-secondary animate-up-2" href="{{ route('login') }}">
+                  <i class="fas fa-user mr-2"></i> 
+                  {{ __('Login') }}
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px">
-                    <path fill="#607D8B" d="M6 22H42V26H6zM6 10H42V14H6zM6 34H42V38H6z" />
-                  </svg>
-                </button>
+                @if (Route::has('register'))
+                  <a class="btn btn-md btn-primary animate-up-2" href="{{ route('register') }}">
+                  <i class="fas fa-user mr-2"></i> 
+                    {{ __('Register') }}
+                  </a>
+                @endif
+              @else
+                <li class="nav-item dropdown">
+                  <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                    {{ Auth::user()->name }} <span class="caret"></span>
+                  </a>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
+                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                      onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">
+                      {{ __('Logout') }}
+                    </a>
 
-                    </ul>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                      @csrf
+                    </form>
+                  </div>
+                </li>
+              @endguest
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
+              <button
+                class="navbar-toggler ml-2"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbar-default-primary"
+                aria-controls="navbar-default-primary"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+              >
+                <span class="navbar-toggler-icon"></span>
+              </button>
             </div>
-        </nav>
+          </div>
+        </nav> -->
 
-        <main class="py-4">
-            @yield('content')
+        <main>
+          <div class="row">
+            <div class="col-md-6 mx-auto">
+              @yield('content')
+            </div>
+          </div>
         </main>
     </div>
     @javascript('CurrentTenant', $currentTenant ?? '')

@@ -7,6 +7,7 @@ use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Builder;
 use App\Traits\HasComments;
+use App\Model\Location\{State, LocalGovernment};
 
 class TrackerItem extends Model
 {
@@ -57,5 +58,13 @@ class TrackerItem extends Model
 
   public function user(): BelongsTo {
     return $this->belongsTo(\App\Model\Auth\User::class);
+  }
+
+  public function state(): BelongsTo {
+    return $this->belongsTo(State::class);
+  }
+
+  public function localGovernment(): BelongsTo {
+    return $this->belongsTo(LocalGovernment::class);
   }
 }
