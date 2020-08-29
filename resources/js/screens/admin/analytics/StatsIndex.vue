@@ -193,6 +193,12 @@ export default {
       isReady: false,
       trans: JSON.parse(CurrentTenant.translations),
       infiniteId: +new Date(),
+      breadcrumbLinks: [
+        {
+          title: 'Stats',
+          url: '/admin/stats',
+        }
+      ]
     };
   },
 

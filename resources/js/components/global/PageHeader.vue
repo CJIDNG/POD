@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-horizontal navbar-expand-lg navbar-dark bg-default">
+  <nav class="navbar navbar-horizontal navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
       <router-link to="/" class="navbar-brand mr-lg-3">
         {{ platform.name || platform.display_name }}
@@ -33,25 +33,6 @@
                 'Reasearch' : trans.app.blog
               }}
             </router-link>
-          </li>
-          <li v-if="hasSubapp('products')" class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              id="productDropdown"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >{{ trans.app.products }}</a>
-            <div class="dropdown-menu" aria-labelledby="productDropdown">
-              <router-link
-                v-for="(product, index) in products"
-                :key="index"
-                class="dropdown-item"
-                :to="{name: 'products-show', params: { id: product.id }}"
-              >{{ product.name }}</router-link>
-            </div>
           </li>
           <li v-if="hasSubapp('tracker')" class="nav-item dropdown">
             <a
