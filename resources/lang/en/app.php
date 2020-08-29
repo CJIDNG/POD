@@ -322,6 +322,7 @@ return [
   'published' => 'Published',
   'preview' => 'Preview',
   'roles' => 'Roles',
+  'search' => 'Search',
   'select_label_field' => 'Select label field',
   'select_latitude_field' => 'Select latitude field',
   'select_longitude_field' => 'Select longitude field',
