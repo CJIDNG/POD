@@ -449,6 +449,7 @@ return [
   'visits' => 'Visit(s)',
   'waiting_until_more_data' => 'Waiting until your post has more views to show these insights.',
   'weekly_digest' => 'Weekly digest',
+  'welcome' => 'Welcome',
   'wide_image' => 'Wide image',
   'write_claim' => 'Write claim',
   'write_conclusion' => 'Write conclusion',
