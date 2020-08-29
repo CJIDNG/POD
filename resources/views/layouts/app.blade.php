@@ -104,7 +104,11 @@
         </nav> -->
 
         <main>
-            @yield('content')
+          <div class="row">
+            <div class="col-md-6 mx-auto">
+              @yield('content')
+            </div>
+          </div>
         </main>
     </div>
     @javascript('CurrentTenant', $currentTenant ?? '')
