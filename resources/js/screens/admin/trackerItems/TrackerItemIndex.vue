@@ -1,96 +1,98 @@
 <template>
   <admin-page>
+    <template v-if="trackerId !== 'select'" slot="action">
+      <router-link
+        v-permission="['create_tracker_items']"
+        :to="{ name: 'trackerItems-create', params: { trackerId: trackerId } }"
+        class="btn btn-sm btn-danger font-weight-bold my-auto"
+      >{{ trans.app.new_tracker_item }}</router-link>
+    </template>
+    <template slot="page-title">
+      {{ trans.app.trackers }}
+    </template>
+    <template slot="breadcrumb">
+      <breadcrumb :links="breadcrumbLinks" />
+    </template>
     <template slot="main">
-      <page-header>
-        <template v-if="trackerId !== 'select'" slot="action">
-          <router-link
-            v-permission="['create_tracker_items']"
-            :to="{ name: 'trackerItems-create', params: { trackerId: trackerId } }"
-            class="btn btn-sm btn-outline-success font-weight-bold my-auto"
-          >{{ trans.app.new_tracker_item }}</router-link>
-        </template>
-      </page-header>
-
-      <main v-if="isReady" class="py-4">
-        <div v-if="trackerId === 'select'" class="col-xl-10 offset-xl-1 px-xl-5 col-md-12">
-          <div class="d-flex justify-content-between my-3">
-            <h1>{{ trans.app.select_trackers }}</h1>
+      <div v-if="trackerId === 'select'" class="col">
+        <div class="d-flex justify-content-between my-3">
+          <h1>{{ trans.app.select_trackers }}</h1>
+        </div>
+        <div
+          v-for="(tracker, $index) in trackers"
+          :key="$index"
+          class="d-flex border-top py-3 align-items-center"
+        >
+          <div class="mr-auto">
+            <p class="mb-0 py-1">
+              <router-link
+                :to="{name: 'trackerItems', params: { trackerId: tracker.id }}"
+                class="font-weight-bold text-lg lead text-decoration-none"
+              >{{ tracker.name }}</router-link>
+            </p>
           </div>
+          <div class="ml-auto">
+            <span
+              class="d-none d-md-inline-block"
+            >
+              {{ trans.app.created }} {{ moment(tracker.created_at).locale(CurrentTenant.locale).fromNow() }}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div v-else class="col">
+        <div class="d-flex justify-content-between my-3">
+          <h1>
+            {{ trans.app.tracker_items }}
+          </h1>
+
+          <select
+            name
+            id
+            v-model="confirmationStatus"
+            @change="refreshInfiniteLoader"
+            class="my-auto bg-transparent appearance-none border-0 text-muted"
+          >
+            <option value="confirmed">{{ trans.app.confirmed }} ({{ confirmedCount }})</option>
+            <option value="notConfirmed">{{ trans.app.not_confirmed }} ({{ notConfirmedCount }})</option>
+          </select>
+        </div>
+
+        <div class="mt-2">
           <div
-            v-for="(tracker, $index) in trackers"
+            v-for="(trackerItem, $index) in trackerItems"
             :key="$index"
             class="d-flex border-top py-3 align-items-center"
           >
             <div class="mr-auto">
               <p class="mb-0 py-1">
                 <router-link
-                  :to="{name: 'trackerItems', params: { trackerId: tracker.id }}"
+                  :to="{name: 'trackerItems-edit', params: { id: trackerItem.id }}"
                   class="font-weight-bold text-lg lead text-decoration-none"
-                >{{ tracker.name }}</router-link>
+                >{{ trackerItem.title }}</router-link>
               </p>
+              <p class="mb-1" v-if="trackerItem.description" v-html="trim(trackerItem.description, 200)"></p>
             </div>
             <div class="ml-auto">
+              <span class="text-muted mr-3">{{  }}</span>
               <span
                 class="d-none d-md-inline-block"
               >
-                {{ trans.app.created }} {{ moment(tracker.created_at).locale(CurrentTenant.locale).fromNow() }}
+                {{ trans.app.created }} {{ moment(trackerItem.created_at).locale(CurrentTenant.locale).fromNow() }}
               </span>
             </div>
           </div>
-        </div>
-        <div v-else class="col-xl-10 offset-xl-1 px-xl-5 col-md-12">
-          <div class="d-flex justify-content-between my-3">
-            <h1>
-              {{ trans.app.tracker_items }}
-            </h1>
 
-            <select
-              name
-              id
-              v-model="confirmationStatus"
-              @change="refreshInfiniteLoader"
-              class="my-auto bg-transparent appearance-none border-0 text-muted"
-            >
-              <option value="confirmed">{{ trans.app.confirmed }} ({{ confirmedCount }})</option>
-              <option value="notConfirmed">{{ trans.app.not_confirmed }} ({{ notConfirmedCount }})</option>
-            </select>
-          </div>
-
-          <div class="mt-2">
-            <div
-              v-for="(trackerItem, $index) in trackerItems"
-              :key="$index"
-              class="d-flex border-top py-3 align-items-center"
-            >
-              <div class="mr-auto">
-                <p class="mb-0 py-1">
-                  <router-link
-                    :to="{name: 'trackerItems-edit', params: { id: trackerItem.id }}"
-                    class="font-weight-bold text-lg lead text-decoration-none"
-                  >{{ trackerItem.meta.title || trackerItem.meta.name || trackerItem.meta[Object.keys(trackerItem.meta)[0]] }}</router-link>
-                </p>
-              </div>
-              <div class="ml-auto">
-                <span class="text-muted mr-3">{{  }}</span>
-                <span
-                  class="d-none d-md-inline-block"
-                >
-                  {{ trans.app.created }} {{ moment(trackerItem.created_at).locale(CurrentTenant.locale).fromNow() }}
-                </span>
+          <infinite-loading :identifier="infiniteId" @infinite="fetchData" spinner="spiral">
+            <span slot="no-more"></span>
+            <div slot="no-results" class="text-left">
+              <div class="mt-5">
+                <p class="lead text-center text-muted mt-5 pt-5">{{ trans.app.you_have_no_results }}</p>
               </div>
             </div>
-
-            <infinite-loading :identifier="infiniteId" @infinite="fetchData" spinner="spiral">
-              <span slot="no-more"></span>
-              <div slot="no-results" class="text-left">
-                <div class="mt-5">
-                  <p class="lead text-center text-muted mt-5 pt-5">{{ trans.app.you_have_no_results }}</p>
-                </div>
-              </div>
-            </infinite-loading>
-          </div>
+          </infinite-loading>
         </div>
-      </main>
+      </div>
     </template>
   </admin-page>
 </template>
@@ -118,6 +120,16 @@ export default {
       confirmationStatus: 'confirmed',
       confirmedCount: 0,
       notConfirmedCount: 0,
+      breadcrumbLinks: [
+        {
+          title: 'All Trackers',
+          url: '/admin/trackers',
+        },
+        {
+          title: 'Select Trackers',
+          url: '/admin/trackerItems/select'
+        }
+      ]
     };
   },
 

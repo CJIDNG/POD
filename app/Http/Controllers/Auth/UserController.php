@@ -14,30 +14,25 @@ use Illuminate\Http\JsonResponse;
 
 class UserController extends \App\Http\Controllers\Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index (Request $request) {
-        if (!Auth::user()->hasAnyPermission(['view_users'])) {
-            return response()->json([
-                'success' => 0,
-                'errors' => [
-                    'server' => ['you dont have permission']
-                ]
-            ], 500);
-        };
+  /**
+   * Display a listing of the resource.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function index (Request $request) {
+    $users = User::select("*");
 
-        if ($request->has('query')) {
-            $query = $request->input('query');
-            $users = User::whereRaw("MATCH(name, email)
-            AGAINST('$query' IN NATURAL LANGUAGE MODE)")->withCount('posts')->with('roles')->paginate();
-        } else {
-            $users = User::latest()->withCount('posts')->with('roles')->paginate();
-        }
+    if (request()->has('role') && request('role') != 'all') {
+      $users = $users->role(request('role'));
+    }
 
-        return response()->json($users);
+    if ($request->has('query')) {
+      $query = $request->input('query');
+      $users = $users->whereRaw("MATCH(name, email)
+        AGAINST('$query' IN NATURAL LANGUAGE MODE)");
+    }
+
+    return response()->json($users->latest()->with('roles')->paginate(), 200);
 	}
     
     /**

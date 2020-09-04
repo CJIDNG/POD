@@ -299,18 +299,22 @@ export default {
     return {
       editor: null,
       controlIsActive: false,
-      trans: JSON.parse(CurrentTenant.translations)
+      trans: JSON.parse(CurrentTenant.translations),
+      isReady: false,
     };
   },
 
   mounted() {
+    this.$nextTick(() => {
+      this.handleEditorValue();
+      this.isReady = true
+    })
+
     this.editor = this.createEditor();
 
     if (this.readOnly) {
       this.editor.disable();
     }
-
-    this.handleEditorValue();
 
     // Render any Tweets inside the editor
     let tweets = document.querySelectorAll("div.ql-tweet");
@@ -329,8 +333,11 @@ export default {
   },
 
   watch: {
-    "activePost.body"(val) {
-      // this.update();
+    value: function (val) {
+      if (!this.isReady) {
+        this.handleEditorValue();
+        this.isReady = true
+      }
     },
 
     readOnly: function(val) {
@@ -602,7 +609,7 @@ export default {
   font-family: $font-family-serif, serif;
   font-size: 1.1rem;
   line-height: 2;
-  padding: 0;
+  padding: 20px;
   overflow-y: visible;
   min-width: 100%;
   display: -webkit-box;

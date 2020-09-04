@@ -254,6 +254,11 @@ Route::group(['prefix' => 'v1'], function () {
       ->middleware(['auth:api', 'permission:delete_tracker_items']);
   });
 
+  Route::namespace('Location')->group(function () {
+    Route::get('/states', 'StateController@index');
+    Route::get('/localGovernments', 'LocalGovernmentController@index');
+  });
+
   Route::namespace('')->group(function () {
 
   });

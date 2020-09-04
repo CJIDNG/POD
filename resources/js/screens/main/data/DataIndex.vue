@@ -35,7 +35,7 @@
                   class="font-weight-bold text-lg lead text-decoration-none"
                 >{{ dataset.title }}</router-link>
               </p>
-              <p class="mb-1" v-if="dataset.description">{{ trim(dataset.description, 200) }}</p>
+              <p class="mb-1" v-if="dataset.description" v-html="trim(dataset.description, 200)"></p>
               <p class="text-muted mb-0">
                 <span>{{ trans.app.author }} {{ dataset.user.name }} |</span> 
                 <span>{{ dataset.resources.length }} {{ trans.app.resources }}</span>

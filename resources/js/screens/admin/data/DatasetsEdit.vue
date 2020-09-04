@@ -1,284 +1,281 @@
 <template>
   <admin-page>
-    <template slot="main">
-      <page-header>
-        <template slot="status">
-          <ul class="navbar-nav mr-auto flex-row float-right">
-            <li class="text-muted font-weight-bold">
-              <div v-if="!dataset.isSaving && !dataset.hasSuccess">
-                <span v-if="isDraft">{{ trans.app.draft }}</span>
-                <span v-if="isSubmitted">{{ trans.app.submitted }}</span>
-                <span v-if="isApproved">{{ trans.app.approved }}</span>
-                <span v-if="isPublished">{{ trans.app.published }}</span>
-              </div>
+    <template slot="status">
+      <div v-if="!dataset.isSaving && !dataset.hasSuccess">
+        <span v-if="isDraft">{{ trans.app.draft }}</span>
+        <span v-if="isSubmitted">{{ trans.app.submitted }}</span>
+        <span v-if="isApproved">{{ trans.app.approved }}</span>
+        <span v-if="isPublished">{{ trans.app.published }}</span>
+      </div>
 
-              <div v-if="dataset.isSaving">
-                <span>{{ trans.app.saving }}</span>
-              </div>
+      <div v-if="dataset.isSaving">
+        <span>{{ trans.app.saving }}</span>
+      </div>
 
-              <div v-if="dataset.hasSuccess">
-                <span class="text-success">{{ trans.app.saved }}</span>
-              </div>
-            </li>
-          </ul>
-        </template>
+      <div v-if="dataset.hasSuccess">
+        <span >{{ trans.app.saved }}</span>
+      </div>
+    </template>
 
-        <template slot="action">
+    <template slot="action">
+      <a
+        v-if="isDraft"
+        v-permission="['update_datasets', 'update_own_datasets']"
+        href="#"
+        class="btn btn-sm btn-danger font-weight-bold my-auto"
+        @click="showSubmitModal"
+      >
+        <span class="d-block d-lg-none">{{ trans.app.submit }}</span>
+        <span class="d-none d-lg-block">{{ trans.app.submit_for_approval }}</span>
+      </a>
+
+      <a
+        v-if="isSubmitted"
+        v-permission="['approve_datasets']"
+        href="#"
+        class="btn btn-sm btn-danger font-weight-bold my-auto"
+        @click="showApproveModal"
+      >
+        <span class="d-block d-lg-none">{{ trans.app.approve }}</span>
+        <span class="d-none d-lg-block">{{ trans.app.approve }}</span>
+      </a>
+
+      <a
+        v-if="isApproved"
+        v-permission="['publish_datasets']"
+        href="#"
+        class="btn btn-sm btn-danger font-weight-bold my-auto"
+        @click="showPublishModal"
+      >
+        <span class="d-block d-lg-none">{{ trans.app.publish }}</span>
+        <span class="d-none d-lg-block">{{ trans.app.ready_to_publish }}</span>
+      </a>
+
+      <a
+        v-if="isPublished"
+        href="#"
+        class="btn btn-sm btn-danger font-weight-bold my-auto"
+        @click="save"
+      >{{ trans.app.save }}</a>
+    </template>
+
+    <template slot="menu">
+      <div class="dropdown">
+        <a
+          id="navbarDropdown"
+          class="nav-link pr-0"
+          href="#"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="25"
+            class="icon-dots-horizontal"
+          >
+            <path
+              class="primary"
+              fill-rule="evenodd"
+              d="M5 14a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"
+            />
+          </svg>
+        </a>
+
+        <div class="dropdown-menu dropdown-menu-right">
+          <router-link
+            v-if="isPublished"
+            :to="{ name: 'stats-show', params: { id: id, className: 'App\\Model\\Data\\Dataset' } }"
+            class="dropdown-item"
+          >{{ trans.app.view_stats }}</router-link>
+          <div v-if="isPublished" class="dropdown-divider"></div>
           <a
-            v-if="isDraft"
+            v-if="canEdit"
             v-permission="['update_datasets', 'update_own_datasets']"
             href="#"
-            class="btn btn-sm btn-outline-success font-weight-bold my-auto"
-            @click="showSubmitModal"
-          >
-            <span class="d-block d-lg-none">{{ trans.app.submit }}</span>
-            <span class="d-none d-lg-block">{{ trans.app.submit_for_approval }}</span>
-          </a>
-
+            class="dropdown-item"
+            @click="showSettingsModal"
+          >{{ trans.app.general_settings }}</a>
           <a
-            v-if="isSubmitted"
-            v-permission="['approve_datasets']"
+            v-if="canEdit"
+            v-permission="['update_datasets', 'update_own_datasets']"
             href="#"
-            class="btn btn-sm btn-outline-success font-weight-bold my-auto"
-            @click="showApproveModal"
-          >
-            <span class="d-block d-lg-none">{{ trans.app.approve }}</span>
-            <span class="d-none d-lg-block">{{ trans.app.approve }}</span>
-          </a>
-
+            class="dropdown-item"
+            @click="showNewResourceModal()"
+          >{{ trans.app.new_resource }}</a>
           <a
-            v-if="isApproved"
-            v-permission="['publish_datasets']"
+            v-if="canEdit"
+            v-permission="['update_datasets', 'update_own_datasets']"
             href="#"
-            class="btn btn-sm btn-outline-success font-weight-bold my-auto"
-            @click="showPublishModal"
-          >
-            <span class="d-block d-lg-none">{{ trans.app.publish }}</span>
-            <span class="d-none d-lg-block">{{ trans.app.ready_to_publish }}</span>
-          </a>
-
+            class="dropdown-item"
+            @click="showDatasetSeoModal"
+          >{{ trans.app.seo_settings }}</a>
           <a
-            v-if="isPublished"
+            v-if="canConvertToDraft"
+            v-permission="['update_datasets', 'update_own_datasets']"
             href="#"
-            class="btn btn-sm btn-outline-success font-weight-bold my-auto"
-            @click="save"
-          >{{ trans.app.save }}</a>
-        </template>
+            class="dropdown-item"
+            @click.prevent="convertToDraft"
+          >{{ trans.app.convert_to_draft }}</a>
+          <a
+            v-if="canDelete"
+            v-permission="['delete_datasets', 'delete_own_datasets']"
+            href="#"
+            class="dropdown-item text-danger"
+            @click="showDeleteModal"
+          >{{ trans.app.delete }}</a>
+        </div>
+      </div>
+    </template>
+    <template slot="page-title">
+      {{ trans.app.datasets }}
+    </template>
+    <template slot="breadcrumb">
+      <breadcrumb :links="breadcrumbLinks" />
+    </template>
+    <template slot="main">
+      <div class="col">
+        <div class="form-group row">
+          <textarea-autosize
+            :placeholder="trans.app.title"
+            class="form-control border-0 font-serif bg-transparent"
+            @input.native="update"
+            rows="1"
+            v-model="dataset.title"
+            :disabled="!canEdit"
+          />
+        </div>
 
-        <template slot="menu">
-          <div class="dropdown">
-            <a
-              id="navbarDropdown"
-              class="nav-link pr-0"
-              href="#"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="25"
-                class="icon-dots-horizontal"
-              >
-                <path
-                  class="primary"
-                  fill-rule="evenodd"
-                  d="M5 14a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"
-                />
-              </svg>
-            </a>
+        <quill-editor :value.sync="dataset.description" :readOnly="!canEdit"></quill-editor>
 
-            <div class="dropdown-menu dropdown-menu-right">
-              <router-link
-                v-if="isPublished"
-                :to="{ name: 'data-show', params: { id: id } }"
-                class="dropdown-item"
-              >{{ trans.app.view_stats }}</router-link>
-              <div v-if="isPublished" class="dropdown-divider"></div>
-              <a
-                v-if="canEdit"
-                v-permission="['update_datasets', 'update_own_datasets']"
-                href="#"
-                class="dropdown-item"
-                @click="showSettingsModal"
-              >{{ trans.app.general_settings }}</a>
-              <a
-                v-if="canEdit"
-                v-permission="['update_datasets', 'update_own_datasets']"
-                href="#"
-                class="dropdown-item"
-                @click="showNewResourceModal()"
-              >{{ trans.app.new_resource }}</a>
-              <a
-                v-if="canEdit"
-                v-permission="['update_datasets', 'update_own_datasets']"
-                href="#"
-                class="dropdown-item"
-                @click="showDatasetSeoModal"
-              >{{ trans.app.seo_settings }}</a>
-              <a
-                v-if="canConvertToDraft"
-                v-permission="['update_datasets', 'update_own_datasets']"
-                href="#"
-                class="dropdown-item"
-                @click.prevent="convertToDraft"
-              >{{ trans.app.convert_to_draft }}</a>
-              <a
-                v-if="canDelete"
-                v-permission="['delete_datasets', 'delete_own_datasets']"
-                href="#"
-                class="dropdown-item text-danger"
-                @click="showDeleteModal"
-              >{{ trans.app.delete }}</a>
-            </div>
-          </div>
-        </template>
-      </page-header>
+        <h3>{{ trans.app.data_and_resources }}</h3>
 
-      <main class="py-4" v-if="isReady">
-        <div class="col-xl-8 offset-xl-2 px-xl-5 col-md-12">
-          <div class="form-group row my-3">
-            <textarea-autosize
-              :placeholder="trans.app.title"
-              class="form-control-lg form-control border-0 font-serif bg-transparent"
-              @input.native="update"
-              rows="1"
-              v-model="dataset.title"
-              :disabled="!canEdit"
-            />
-          </div>
-
-          <quill-editor :value.sync="dataset.description" :readOnly="!canEdit"></quill-editor>
-
-          <h3>{{ trans.app.data_and_resources }}</h3>
-
-          <div class="mt-2">
-            <div
-              v-for="(resource, $index) in dataset.resources"
-              :key="$index"
-              class="d-flex border-top py-3 align-items-center"
-            >
-              <div class="mr-auto py-1">
-                <p class="mb-1">
-                  <a
-                    href="#"
-                    class="font-weight-bold text-lg lead text-decoration-none"
-                    @click.prevent="showNewResourceModal(resource.id)"
-                  >{{ resource.title }}</a>
-                </p>
-                <p class="mb-1">{{ `${resource.description.substring(0, 50)}...` }}</p>
-                <p class="text-muted mb-0">
-                  <span>{{ trans.app.curator }} {{ resource.user.name }} |</span>
-                  <span>{{ moment(resource.created_at).locale(CurrentTenant.locale).fromNow() }}</span>
-                </p>
-                <p class="text-muted mb-0">
-                  <span class="text-success">{{ `.${resource.format.extension}` }}</span>
-                </p>
-              </div>
-              <div class="ml-auto pl-3">
+        <div class="mt-2">
+          <div
+            v-for="(resource, $index) in dataset.resources"
+            :key="$index"
+            class="d-flex border-top py-3 align-items-center"
+          >
+            <div class="mr-auto py-1">
+              <p class="mb-1">
                 <a
-                  :href="resource.path"
-                  class="btn btn-outline-info"
-                  @click="downloadResource(resource.id)"
-                :download="resource.title">
-                  Download
-                </a>
-                <button
-                  href=""
-                  class="btn btn-outline-danger"
-                  @click="deleteResource(resource.id)">
-                  Delete
-                </button>
-              </div>
+                  href="#"
+                  class="font-weight-bold text-lg lead text-decoration-none"
+                  @click.prevent="showNewResourceModal(resource.id)"
+                >{{ resource.title }}</a>
+              </p>
+              <p class="mb-1">{{ `${resource.description.substring(0, 50)}...` }}</p>
+              <p class="text-muted mb-0">
+                <span>{{ trans.app.curator }} {{ resource.user.name }} |</span>
+                <span>{{ moment(resource.created_at).locale(CurrentTenant.locale).fromNow() }}</span>
+              </p>
+              <p class="text-muted mb-0">
+                <span >{{ `.${resource.format.extension}` }}</span>
+              </p>
+            </div>
+            <div class="ml-auto pl-3">
+              <a
+                :href="resource.path"
+                class="btn btn-outline-info"
+                @click="downloadResource(resource.id)"
+              :download="resource.title">
+                Download
+              </a>
+              <button
+                href=""
+                class="btn btn-outline-danger"
+                @click="deleteResource(resource.id)">
+                Delete
+              </button>
             </div>
           </div>
+        </div>
 
 
-          <div v-if="id !== 'create'" class="list-group mt-5">
+        <div v-if="id !== 'create'" class="list-group mt-5">
 
-            <a class="list-group-item list-group-item-action">
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">{{ trans.app.created }}</h5>
-              </div>
-              <p class="mb-1">{{ response.created_at }}</p>
-              <small></small>
-            </a>
+          <a class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{{ trans.app.created }}</h5>
+            </div>
+            <p class="mb-1">{{ response.created_at }}</p>
+            <small></small>
+          </a>
 
-            <a class="list-group-item list-group-item-action">
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">{{ trans.app.updated }}</h5>
-              </div>
-              <p class="mb-1">{{ response.updated_at }}</p>
-              <small></small>
-            </a>
+          <a class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{{ trans.app.updated }}</h5>
+            </div>
+            <p class="mb-1">{{ response.updated_at }}</p>
+            <small></small>
+          </a>
 
-            <a class="list-group-item list-group-item-action">
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">{{ trans.app.unique_identifier }}</h5>
-              </div>
-              <p class="mb-1">{{ response.id }}</p>
-              <small></small>
-            </a>
+          <a class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{{ trans.app.unique_identifier }}</h5>
+            </div>
+            <p class="mb-1">{{ response.id }}</p>
+            <small></small>
+          </a>
 
-            <a v-if="response.license" class="list-group-item list-group-item-action">
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">{{ trans.app.license }}</h5>
-              </div>
-              <p class="mb-1">
-                <a 
-                  :href="response.license.link" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                >{{ response.license.name }}</a>
-              </p>
-              <small></small>
-            </a>
+          <a v-if="response.license" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{{ trans.app.license }}</h5>
+            </div>
+            <p class="mb-1">
+              <a 
+                :href="response.license.link" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >{{ response.license.name }}</a>
+            </p>
+            <small></small>
+          </a>
 
-            <a v-if="response.user" class="list-group-item list-group-item-action">
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">{{ trans.app.author }}</h5>
-              </div>
-              <p class="mb-1">
-                {{ response.user.name }}
-              </p>
-              <small></small>
-            </a>
+          <a v-if="response.user" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{{ trans.app.author }}</h5>
+            </div>
+            <p class="mb-1">
+              {{ response.user.name }}
+            </p>
+            <small></small>
+          </a>
 
-            <a class="list-group-item list-group-item-action">
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">{{ trans.app.topics }}</h5>
-              </div>
-              <p class="mb-1">
-                <span
-                  v-for="(topic, index) in response.topics"
-                  :key="index"
-                  class="badge badge-success mr-1"
-                >{{ topic.name }}</span>
-              </p>
-              <small></small>
-            </a>
+          <a class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{{ trans.app.topics }}</h5>
+            </div>
+            <p class="mb-1">
+              <span
+                v-for="(topic, index) in response.topics"
+                :key="index"
+                class="badge badge-success mr-1"
+              >{{ topic.name }}</span>
+            </p>
+            <small></small>
+          </a>
 
-            <a class="list-group-item list-group-item-action">
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">{{ trans.app.tags }}</h5>
-              </div>
-              <p class="mb-1">
-                <span
-                  v-for="(tag, index) in response.tags"
-                  :key="index"
-                  class="badge badge-success mr-1"
-                >{{ tag.name }}</span>
-              </p>
-              <small></small>
-            </a>
-
-          </div>
-
+          <a class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{{ trans.app.tags }}</h5>
+            </div>
+            <p class="mb-1">
+              <span
+                v-for="(tag, index) in response.tags"
+                :key="index"
+                class="badge badge-success mr-1"
+              >{{ tag.name }}</span>
+            </p>
+            <small></small>
+          </a>
 
         </div>
-      </main>
+
+
+      </div>
 
       <publish-dataset-modal v-if="isReady" ref="publishModal" />
 
@@ -371,6 +368,16 @@ export default {
       isReady: false,
       trans: JSON.parse(CurrentTenant.translations),
       resource_id: 'create',
+      breadcrumbLinks: [
+        {
+          title: 'All Datasets',
+          url: '/admin/data/datasets',
+        },
+        {
+          title: 'Dataset',
+          url: '#',
+        }
+      ]
     };
   },
 

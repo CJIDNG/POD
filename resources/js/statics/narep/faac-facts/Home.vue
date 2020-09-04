@@ -69,8 +69,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import "../../../../../resources/sass/ct-paper.scss";
-@import "../../../../../resources/sass/examples.scss";
 .wrapper {
   color: #66615b;
   font-size: 16px;

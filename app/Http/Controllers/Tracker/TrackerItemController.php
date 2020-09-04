@@ -38,8 +38,7 @@ class TrackerItemController extends \App\Http\Controllers\Controller
 
     return response()->json([
       'trackerItems' => $trackerItems
-        ->with('tracker')
-        ->with('user')
+        ->with(['user', 'tracker', 'state', 'localGovernment'])
         ->latest()
         ->paginate(),
       'confirmedCount' => $confirmedCount,
@@ -88,8 +87,13 @@ class TrackerItemController extends \App\Http\Controllers\Controller
     $data = [
       'id' => request('id'),
       'tracker_id' => request('tracker_id'),
+      'title' => request('title'),
+      'description' => request('description'),
       'meta' => request('meta'),
       'confirmed' => request('confirmed'),
+      'featured_image' => request('featured_image'),
+      'state_id' => request('state_id'),
+      'local_government_id' => request('local_government_id'),
       'user_id' => $this->isNewTrackerItem(request('id')) ? request()->user()->id : request('user_id')
     ];
 
@@ -100,9 +104,13 @@ class TrackerItemController extends \App\Http\Controllers\Controller
 
     validator($data, [
       'tracker_id' => 'required',
+      'title' => 'required',
+      'description' => 'required',
       'meta' => 'required',
       'confirmed' => 'required',
       'user_id' => 'required',
+      'state_id' => 'required',
+      'local_government_id' => 'required',
     ], $messages)->validate();
 
     $trackerItem = $id !== 'create' ? TrackerItem::find($id) : new TrackerItem(['id' => request('id')]);

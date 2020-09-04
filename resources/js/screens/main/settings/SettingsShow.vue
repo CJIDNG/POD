@@ -64,7 +64,7 @@
               </div>
             </div>
 
-            <div class="d-flex border-top p-3 align-items-center">
+            <!-- <div class="d-flex border-top p-3 align-items-center">
               <div class="mr-auto py-1">
                 <p class="mb-1 font-weight-bold text-lg lead">{{ trans.app.dark_mode }}</p>
                 <p class="mb-1 d-none d-lg-block">{{ trans.app.toggle_dark_mode }}</p>
@@ -86,7 +86,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <div class="d-flex border-top p-3 align-items-center">
               <div class="mr-auto py-1">

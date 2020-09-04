@@ -42,6 +42,4 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import "../../../../../../resources/sass/ct-paper.scss";
-@import "../../../../../../resources/sass/examples.scss";
 </style>

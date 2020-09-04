@@ -126,6 +126,30 @@
           <factchecks :factchecks="post.factchecks" />
         </div>
 
+        <div>
+          <font-awesome-icon
+            :icon="['fab', 'facebook-f']"
+            class="mr-3 share-icons"
+            @click="facebookShare(post.title)"
+          />
+          <font-awesome-icon
+            :icon="['fab', 'twitter']"
+            class="mr-3 share-icons"
+            @click="twitterShare(post.title)"
+          />
+          <font-awesome-icon
+            :icon="['fab', 'telegram']"
+            class="mr-3 share-icons"
+            @click="telegramShare(post.title)"
+          />
+          <font-awesome-icon
+            :icon="['fab', 'linkedin']"
+            class="mr-3 share-icons"
+            @click="linkedinShare(post.title)"
+          />
+          <hr />
+        </div>
+
         <div v-if="related.length > 0">
           <h4 class="mb-4 border-bottom pb-2">
             <span class="border-bottom border-dark pb-2">Related</span>
@@ -133,27 +157,6 @@
 
           <post-list :posts="related"></post-list>
         </div>
-        <font-awesome-icon
-          :icon="['fab', 'facebook-f']"
-          class="mr-3 share-icons"
-          @click="facebookShare(post.title)"
-        />
-        <font-awesome-icon
-          :icon="['fab', 'twitter']"
-          class="mr-3 share-icons"
-          @click="twitterShare(post.title)"
-        />
-        <font-awesome-icon
-          :icon="['fab', 'telegram']"
-          class="mr-3 share-icons"
-          @click="telegramShare(post.title)"
-        />
-        <font-awesome-icon
-          :icon="['fab', 'linkedin']"
-          class="mr-3 share-icons"
-          @click="linkedinShare(post.title)"
-        />
-        <hr />
       </main>
     </div>
 
@@ -276,8 +279,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../../../../sass/studio/variables";
-
 .share-icons {
   cursor: pointer;
   font-size: 21px;
@@ -290,10 +291,10 @@ export default {
 
 .featured-image-caption {
   text-align: center;
-  color: $text-muted;
+  // color: $text-muted;
   margin-top: 0.5em;
   font-size: 0.9rem;
-  font-family: $font-family-sans-serif, sans-serif;
+  // font-family: $font-family-sans-serif, sans-serif;
 }
 
 .featured-image-caption a {
@@ -325,7 +326,7 @@ export default {
   margin-top: 2em;
   font-style: italic;
   font-size: 28px;
-  color: $text-muted;
+  // color: $text-muted;
   padding-left: 1.5em;
   line-height: 1.5;
 }
@@ -342,10 +343,10 @@ div.embedded_image > img {
 
 div.embedded_image > p {
   text-align: center;
-  color: $text-muted;
+  // color: $text-muted;
   margin-top: 0.5em;
   font-size: 0.9rem;
-  font-family: $font-family-sans-serif, sans-serif;
+  // font-family: $font-family-sans-serif, sans-serif;
 }
 
 div.embedded_image[data-layout="wide"] img {
@@ -363,7 +364,7 @@ div.embedded_image[data-layout="wide"] {
 div.post-content hr {
   border: none;
   margin: 3em 0 4em 0;
-  color: $gray-900;
+  // color: $gray-900;
   letter-spacing: 1em;
   text-align: center;
 }
@@ -373,13 +374,13 @@ div.post-content hr:before {
 }
 
 .post-content > p > code {
-  background-color: $text-muted;
+  // background-color: $text-muted;
 }
 
 pre.ql-syntax {
   margin-top: 2em;
   padding: 1em;
-  border-radius: $border-radius;
+  // border-radius: $border-radius;
 }
 
 @media screen and (max-width: 1024px) {
