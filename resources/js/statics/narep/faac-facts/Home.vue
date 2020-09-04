@@ -29,12 +29,7 @@
             </div>
           </div>
         </div>
-        <div class="section section-dark text-center landing-section">
-          <div class="container">
-            <h2>Overview of FAAC Disbursement (2007 - 2018)</h2>
-            <TableauHolder :url="url" />
-          </div>
-        </div>
+        <TableauContainer :url="url" title="Overview of FAAC Disbursement (2007 - 2018)" />
         <PageCTA />
         <PageFooter />
       </div>
@@ -43,11 +38,11 @@
 </template>
 <script>
 import NProgress from "nprogress"
-import TableauHolder from './components/TableauHolder'
 import PageHeader from './components/PageHeader'
 import PageFooter from './components/PageFooter'
 import PageCTA from './components/PageCTA'
 import PageBanner from './components/PageBanner'
+import TableauContainer from './components/TableauContainer'
 export default {
   name: 'faac-facts',
   data () {
@@ -56,11 +51,11 @@ export default {
     }
   },
   components: {
-    TableauHolder,
     PageFooter,
     PageCTA,
     PageBanner,
-    PageHeader
+    PageHeader,
+    TableauContainer
   }
   ,
   mounted () {
@@ -70,8 +65,40 @@ export default {
 </script>
 <style lang="scss" scoped>
 .wrapper {
-  color: #66615b;
   font-size: 16px;
   font-family: "Montserrat", "Helvetica", Arial, sans-serif;
+}
+.section {
+  padding: 100px 0;
+  position: relative;
+  background-color: #f4f3ef;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(112, 112, 112, 0) 60%,
+    rgba(186, 186, 186, 0.15) 100%
+  );
+
+  h2 {
+    font-size: 3em;
+    color: #66615b;
+  }
+  h5 {
+    font-size: 1.25em;
+    font-weight: 400;
+    line-height: 1.4em;
+    margin-bottom: 15px;
+    color: #66615b;
+  }
+  a {
+    color: #68b3c8;
+    transition: all 150ms linear;
+  }
+}
+.section-tableau {
+  background-color: #172b4d;
+  h2 {
+    color: #fff;
+  }
 }
 </style>

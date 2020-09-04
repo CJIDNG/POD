@@ -3,13 +3,7 @@
     <PageHeader />
     <div class="wrapper">
       <PageBanner />
-      <div class="section section-dark text-center landing-section">
-        <div class="container">
-          <h2>2011 Disbursement</h2>
-          <br />
-          <TableauHolder :url="url" />
-        </div>
-      </div>
+      <TableauContainer :url="url" title="2011 Disbursement" />
       <PageCTA />
       <PageFooter />
     </div>
@@ -17,7 +11,7 @@
 </template>
 <script>
 import NProgress from "nprogress"
-import TableauHolder from '../components/TableauHolder'
+import TableauContainer from '../components/TableauContainer'
 import PageHeader from '../components/PageHeader'
 import PageFooter from '../components/PageFooter'
 import PageCTA from '../components/PageCTA'
@@ -30,7 +24,7 @@ export default {
     }
   },
   components: {
-    TableauHolder,
+    TableauContainer,
     PageFooter,
     PageCTA,
     PageBanner,

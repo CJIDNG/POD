@@ -41,7 +41,7 @@
 
     <link rel="shortcut icon" href="{{ mix('favicon.ico') }}">
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
-
+<script type="text/javascript" src="https://public.tableau.com/javascripts/api/tableau-2.min.js"></script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
 </head>
 <body>

@@ -18,4 +18,23 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.landing-header {
+  background-size: cover;
+  min-height: 570px;
+  background-image: url("/images/narep/paper_img/nigeria_FAAC.png");
+
+  .motto {
+    padding-top: 8%;
+    text-align: left;
+    z-index: 3;
+    h1 {
+      text-transform: uppercase;
+      color: #66615b;
+      font-size: 4.5em;
+    }
+    h3 {
+      color: #66615b;
+    }
+  }
+}
 </style>

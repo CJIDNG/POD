@@ -3,7 +3,7 @@
     <PageHeader />
     <div class="wrapper">
       <PageBanner />
-      <div class="section section-dark text-center landing-section">
+      <div class="section-tableau text-center landing-section">
         <div class="container">
           <h2>What is 13% Derivation?</h2>
           <br />
@@ -50,4 +50,18 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.section-tableau {
+  background-color: #172b4d;
+  padding: 100px 0;
+  h2 {
+    color: #fff;
+    font-size: 3em;
+  }
+  p {
+    color: #fff;
+  }
+  a {
+    color: #68b3c8;
+  }
+}
 </style>
