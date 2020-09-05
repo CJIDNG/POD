@@ -253,6 +253,7 @@ header.masthead .device-container .screen img {
   }
   header.masthead .header-content h1 {
     font-size: 50px;
+    color: white;
   }
   header.masthead .device-container {
     max-width: 325px;

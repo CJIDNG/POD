@@ -1,13 +1,5 @@
 <template>
-  <div>
-    <PageHeader />
-    <div class="wrapper">
-      <PageBanner />
-      <TableauContainer :url="url" title="2009 Disbursement" />
-      <PageCTA />
-      <PageFooter />
-    </div>
-  </div>
+  <TableauContainer :url="url" title="2009 Disbursement" />
 </template>
 <script>
 import NProgress from "nprogress"

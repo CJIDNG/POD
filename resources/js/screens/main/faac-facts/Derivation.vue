@@ -1,25 +1,17 @@
 <template>
-  <div>
-    <PageHeader />
-    <div class="wrapper">
-      <PageBanner />
-      <div class="section-tableau text-center landing-section">
-        <div class="container">
-          <h2>What is 13% Derivation?</h2>
-          <br />
-          <p>
-            According to
-            <a
-              target="_blank"
-              href="http://petrobarometer.thecable.ng/2018/07/27/buhari-promises-to-look-into-13-percent-derivation-for-oil-states/"
-            >The Cable's petrobarometer</a>, it is the fund set aside to assist oil-producing communities tackle infrastructural decay and degradation. The 1995 constitutional conference recommended that in sharing the federation account revenue, 13% should be set aside to assist the development of oil-producing communities.
-          </p>
-          <br />
-          <TableauHolder :url="url" />
-        </div>
-      </div>
-      <PageCTA />
-      <PageFooter />
+  <div class="section-tableau text-center">
+    <div class="container">
+      <h2>What is 13% Derivation?</h2>
+      <br />
+      <p>
+        According to
+        <a
+          target="_blank"
+          href="http://petrobarometer.thecable.ng/2018/07/27/buhari-promises-to-look-into-13-percent-derivation-for-oil-states/"
+        >The Cable's petrobarometer</a>, it is the fund set aside to assist oil-producing communities tackle infrastructural decay and degradation. The 1995 constitutional conference recommended that in sharing the federation account revenue, 13% should be set aside to assist the development of oil-producing communities.
+      </p>
+      <br />
+      <TableauHolder :url="url" />
     </div>
   </div>
 </template>

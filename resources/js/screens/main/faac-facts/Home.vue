@@ -1,38 +1,33 @@
 <template>
   <div>
-    <PageHeader />
-    <div class="wrapper">
-      <PageBanner />
-      <div class="main">
-        <div class="section text-center landing-section">
-          <div class="container">
-            <div class="row d-flex justify-content-center">
-              <div class="col-md-8 col-md-offset-2">
-                <h2>Let's talk about FAAC</h2>
-                <h5>
-                  Federal Account Allocation Committee (FAAC) is the distribution of revenue accruing to
-                  the Federation Account between the Federal and State Governments and the Local
-                  Government Councils in the States.
-                </h5>
-                <h5>
-                  The Federation Account serves as the main account through which the Federal, State, and
-                  Local Government fund developmental projects and maintain their respective workforce.
-                </h5>
-                <h5>
-                  The legislation backing the FAAC can be found
-                  <a
-                    target="_blank"
-                    href="http://lawnigeria.com/LawsoftheFederation/ALLOCATION-OF-REVENUE-%28FEDERATION-ACCOUNT,-ETC.%29-ACT.html"
-                  >here</a>.
-                </h5>
-              </div>
-            </div>
+    <div class="section text-center landing-section">
+      <div class="container">
+        <div class="row d-flex justify-content-center">
+          <div class="col-md-8 col-md-offset-2">
+            <h2>Let's talk about FAAC</h2>
+            <h5>
+              Federal Account Allocation Committee (FAAC) is the distribution of revenue accruing to
+              the Federation Account between the Federal and State Governments and the Local
+              Government Councils in the States.
+            </h5>
+            <h5>
+              The Federation Account serves as the main account through which the Federal, State, and
+              Local Government fund developmental projects and maintain their respective workforce.
+            </h5>
+            <h5>
+              The legislation backing the FAAC can be found
+              <a
+                target="_blank"
+                href="http://lawnigeria.com/LawsoftheFederation/ALLOCATION-OF-REVENUE-%28FEDERATION-ACCOUNT,-ETC.%29-ACT.html"
+              >here</a>.
+            </h5>
           </div>
         </div>
-        <TableauContainer :url="url" title="Overview of FAAC Disbursement (2007 - 2018)" />
-        <PageCTA />
-        <PageFooter />
       </div>
+    </div>
+
+    <div class="section-tableau">
+      <TableauContainer :url="url" title="Overview of FAAC Disbursement (2007 - 2018)" />
     </div>
   </div>
 </template>
@@ -69,7 +64,6 @@ export default {
   font-family: "Montserrat", "Helvetica", Arial, sans-serif;
 }
 .section {
-  padding: 100px 0;
   position: relative;
   background-color: #f4f3ef;
   background-image: linear-gradient(
@@ -99,6 +93,13 @@ export default {
   background-color: #172b4d;
   h2 {
     color: #fff;
+    font-size: 3em;
+  }
+  p {
+    color: #fff;
+  }
+  a {
+    color: #68b3c8;
   }
 }
 </style>
