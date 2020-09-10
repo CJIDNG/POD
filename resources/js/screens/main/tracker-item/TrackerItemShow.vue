@@ -22,6 +22,12 @@
 
     <main v-if="isReady" class="py-4">
       <div class="col-xl-10 offset-xl-1 px-xl-5 col-md-12">
+        <div>
+          <h3 class="title">
+            {{ trackerItem.title }}
+          </h3>
+          <p class="lead" v-html="trackerItem.description"></p>
+        </div>
         <div class="row">
           <div class="col-md-6">
             <!-- <pre v-html="prettyJSON(trackerItem)"></pre> -->
