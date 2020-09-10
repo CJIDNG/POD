@@ -70,9 +70,10 @@
                         :to="{name: 'trackerItems-show', params: { trackerId: $route.params.trackerId, id: trackerItem.id }}"
                         class="text-dark"
                       >
-                        {{ trackerItem.meta.title || trackerItem.meta.name || trackerItem.meta[Object.keys(trackerItem.meta)[0]] }}
+                        {{ trackerItem.title }}
                       </router-link>
                     </h3>
+                    <p class="lead" v-html="trackerItem.description"></p>
                     <div class="mb-1 text-muted">{{moment(trackerItem.created_at).locale(CurrentTenant.locale).fromNow()}}</div>
                     <router-link :to="{name: 'trackerItems-show', params: { trackerId: $route.params.trackerId, id: trackerItem.id }}">
                       {{ trans.app.view }}
