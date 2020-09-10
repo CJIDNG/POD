@@ -69,7 +69,7 @@
                 <router-link
                   :to="{name: 'trackerItems-edit', params: { id: trackerItem.id }}"
                   class="font-weight-bold text-lg lead text-decoration-none"
-                >{{ trackerItem.title }}</router-link>
+                >{{ trackerItem.title || trackerItem.meta.title }}</router-link>
               </p>
               <p class="mb-1" v-if="trackerItem.description" v-html="trim(trackerItem.description, 200)"></p>
             </div>
