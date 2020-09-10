@@ -18,7 +18,7 @@
     <div class="py-5">
       <div class="col-xl-10 offset-xl-1 px-xl-5 col-md-12">
         <div class="row">
-          <div class="col-4 d-none d-sm-block border-right">
+          <div class="col-4 d-none d-sm-block">
             <h1>
               {{ tracker.name }}
               <hr>
@@ -38,7 +38,7 @@
                   </select>
                 </div>
               </div>
-              <div class="col-md-8 px-0 mx-auto my-auto">
+              <div>
                 <input 
                   class="form-control" 
                   type="text" 
