@@ -138,7 +138,7 @@
     </template>
 
     <template slot="main"> 
-      <div class="col-md-10 mx-auto">
+      <div v-if="isReady" class="col-md-10 mx-auto">
         <div class="form-group row my-3">
           <textarea-autosize
             :placeholder="trans.app.title"
