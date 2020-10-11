@@ -366,7 +366,7 @@ export default {
         },
         theme: "bubble",
         scrollingContainer: "html, body",
-        placeholder: this.trans.app.tell_your_story
+        placeholder: ''
       });
 
       /**
